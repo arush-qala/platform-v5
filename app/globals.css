@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fafafa;
+  --foreground: #1a1a1a;
+  --luxury-gold: #d4af37;
+  --luxury-beige: #f5f1e8;
+  --luxury-cream: #faf8f3;
+  --luxury-charcoal: #2c2c2c;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+}
+
+/* Luxury color palette - quiet, old money luxury with lighter tones */
+.luxury-bg {
+  background: linear-gradient(135deg, #faf8f3 0%, #f5f1e8 100%);
+}
+
+.luxury-text {
+  color: #2c2c2c;
+}
+
+.luxury-accent {
+  color: #8b7355;
+}
+
+/* Smooth transitions */
+* {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
