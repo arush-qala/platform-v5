@@ -16,7 +16,7 @@ function HomeContent() {
   const [season, setSeason] = useState<Season | null>(
     (searchParams.get('season') as Season) || null
   );
-  const [filteredBrands, setFilteredBrands] = useState(filterBrands(category, season));
+  const [filteredBrands, setFilteredBrands] = useState(filterBrands(category || undefined, season || undefined));
 
   const handleFilterChange = (newCategory: ClothingCategory | null, newSeason: Season | null) => {
     setCategory(newCategory);
@@ -29,7 +29,7 @@ function HomeContent() {
     router.push(`/?${params.toString()}`, { scroll: false });
     
     // Filter brands
-    const filtered = filterBrands(newCategory, newSeason);
+    const filtered = filterBrands(newCategory || undefined, newSeason || undefined);
     setFilteredBrands(filtered);
   };
 
