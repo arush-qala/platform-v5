@@ -175,55 +175,31 @@ function DiscoverContent() {
         </motion.div>
       </section>
 
-      {/* Bottom Timeline Slider */}
+      {/* Bottom Brand Names */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="border-t border-[#333] py-8 px-6"
+        className="border-t border-[#333] py-12 px-6"
       >
-        {/* Timeline Bar */}
         <div className="max-w-7xl mx-auto">
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute top-1/2 left-0 right-0 h-px bg-[#333] -translate-y-1/2" />
-            
-            {/* Progress Line */}
-            <motion.div
-              className="absolute top-1/2 left-0 h-0.5 bg-[#8B7355] -translate-y-1/2 z-10"
-              initial={{ width: 0 }}
-              animate={{ 
-                width: brands.length > 1 ? `${(activeBrandIndex / (brands.length - 1)) * 100}%` : '100%',
-              }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-            />
-            
-            {/* Brand Names */}
-            <div className="relative flex justify-between items-center">
-              {brands.map((brand, index) => (
-                <button
-                  key={brand.id}
-                  onClick={() => setActiveBrandIndex(index)}
-                  className="flex flex-col items-center gap-4 group"
-                >
-                  {/* Dot */}
-                  <div className={`w-4 h-4 rounded-full border-2 transition-all duration-300 z-20 ${
-                    index === activeBrandIndex
-                      ? 'bg-[#8B7355] border-[#8B7355] scale-125'
-                      : 'bg-black border-[#333] group-hover:border-[#8B7355]'
-                  }`} />
-                  
-                  {/* Brand Name */}
-                  <span className={`text-sm font-light tracking-wider transition-colors whitespace-nowrap ${
-                    index === activeBrandIndex
-                      ? 'text-white'
-                      : 'text-[#666] group-hover:text-white'
-                  }`}>
-                    {brand.name}
-                  </span>
-                </button>
-              ))}
-            </div>
+          {/* Brand Names - Simple Horizontal List */}
+          <div className="flex justify-center items-center gap-12">
+            {brands.map((brand, index) => (
+              <button
+                key={brand.id}
+                onClick={() => setActiveBrandIndex(index)}
+                className="group"
+              >
+                <span className={`text-lg font-light tracking-[0.2em] transition-colors whitespace-nowrap uppercase ${
+                  index === activeBrandIndex
+                    ? 'text-white'
+                    : 'text-[#666] group-hover:text-white'
+                }`}>
+                  {brand.name}
+                </span>
+              </button>
+            ))}
           </div>
         </div>
       </motion.div>
