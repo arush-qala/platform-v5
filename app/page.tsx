@@ -172,12 +172,15 @@ export default function Home() {
           </div>
 
           {/* Find Button */}
-          <button
+          <motion.button
             onClick={navigateToDiscover}
-            className="px-12 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 rounded-sm text-lg font-light"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-4 px-16 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 text-xl font-light tracking-wide"
           >
             Find
-          </button>
+          </motion.button>
         </div>
 
         </motion.div>
