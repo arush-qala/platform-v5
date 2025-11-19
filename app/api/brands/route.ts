@@ -42,6 +42,14 @@ export async function GET(request: NextRequest) {
             notIn: brands.map(b => b.id),
           },
         },
+        include: {
+          collections: {
+            where: season && season !== 'Everyone' ? {
+              season: season,
+            } : {},
+            take: 1,
+          },
+        },
         take: 5 - brands.length,
       })
       brands = [...brands, ...additionalBrands]
