@@ -287,7 +287,11 @@ export default function Home() {
           <p className="text-2xl text-taupe mb-4">No brands found</p>
           <p className="text-sm text-taupe mb-8">Try adjusting your filters</p>
           <button
-            onClick={() => handleFilterChange('Everything', 'Everyone')}
+            onClick={() => {
+              setSelectedCategory('Everything')
+              setSelectedSeason('Everyone')
+              fetchBrands('Everything', 'Everyone')
+            }}
             className="px-8 py-3 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all rounded-sm"
           >
             Clear Filters
