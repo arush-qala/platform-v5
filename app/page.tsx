@@ -1,74 +1,51 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
-import { BrandTimeline } from '@/components/home/BrandTimeline'
-
-interface Brand {
-  id: string
-  name: string
-  slug: string
-  description: string
-  coverImage: string
-  aesthetic: string
-  location: string
-  collections: Collection[]
-}
-
-interface Collection {
-  id: string
-  name: string
-  season: string
-  coverImage: string
-}
+import { useRouter } from 'next/navigation'
 
 const categories = ['Everything', 'Dresses', 'Co-ord Sets', 'Evening Wear', 'Tops', 'Shirts', 'Pants']
 const seasons = ['Everyone', 'Summer/Spring', 'Fall/Winter', 'Resortwear']
 
 export default function Home() {
-  const [brands, setBrands] = useState<Brand[]>([])
-  const [loading, setLoading] = useState(true)
+  const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState('Everything')
   const [selectedSeason, setSelectedSeason] = useState('Everyone')
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
   const [showSeasonDropdown, setShowSeasonDropdown] = useState(false)
-  const [showResults, setShowResults] = useState(false)
 
-  useEffect(() => {
-    fetchBrands('Everything', 'Everyone')
-  }, [])
-
-  const fetchBrands = async (category: string, season: string) => {
-    setLoading(true)
-    try {
-      const params = new URLSearchParams()
-      if (category !== 'Everything') params.append('category', category)
-      if (season !== 'Everyone') params.append('season', season)
-      
-      const response = await fetch(`/api/brands?${params.toString()}`)
-      const data = await response.json()
-      setBrands(data)
-    } catch (error) {
-      console.error('Error fetching brands:', error)
-    } finally {
-      setLoading(false)
-    }
+  const navigateToDiscover = () => {
+    const params = new URLSearchParams()
+    if (selectedCategory !== 'Everything') params.append('category', selectedCategory)
+    if (selectedSeason !== 'Everyone') params.append('season', selectedSeason)
+    
+    router.push(`/discover?${params.toString()}`)
   }
 
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category)
-    fetchBrands(category, selectedSeason)
     setShowCategoryDropdown(false)
-    setShowResults(true)
+    
+    // Auto-navigate if both selections are made
+    if (selectedSeason !== 'Everyone' || category !== 'Everything') {
+      setTimeout(() => {
+        navigateToDiscover()
+      }, 300)
+    }
   }
 
   const handleSeasonSelect = (season: string) => {
     setSelectedSeason(season)
-    fetchBrands(selectedCategory, season)
     setShowSeasonDropdown(false)
-    setShowResults(true)
+    
+    // Auto-navigate if both selections are made
+    if (selectedCategory !== 'Everything' || season !== 'Everyone') {
+      setTimeout(() => {
+        navigateToDiscover()
+      }, 300)
+    }
   }
 
   return (
@@ -207,97 +184,8 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Subtle Results Counter - Only shows after selection */}
-          {showResults && !loading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="mt-12"
-            >
-              <p className="text-sm text-taupe font-light">
-                {brands.length} {brands.length === 1 ? 'brand' : 'brands'} found
-              </p>
-              <button
-                onClick={() => {
-                  const resultsSection = document.getElementById('results')
-                  resultsSection?.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="mt-4 text-sm text-charcoal hover:text-deep-charcoal transition-colors underline underline-offset-4"
-              >
-                View results
-              </button>
-            </motion.div>
-          )}
         </motion.div>
       </section>
-
-      {/* Loading State */}
-      {loading && showResults && (
-        <div className="flex items-center justify-center py-32">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-12 h-12 border border-charcoal border-t-transparent rounded-full"
-          />
-        </div>
-      )}
-
-      {/* Results Section - Only shows after selection */}
-      {showResults && !loading && brands.length > 0 && (
-        <section id="results" className="min-h-screen bg-[#fafafa] py-20">
-          <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-20">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-cormorant text-deep-charcoal mb-4 font-light">
-                Curated For You
-              </h2>
-              <p className="text-taupe text-lg font-light">Discover {brands.length} brands that match your boutique</p>
-            </motion.div>
-          </div>
-          <BrandTimeline brands={brands} />
-        </section>
-      )}
-
-      {/* No Results */}
-      {showResults && !loading && brands.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-32 bg-[#fafafa]">
-          <p className="text-2xl text-taupe mb-4 font-light">No brands found</p>
-          <p className="text-sm text-taupe mb-8 font-light">Try adjusting your selections</p>
-          <button
-            onClick={() => {
-              setSelectedCategory('Everything')
-              setSelectedSeason('Everyone')
-              setShowResults(false)
-              fetchBrands('Everything', 'Everyone')
-              window.scrollTo({ top: 0, behavior: 'smooth' })
-            }}
-            className="px-8 py-3 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all rounded-sm font-light"
-          >
-            Start Over
-          </button>
-        </div>
-      )}
-
-      {/* Minimal Footer - Only shows on results page */}
-      {showResults && (
-        <footer className="bg-[#f5f5f5] border-t border-[#e0e0e0]">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <p className="text-sm text-taupe font-light">© 2024 Qala. All rights reserved.</p>
-              <div className="flex gap-8 text-sm text-taupe font-light">
-                <a href="#" className="hover:text-deep-charcoal transition-colors">About</a>
-                <a href="#" className="hover:text-deep-charcoal transition-colors">For Brands</a>
-                <a href="#" className="hover:text-deep-charcoal transition-colors">Contact</a>
-              </div>
-            </div>
-          </div>
-        </footer>
-      )}
     </main>
   )
 }
