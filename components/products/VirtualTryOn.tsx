@@ -61,11 +61,11 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
-          {/* Left: Body Shape Customizer */}
+        <div className="flex flex-col gap-12 max-w-4xl mx-auto">
+          {/* Top: Body Shape Customizer */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="space-y-6"
@@ -205,16 +205,16 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
             </div>
           </motion.div>
 
-          {/* Right: Virtual Runway Video */}
+          {/* Bottom: Virtual Runway Video */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
             {/* Video Player Placeholder */}
-            <div className="relative aspect-[9/16] bg-deep-charcoal rounded-sm overflow-hidden">
+            <div className="relative aspect-video max-w-2xl mx-auto bg-deep-charcoal rounded-sm overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
                 {!isPlaying ? (
                   <button
