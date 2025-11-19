@@ -3,8 +3,7 @@
 import { Suspense, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
-import { BrandTimeline } from '@/components/home/BrandTimeline'
+import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
 
 interface Brand {
@@ -29,6 +28,7 @@ function DiscoverContent() {
   const searchParams = useSearchParams()
   const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeBrandIndex, setActiveBrandIndex] = useState(0)
   
   const category = searchParams.get('category') || 'Everything'
   const season = searchParams.get('season') || 'Everyone'
@@ -57,123 +57,187 @@ function DiscoverContent() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, season])
 
-  return (
-    <main className="min-h-screen bg-[#f5f5f5]">
-      {/* Minimal Header with Back Button */}
-      <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 right-0 z-40 py-8 px-8 bg-[#f5f5f5]/95 backdrop-blur-sm border-b border-[#e0e0e0]"
-      >
-        <div className="max-w-[1920px] mx-auto flex items-center justify-between">
-          <Link 
-            href="/" 
-            className="flex items-center gap-3 text-deep-charcoal hover:text-charcoal transition-colors group"
-          >
-            <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-light">Back to Selection</span>
-          </Link>
-          
-          <Link href="/" className="text-2xl font-cormorant text-deep-charcoal font-light tracking-tight">
-            Qala
-          </Link>
-          
-          <div className="w-24" /> {/* Spacer for balance */}
-        </div>
-      </motion.header>
-
-      {/* Page Title Section */}
-      <section className="pt-32 pb-12 px-6">
+  if (loading) {
+    return (
+      <main className="min-h-screen bg-black flex items-center justify-center">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-[1920px] mx-auto text-center"
-        >
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-cormorant text-deep-charcoal mb-6 font-light">
-            Your Curation
-          </h1>
-          <div className="flex items-center justify-center gap-6 text-lg text-taupe font-light">
-            <span className="px-4 py-2 bg-[#e8e8e8] rounded-sm">
-              {category}
-            </span>
-            <span className="text-charcoal">×</span>
-            <span className="px-4 py-2 bg-[#e8e8e8] rounded-sm">
-              {season}
-            </span>
-          </div>
-          {!loading && (
-            <p className="mt-8 text-sm text-taupe font-light">
-              {brands.length} {brands.length === 1 ? 'brand' : 'brands'} discovered
-            </p>
-          )}
-        </motion.div>
-      </section>
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+          className="w-12 h-12 border border-[#8B7355] border-t-transparent rounded-full"
+        />
+      </main>
+    )
+  }
 
-      {/* Loading State */}
-      {loading && (
-        <div className="flex items-center justify-center py-32">
-          <motion.div
-            animate={{ rotate: 360 }}
-            transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-12 h-12 border border-charcoal border-t-transparent rounded-full"
-          />
-        </div>
-      )}
-
-      {/* Brand Timeline - Bulgari Inspired */}
-      {!loading && brands.length > 0 && (
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="pb-20"
-        >
-          <BrandTimeline brands={brands} />
-        </motion.section>
-      )}
-
-      {/* No Results */}
-      {!loading && brands.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-32">
-          <p className="text-2xl text-taupe mb-4 font-light">No brands found</p>
-          <p className="text-sm text-taupe mb-8 font-light">Try different selections to discover more brands</p>
+  if (brands.length === 0) {
+    return (
+      <main className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-2xl text-[#8B7355] mb-8 font-light">No brands found</p>
           <Link
             href="/"
-            className="px-8 py-3 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all rounded-sm font-light"
+            className="px-8 py-3 bg-[#8B7355] text-black hover:bg-[#A08968] transition-all font-light"
           >
             Start Over
           </Link>
         </div>
-      )}
+      </main>
+    )
+  }
 
-      {/* Minimal Footer */}
-      {!loading && brands.length > 0 && (
-        <footer className="bg-[#f5f5f5] border-t border-[#e0e0e0] mt-20">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-              <p className="text-sm text-taupe font-light">© 2024 Qala. All rights reserved.</p>
-              <div className="flex gap-8 text-sm text-taupe font-light">
-                <a href="#" className="hover:text-deep-charcoal transition-colors">About</a>
-                <a href="#" className="hover:text-deep-charcoal transition-colors">For Brands</a>
-                <a href="#" className="hover:text-deep-charcoal transition-colors">Contact</a>
-              </div>
+  const activeBrand = brands[activeBrandIndex]
+  // Get two images from the brand's collections or use cover image
+  const brandImages = activeBrand.collections.slice(0, 2).map(c => c.coverImage)
+  if (brandImages.length < 2) {
+    brandImages.push(activeBrand.coverImage)
+  }
+  if (brandImages.length < 2) {
+    brandImages.push(activeBrand.coverImage)
+  }
+
+  return (
+    <main className="min-h-screen bg-black text-white flex flex-col">
+      {/* Header - QALA */}
+      <motion.header
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        className="fixed top-0 left-0 right-0 z-50 py-8 text-center"
+      >
+        <Link href="/" className="text-2xl font-cormorant text-[#8B7355] font-light tracking-[0.3em]">
+          QALA
+        </Link>
+      </motion.header>
+
+      {/* Main Content Area - Brand Display */}
+      <section className="flex-1 flex items-center justify-center px-6 pt-24">
+        <motion.div
+          key={activeBrandIndex}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.8 }}
+          className="w-full max-w-7xl"
+        >
+          {/* Two Images with Brand Name in Center */}
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-16 items-center mb-12">
+            {/* Left Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative aspect-[3/4] w-full max-w-md mx-auto"
+            >
+              <Image
+                src={brandImages[0]}
+                alt={`${activeBrand.name} image 1`}
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </motion.div>
+
+            {/* Center - Brand Name and Year */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-center px-8 min-w-[200px]"
+            >
+              <h1 className="text-6xl md:text-8xl font-light text-white mb-4 font-cormorant">
+                {activeBrand.name}
+              </h1>
+              <p className="text-[#8B7355] text-sm font-light tracking-wider mb-8">
+                {activeBrand.location}
+              </p>
+              <Link
+                href={`/brands/${activeBrand.slug}`}
+                className="text-sm text-white hover:text-[#8B7355] transition-colors underline underline-offset-4 tracking-wider font-light"
+              >
+                DISCOVER MORE
+              </Link>
+            </motion.div>
+
+            {/* Right Image */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="relative aspect-[3/4] w-full max-w-md mx-auto"
+            >
+              <Image
+                src={brandImages[1]}
+                alt={`${activeBrand.name} image 2`}
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+              />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Bottom Timeline Slider */}
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+        className="border-t border-[#333] py-8 px-6"
+      >
+        {/* Timeline Bar */}
+        <div className="max-w-7xl mx-auto">
+          <div className="relative">
+            {/* Timeline Line */}
+            <div className="absolute top-1/2 left-0 right-0 h-px bg-[#333] -translate-y-1/2" />
+            
+            {/* Progress Line */}
+            <motion.div
+              className="absolute top-1/2 left-0 h-0.5 bg-[#8B7355] -translate-y-1/2 z-10"
+              initial={{ width: 0 }}
+              animate={{ 
+                width: brands.length > 1 ? `${(activeBrandIndex / (brands.length - 1)) * 100}%` : '100%',
+              }}
+              transition={{ duration: 0.6, ease: 'easeOut' }}
+            />
+            
+            {/* Brand Names */}
+            <div className="relative flex justify-between items-center">
+              {brands.map((brand, index) => (
+                <button
+                  key={brand.id}
+                  onClick={() => setActiveBrandIndex(index)}
+                  className="flex flex-col items-center gap-4 group"
+                >
+                  {/* Dot */}
+                  <div className={`w-4 h-4 rounded-full border-2 transition-all duration-300 z-20 ${
+                    index === activeBrandIndex
+                      ? 'bg-[#8B7355] border-[#8B7355] scale-125'
+                      : 'bg-black border-[#333] group-hover:border-[#8B7355]'
+                  }`} />
+                  
+                  {/* Brand Name */}
+                  <span className={`text-sm font-light tracking-wider transition-colors whitespace-nowrap ${
+                    index === activeBrandIndex
+                      ? 'text-white'
+                      : 'text-[#666] group-hover:text-white'
+                  }`}>
+                    {brand.name}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
-        </footer>
-      )}
+        </div>
+      </motion.div>
     </main>
   )
 }
 
 function LoadingFallback() {
   return (
-    <main className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+    <main className="min-h-screen bg-black flex items-center justify-center">
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        className="w-12 h-12 border border-charcoal border-t-transparent rounded-full"
+        className="w-12 h-12 border border-[#8B7355] border-t-transparent rounded-full"
       />
     </main>
   )
@@ -186,4 +250,3 @@ export default function DiscoverPage() {
     </Suspense>
   )
 }
-

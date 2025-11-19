@@ -27,25 +27,11 @@ export default function Home() {
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category)
     setShowCategoryDropdown(false)
-    
-    // Auto-navigate if both selections are made
-    if (selectedSeason !== 'Everyone' || category !== 'Everything') {
-      setTimeout(() => {
-        navigateToDiscover()
-      }, 300)
-    }
   }
 
   const handleSeasonSelect = (season: string) => {
     setSelectedSeason(season)
     setShowSeasonDropdown(false)
-    
-    // Auto-navigate if both selections are made
-    if (selectedCategory !== 'Everything' || season !== 'Everyone') {
-      setTimeout(() => {
-        navigateToDiscover()
-      }, 300)
-    }
   }
 
   return (
@@ -71,23 +57,24 @@ export default function Home() {
           className="text-center max-w-5xl mx-auto"
         >
           {/* The Sentence with Inline Dropdowns */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed">
-            <span className="text-deep-charcoal">I want to source for</span>
-            
-            {/* Category Dropdown - Inline */}
-            <div className="relative inline-block">
-              <button
-                onClick={() => {
-                  setShowCategoryDropdown(!showCategoryDropdown)
-                  setShowSeasonDropdown(false)
-                }}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
-              >
-                <span className="font-normal text-deep-charcoal">
-                  {selectedCategory}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
-              </button>
+          <div className="flex flex-col items-center gap-8">
+            <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed">
+              <span className="text-deep-charcoal">I want to source for</span>
+              
+              {/* Category Dropdown - Inline */}
+              <div className="relative inline-block">
+                <button
+                  onClick={() => {
+                    setShowCategoryDropdown(!showCategoryDropdown)
+                    setShowSeasonDropdown(false)
+                  }}
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
+                >
+                  <span className="font-normal text-deep-charcoal">
+                    {selectedCategory}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
+                </button>
 
               {/* Category Modal Overlay */}
               <AnimatePresence>
@@ -127,61 +114,70 @@ export default function Home() {
               </AnimatePresence>
             </div>
             
-            <span className="text-deep-charcoal">&</span>
-            <span className="text-deep-charcoal">my boutique is</span>
-            
-            {/* Season Dropdown - Inline */}
-            <div className="relative inline-block">
-              <button
-                onClick={() => {
-                  setShowSeasonDropdown(!showSeasonDropdown)
-                  setShowCategoryDropdown(false)
-                }}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
-              >
-                <span className="font-normal text-deep-charcoal">
-                  {selectedSeason}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
-              </button>
+              <span className="text-deep-charcoal">&</span>
+              <span className="text-deep-charcoal">my boutique is</span>
+              
+              {/* Season Dropdown - Inline */}
+              <div className="relative inline-block">
+                <button
+                  onClick={() => {
+                    setShowSeasonDropdown(!showSeasonDropdown)
+                    setShowCategoryDropdown(false)
+                  }}
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
+                >
+                  <span className="font-normal text-deep-charcoal">
+                    {selectedSeason}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+                </button>
 
-              {/* Season Modal Overlay */}
-              <AnimatePresence>
-                {showSeasonDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
-                    onClick={() => setShowSeasonDropdown(false)}
-                  >
+                {/* Season Modal Overlay */}
+                <AnimatePresence>
+                  {showSeasonDropdown && (
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      className="relative max-w-4xl w-full px-6"
-                      onClick={(e) => e.stopPropagation()}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
+                      onClick={() => setShowSeasonDropdown(false)}
                     >
-                      <div className="flex flex-wrap justify-center gap-3">
-                        {seasons.map((season) => (
-                          <button
-                            key={season}
-                            onClick={() => handleSeasonSelect(season)}
-                            className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
-                              selectedSeason === season
-                                ? 'bg-deep-charcoal text-ivory'
-                                : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
-                            }`}
-                          >
-                            {season}
-                          </button>
-                        ))}
-                      </div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        className="relative max-w-4xl w-full px-6"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex flex-wrap justify-center gap-3">
+                          {seasons.map((season) => (
+                            <button
+                              key={season}
+                              onClick={() => handleSeasonSelect(season)}
+                              className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
+                                selectedSeason === season
+                                  ? 'bg-deep-charcoal text-ivory'
+                                  : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
+                              }`}
+                            >
+                              {season}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
+
+            {/* Find Button */}
+            <button
+              onClick={navigateToDiscover}
+              className="px-12 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 rounded-sm text-lg font-light"
+            >
+              Find
+            </button>
           </div>
 
         </motion.div>
