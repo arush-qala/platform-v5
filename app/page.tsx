@@ -177,7 +177,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-4 px-16 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 text-xl font-light tracking-wide"
+            className="mt-8 px-16 py-4 bg-black text-white hover:bg-gray-800 transition-all duration-300 text-xl font-light tracking-wide rounded-sm shadow-lg"
           >
             Find
           </motion.button>
