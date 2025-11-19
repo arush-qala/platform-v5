@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
+import { BrandTimeline } from '@/components/home/BrandTimeline'
 
 interface Brand {
   id: string
@@ -261,23 +262,26 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Load More Indication */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="text-center mt-16"
-          >
-            <p className="text-sm text-taupe mb-4">
-              Showing {brands.length} {brands.length === 1 ? 'brand' : 'brands'}
-            </p>
-            <button
-              onClick={() => fetchBrands(selectedCategory, selectedSeason)}
-              className="text-sm text-charcoal hover:text-gold-accent transition-colors underline"
+        </section>
+      )}
+
+      {/* Brand Timeline Navigation */}
+      {!loading && brands.length > 0 && (
+        <section className="py-20 bg-sand/30">
+          <div className="max-w-[1920px] mx-auto px-6 md:px-12 mb-12">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+              className="text-center"
             >
-              Refresh Results
-            </button>
-          </motion.div>
+              <h2 className="text-3xl md:text-4xl font-cormorant text-deep-charcoal mb-4">
+                Explore Brands
+              </h2>
+              <p className="text-taupe">Navigate through our curated selection</p>
+            </motion.div>
+          </div>
+          <BrandTimeline brands={brands} />
         </section>
       )}
 
