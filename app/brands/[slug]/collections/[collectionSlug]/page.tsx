@@ -117,27 +117,28 @@ export default function CollectionPage() {
   const activeProduct = collection.products[activeProductIndex]
 
   return (
-    <>
-      <main className="h-screen flex flex-col">
-        {/* Header */}
-        <header className="bg-ivory border-b border-warm-grey px-6 md:px-12 py-6 flex items-center justify-between z-10">
-          <Link
-            href={`/brands/${collection.brand.slug}`}
-            className="text-lg font-cormorant text-deep-charcoal hover:text-gold-accent transition-colors"
-          >
-            ← {collection.brand.name}
-          </Link>
-          <div className="text-center">
-            <h1 className="text-2xl md:text-3xl font-cormorant text-deep-charcoal">
-              {collection.name}
-            </h1>
-            <p className="text-sm text-taupe">{collection.season} • {collection.products.length} Pieces</p>
-          </div>
-          <div className="w-32" /> {/* Spacer for centering */}
-        </header>
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-ivory border-b border-warm-grey px-6 md:px-12 py-6 flex items-center justify-between">
+        <Link
+          href={`/brands/${collection.brand.slug}`}
+          className="text-lg font-cormorant text-deep-charcoal hover:text-gold-accent transition-colors"
+        >
+          ← {collection.brand.name}
+        </Link>
+        <div className="text-center">
+          <h1 className="text-2xl md:text-3xl font-cormorant text-deep-charcoal">
+            {collection.name}
+          </h1>
+          <p className="text-sm text-taupe">{collection.season} • {collection.products.length} Pieces</p>
+        </div>
+        <div className="w-32" /> {/* Spacer for centering */}
+      </header>
 
-        {/* Split Layout: Carousel (top 50%) and Details (bottom 50%) */}
-        <div className="flex-1 grid grid-rows-2">
+      {/* Product Section */}
+      <main className="flex-shrink-0">
+        {/* Split Layout: Carousel (top 50vh) and Details (bottom 50vh) */}
+        <div className="grid grid-rows-2" style={{ height: 'calc(100vh - 88px)' }}>
           {/* Product Carousel - Top Half */}
           <div className="relative overflow-hidden">
             <ProductCarousel
@@ -164,17 +165,17 @@ export default function CollectionPage() {
         {/* Virtual Try-On Section Indicator */}
         <div className="bg-sand/50 border-t border-warm-grey px-6 py-3 text-center">
           <p className="text-sm text-taupe">
-            Scroll down for Virtual Try-On Experience →
+            ↓ Scroll down for Virtual Try-On Experience ↓
           </p>
         </div>
       </main>
 
-      {/* Virtual Try-On Section */}
+      {/* Virtual Try-On Section - Below Main Content */}
       <VirtualTryOn
         productName={activeProduct.name}
         productImage={activeProduct.images[0]?.url || ''}
       />
-    </>
+    </div>
   )
 }
 
