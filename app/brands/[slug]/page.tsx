@@ -276,14 +276,14 @@ export default function BrandPage() {
                     <h3 className="text-2xl font-cormorant text-deep-charcoal group-hover:text-gold-accent transition-colors">
                       {collection.name}
                     </h3>
-                    <p className="text-taupe text-sm mt-1">{collection.season} {collection.products.length} pieces</p>
+                    <p className="text-taupe text-sm mt-1">{collection.season} • {collection.products.length} pieces</p>
                   </Link>
                 </motion.div>
               ))}
             </div>
           </motion.div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Featured Lookbook Preview */}
       {featuredCollection && (
