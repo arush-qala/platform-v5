@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
@@ -25,17 +25,13 @@ interface Collection {
   coverImage: string
 }
 
-export default function DiscoverPage() {
+function DiscoverContent() {
   const searchParams = useSearchParams()
   const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
   
   const category = searchParams.get('category') || 'Everything'
   const season = searchParams.get('season') || 'Everyone'
-
-  useEffect(() => {
-    fetchBrands()
-  }, [category, season])
 
   const fetchBrands = async () => {
     setLoading(true)
@@ -55,6 +51,11 @@ export default function DiscoverPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    fetchBrands()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [category, season])
 
   return (
     <main className="min-h-screen bg-[#f5f5f5]">
@@ -163,6 +164,26 @@ export default function DiscoverPage() {
         </footer>
       )}
     </main>
+  )
+}
+
+function LoadingFallback() {
+  return (
+    <main className="min-h-screen bg-[#f5f5f5] flex items-center justify-center">
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+        className="w-12 h-12 border border-charcoal border-t-transparent rounded-full"
+      />
+    </main>
+  )
+}
+
+export default function DiscoverPage() {
+  return (
+    <Suspense fallback={<LoadingFallback />}>
+      <DiscoverContent />
+    </Suspense>
   )
 }
 
