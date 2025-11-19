@@ -16,544 +16,653 @@ async function main() {
   await prisma.brand.deleteMany()
   await prisma.user.deleteMany()
 
-  // Create 5 luxury brands
-  const brands = [
-    {
+  // Brand 1: Maison Solène
+  const maisonSolene = await prisma.brand.create({
+    data: {
       name: 'Maison Solène',
       slug: 'maison-solene',
-      description: 'Contemporary elegance meets timeless craftsmanship',
-      story: 'Founded in 2018 by French designer Solène Mercier, Maison Solène embodies the essence of modern Parisian luxury. Each piece is crafted with meticulous attention to detail, using only the finest sustainable fabrics sourced from Italian and French mills. The brand philosophy centers on creating investment pieces that transcend seasons, celebrating the female form through architectural silhouettes and unexpected draping.',
+      description: 'Contemporary elegance meets timeless Parisian craftsmanship. Architectural silhouettes define modern luxury.',
+      story: 'Founded in 2018 by French designer Solène Mercier, Maison Solène embodies the essence of modern Parisian luxury. Each piece is crafted with meticulous attention to detail, using only the finest sustainable fabrics sourced from Italian and French mills. Our design philosophy centers on creating investment pieces that transcend seasons, celebrating the female form through architectural silhouettes.',
       videoUrl: 'https://player.vimeo.com/video/example1',
-      logoUrl: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=100&fit=crop',
-      coverImage: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=1920&h=1080&fit=crop',
+      coverImage: '/images/brands/maison-solene/campaign/hero.jpg',
       founded: '2018',
       location: 'Paris, France',
-      aesthetic: ['dresses', 'evening wear', 'minimalist', 'architectural'],
+      aesthetic: JSON.stringify(['dresses', 'evening wear', 'minimalist', 'architectural', 'contemporary']),
       featured: true,
-    },
-    {
-      name: 'Atelier Lumière',
-      slug: 'atelier-lumiere',
-      description: 'Where art meets fashion in luminous harmony',
-      story: 'Atelier Lumière is the brainchild of sisters Marie and Claire Dubois, who bring together their backgrounds in fine arts and fashion design. The brand is known for its painterly approach to textiles, featuring hand-painted silk and innovative dyeing techniques that create one-of-a-kind pieces. Each collection tells a story of light, color, and feminine strength, perfect for the discerning buyer seeking unique pieces that make a statement.',
-      videoUrl: 'https://player.vimeo.com/video/example2',
-      logoUrl: 'https://images.unsplash.com/photo-1594633313593-bab3825d0caf?w=300&h=100&fit=crop',
-      coverImage: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&h=1080&fit=crop',
-      founded: '2020',
-      location: 'Lyon, France',
-      aesthetic: ['dresses', 'co-ord sets', 'tops', 'artistic', 'colorful'],
-      featured: true,
-    },
-    {
-      name: 'Casa Valentina',
-      slug: 'casa-valentina',
-      description: 'Italian sophistication with a modern edge',
-      story: 'Casa Valentina represents the pinnacle of Italian craftsmanship, founded by Valentina Romano in Milan. With over 20 years of experience at prestigious fashion houses, Valentina launched her eponymous label to celebrate the art of slow fashion. Each garment is produced in limited quantities in the brand\'s Milanese atelier, utilizing heritage techniques passed down through generations of artisans. The brand specializes in luxurious resort wear and elegant daywear that transitions seamlessly from city to coast.',
-      videoUrl: 'https://player.vimeo.com/video/example3',
-      logoUrl: 'https://images.unsplash.com/photo-1594633312519-88fdc88fa1b6?w=300&h=100&fit=crop',
-      coverImage: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1920&h=1080&fit=crop',
-      founded: '2015',
-      location: 'Milan, Italy',
-      aesthetic: ['evening wear', 'pants', 'shirts', 'resortwear', 'sophisticated'],
-      featured: true,
-    },
-    {
-      name: 'Noir & Ivoire',
-      slug: 'noir-ivoire',
-      description: 'Monochromatic mastery in modern tailoring',
-      story: 'Noir & Ivoire is the vision of Belgian designer Anaïs De Smet, who believes in the power of monochrome. The brand focuses exclusively on black and white pieces, creating a cohesive wardrobe philosophy that emphasizes versatility and elegance. Known for impeccable tailoring and innovative fabric combinations, each piece is designed to be a building block in a sophisticated, minimal wardrobe. The brand has gained a cult following among boutique owners who appreciate its distinctive aesthetic and commercial appeal.',
-      videoUrl: 'https://player.vimeo.com/video/example4',
-      logoUrl: 'https://images.unsplash.com/photo-1594633312943-c1d5271b5296?w=300&h=100&fit=crop',
-      coverImage: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&h=1080&fit=crop',
-      founded: '2019',
-      location: 'Antwerp, Belgium',
-      aesthetic: ['shirts', 'pants', 'co-ord sets', 'minimalist', 'tailored'],
-      featured: true,
-    },
-    {
-      name: 'Luna Rosa',
-      slug: 'luna-rosa',
-      description: 'Bohemian luxury with an ethereal touch',
-      story: 'Luna Rosa brings the romance of Mediterranean summers to life through its dreamy, feminine designs. Founded by Spanish designer Isabella Martínez, the brand draws inspiration from coastal landscapes, ancient textiles, and the golden hour light of Ibiza. Using organic linens, silk chiffons, and hand-embroidered details, Luna Rosa creates pieces that feel both timeless and contemporary. The brand is particularly beloved for its flowing dresses and coordinated sets that capture effortless sophistication.',
-      videoUrl: 'https://player.vimeo.com/video/example5',
-      logoUrl: 'https://images.unsplash.com/photo-1594633312993-c0bf28e62402?w=300&h=100&fit=crop',
-      coverImage: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1920&h=1080&fit=crop',
-      founded: '2017',
-      location: 'Barcelona, Spain',
-      aesthetic: ['dresses', 'co-ord sets', 'tops', 'resortwear', 'bohemian'],
-      featured: true,
-    },
-  ]
-
-  for (const brandData of brands) {
-    const brand = await prisma.brand.create({
-      data: {
-        ...brandData,
-        aesthetic: JSON.stringify(brandData.aesthetic),
-      },
-    })
-
-    // Create features for each brand
-    const features = [
-      {
-        title: 'Featured in Vogue',
-        publication: 'Vogue International',
-        url: 'https://vogue.com',
-        imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=600&fit=crop',
-        date: '2024',
-      },
-      {
-        title: 'Harper\'s Bazaar Emerging Designer',
-        publication: 'Harper\'s Bazaar',
-        url: 'https://harpersbazaar.com',
-        imageUrl: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&h=600&fit=crop',
-        date: '2023',
-      },
-    ]
-
-    for (const feature of features) {
-      await prisma.brandFeature.create({
-        data: {
-          ...feature,
-          brandId: brand.id,
-        },
-      })
-    }
-
-    console.log(`✓ Created brand: ${brand.name}`)
-
-    // Create collections for each brand
-    const collections = getBrandCollections(brand.slug)
-
-    for (const collectionData of collections) {
-      const collection = await prisma.collection.create({
-        data: {
-          ...collectionData,
-          brandId: brand.id,
-          lookbookImages: JSON.stringify(collectionData.lookbookImages),
-        },
-      })
-
-      console.log(`  ✓ Created collection: ${collection.name}`)
-
-      // Create products for each collection
-      const products = getCollectionProducts(brand.slug, collection.slug)
-
-      for (const productData of products) {
-        const { images, sizes, ...productInfo } = productData
-
-        const product = await prisma.product.create({
-          data: {
-            ...productInfo,
-            collectionId: collection.id,
-            colors: JSON.stringify(productInfo.colors),
-          },
-        })
-
-        // Create product images
-        for (const image of images) {
-          await prisma.productImage.create({
-            data: {
-              ...image,
-              productId: product.id,
-            },
-          })
-        }
-
-        // Create product sizes
-        for (const size of sizes) {
-          await prisma.productSize.create({
-            data: {
-              ...size,
-              productId: product.id,
-            },
-          })
-        }
-
-        console.log(`    ✓ Created product: ${product.name}`)
-      }
-    }
-  }
-
-  // Create sample user
-  await prisma.user.create({
-    data: {
-      email: 'boutique@example.com',
-      name: 'Sarah Thompson',
-      storeName: 'The Luxe Collective',
-      storeLocation: 'New York, NY',
-      phone: '+1-555-0123',
     },
   })
 
-  console.log('✅ Database seeded successfully!')
-}
-
-function getBrandCollections(brandSlug: string) {
-  const collectionsMap: Record<string, any[]> = {
-    'maison-solene': [
-      {
-        name: 'Architecte',
-        slug: 'architecte',
-        description: 'A study in structure and form, the Architecte collection explores the intersection of geometric precision and fluid femininity. Crisp lines meet soft draping in pieces designed for the modern woman who commands attention.',
-        season: 'Fall/Winter',
-        year: '2024',
-        coverImage: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=1200&h=1600&fit=crop',
-        lookbookImages: [
-          'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=1600&fit=crop',
-        ],
-        featured: true,
-      },
-      {
-        name: 'Lumière d\'Été',
-        slug: 'lumiere-dete',
-        description: 'Inspired by the golden light of summer evenings in Provence, this collection celebrates ease and elegance with flowing silhouettes in breathable linens and silk.',
-        season: 'Summer/Spring',
-        year: '2024',
-        coverImage: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&h=1600&fit=crop',
-        lookbookImages: [
-          'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1200&h=1600&fit=crop',
-        ],
-        featured: false,
-      },
+  await prisma.brandFeature.createMany({
+    data: [
+      { brandId: maisonSolene.id, title: 'Featured Designer', publication: 'Vogue', date: '2024' },
+      { brandId: maisonSolene.id, title: 'Emerging Talent', publication: 'Elle', date: '2023' },
     ],
-    'atelier-lumiere': [
-      {
-        name: 'Chromatic Dreams',
-        slug: 'chromatic-dreams',
-        description: 'A bold exploration of color and texture, featuring hand-painted silk pieces that blur the line between fashion and art. Each piece is unique, celebrating individuality and artistic expression.',
-        season: 'Summer/Spring',
-        year: '2024',
-        coverImage: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=1600&fit=crop',
-        lookbookImages: [
-          'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1467043153537-a4fba2cd39ef?w=1200&h=1600&fit=crop',
-        ],
-        featured: true,
-      },
-    ],
-    'casa-valentina': [
-      {
-        name: 'Costa Azzurra',
-        slug: 'costa-azzurra',
-        description: 'Capturing the essence of the Italian Riviera, this resort collection features luxurious separates in crisp cottons, flowing silks, and sophisticated linens. Perfect for the jet-set lifestyle.',
-        season: 'Resortwear',
-        year: '2024',
-        coverImage: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=1600&fit=crop',
-        lookbookImages: [
-          'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=1200&h=1600&fit=crop',
-        ],
-        featured: true,
-      },
-    ],
-    'noir-ivoire': [
-      {
-        name: 'Monochrome',
-        slug: 'monochrome',
-        description: 'The ultimate expression of minimalist luxury. This collection proves that black and white are anything but basic, with unexpected textures, precise tailoring, and innovative fabric pairings.',
-        season: 'Fall/Winter',
-        year: '2024',
-        coverImage: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&h=1600&fit=crop',
-        lookbookImages: [
-          'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=1200&h=1600&fit=crop',
-        ],
-        featured: true,
-      },
-    ],
-    'luna-rosa': [
-      {
-        name: 'Mediterranean Whispers',
-        slug: 'mediterranean-whispers',
-        description: 'Ethereal pieces inspired by coastal sunsets and ancient textiles. Flowing dresses, coordinated sets, and delicate tops in organic fabrics with hand-embroidered details.',
-        season: 'Resortwear',
-        year: '2024',
-        coverImage: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=1600&fit=crop',
-        lookbookImages: [
-          'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=1200&h=1600&fit=crop',
-          'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1200&h=1600&fit=crop',
-        ],
-        featured: true,
-      },
-    ],
-  }
+  })
 
-  return collectionsMap[brandSlug] || []
-}
+  const maisonSoleneCollection = await prisma.collection.create({
+    data: {
+      brandId: maisonSolene.id,
+      name: 'Architecte',
+      slug: 'architecte',
+      description: 'A celebration of structure and form, where precision tailoring meets fluid movement.',
+      season: 'Fall/Winter',
+      year: '2024',
+      coverImage: '/images/brands/maison-solene/lookbook/look-01.jpg',
+      lookbookImages: JSON.stringify([
+        '/images/brands/maison-solene/lookbook/look-01.jpg',
+        '/images/brands/maison-solene/lookbook/look-02.jpg',
+        '/images/brands/maison-solene/lookbook/look-03.jpg',
+        '/images/brands/maison-solene/lookbook/look-04.jpg',
+        '/images/brands/maison-solene/lookbook/look-05.jpg',
+      ]),
+      featured: true,
+    },
+  })
 
-function getCollectionProducts(brandSlug: string, collectionSlug: string) {
-  // Common sizes
-  const standardSizes = [
-    { size: 'XS', inStock: true, quantity: 15 },
-    { size: 'S', inStock: true, quantity: 25 },
-    { size: 'M', inStock: true, quantity: 30 },
-    { size: 'L', inStock: true, quantity: 20 },
-    { size: 'XL', inStock: true, quantity: 10 },
-  ]
+  // Maison Solène Products
+  const msDress = await prisma.product.create({
+    data: {
+      collectionId: maisonSoleneCollection.id,
+      name: 'Structural Drape Dress',
+      slug: 'structural-drape-dress',
+      description: 'Sculptural dress with asymmetric draping and architectural details',
+      category: 'dresses',
+      price: 895,
+      fabricDetails: '100% Italian silk crepe, fully lined',
+      careInstructions: 'Dry clean only',
+      colors: JSON.stringify(['Black', 'Ivory', 'Deep Navy']),
+      featured: true,
+    },
+  })
 
-  const productsMap: Record<string, Record<string, any[]>> = {
-    'maison-solene': {
-      'architecte': [
-        {
-          name: 'Structural Drape Dress',
-          slug: 'structural-drape-dress',
-          description: 'A masterpiece of architectural design, this dress features precise pleating on one side while draping softly on the other. The result is a dynamic silhouette that moves beautifully and flatters every body type.',
-          category: 'dresses',
-          price: 1850,
-          fabricDetails: '100% Italian wool crepe, fully lined in silk charmeuse. The fabric holds structure while remaining comfortable and breathable.',
-          careInstructions: 'Dry clean only. Store hanging to maintain shape.',
-          colors: ['Black', 'Charcoal', 'Cream'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&h=1200&fit=crop', alt: 'Structural Drape Dress - Front', order: 0, isPrimary: true },
-            { url: 'https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=800&h=1200&fit=crop', alt: 'Structural Drape Dress - Side', order: 1, isPrimary: false },
-            { url: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=800&h=1200&fit=crop', alt: 'Structural Drape Dress - Detail', order: 2, isPrimary: false },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Asymmetric Blazer',
-          slug: 'asymmetric-blazer',
-          description: 'An unconventional take on the classic blazer, featuring an asymmetric hemline and oversized collar. Perfect for making a statement in the boardroom or at evening events.',
-          category: 'evening wear',
-          price: 1420,
-          fabricDetails: 'Italian wool blend with silk lining. Medium weight with excellent shape retention.',
-          careInstructions: 'Dry clean only. Steam gently to refresh.',
-          colors: ['Black', 'Navy'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1200&fit=crop', alt: 'Asymmetric Blazer', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Sculptural Trousers',
-          slug: 'sculptural-trousers',
-          description: 'High-waisted trousers with architectural pleating at the waist and a wide, flowing leg. These pants elevate any outfit with their distinctive silhouette.',
-          category: 'pants',
-          price: 980,
-          fabricDetails: '100% Italian cotton twill with a subtle sheen. Comfortable stretch waistband.',
-          careInstructions: 'Machine wash cold on gentle cycle. Hang dry. Press with warm iron.',
-          colors: ['Black', 'Cream', 'Taupe'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&h=1200&fit=crop', alt: 'Sculptural Trousers', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-      ],
-      'lumiere-dete': [
-        {
-          name: 'Linen Cascade Dress',
-          slug: 'linen-cascade-dress',
-          description: 'Effortless summer elegance in pure European linen. This dress features a relaxed fit with strategic seaming that creates beautiful movement.',
-          category: 'dresses',
-          price: 890,
-          fabricDetails: '100% European linen, pre-washed for softness. Breathable and perfect for warm weather.',
-          careInstructions: 'Machine wash cold. Line dry. Linen naturally wrinkles - embrace the texture or press lightly.',
-          colors: ['White', 'Sand', 'Sage'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=1200&fit=crop', alt: 'Linen Cascade Dress', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-      ],
-    },
-    'atelier-lumiere': {
-      'chromatic-dreams': [
-        {
-          name: 'Hand-Painted Silk Dress',
-          slug: 'hand-painted-silk-dress',
-          description: 'A wearable work of art featuring hand-painted watercolor-inspired patterns on pure silk. Each piece is unique, with slight variations in the painting making your dress one-of-a-kind.',
-          category: 'dresses',
-          price: 2200,
-          fabricDetails: '100% silk charmeuse, hand-painted with permanent textile inks. Each piece takes 8 hours to create.',
-          careInstructions: 'Dry clean only with specialist familiar with hand-painted textiles.',
-          colors: ['Sunset Blend', 'Ocean Blues', 'Garden Florals'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800&h=1200&fit=crop', alt: 'Hand-Painted Silk Dress', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Color Block Co-ord Set',
-          slug: 'color-block-coord-set',
-          description: 'Bold and modern, this coordinated set features artistic color blocking in complementary tones. The wide-leg pants and matching top can be worn together or separately.',
-          category: 'co-ord sets',
-          price: 1650,
-          fabricDetails: 'Lightweight silk blend with excellent drape. Comfortable elastic waistband on pants.',
-          careInstructions: 'Hand wash cold or dry clean. Hang dry away from direct sunlight.',
-          colors: ['Coral/Terracotta', 'Blue/Navy'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&h=1200&fit=crop', alt: 'Color Block Co-ord Set', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-      ],
-    },
-    'casa-valentina': {
-      'costa-azzurra': [
-        {
-          name: 'Italian Linen Shirt',
-          slug: 'italian-linen-shirt',
-          description: 'The perfect resort essential. This oversized linen shirt features mother-of-pearl buttons and impeccable Italian tailoring. Wear it over swimwear or tucked into trousers for dinner.',
-          category: 'shirts',
-          price: 680,
-          fabricDetails: '100% Italian linen, garment-dyed for rich color. Softens beautifully with each wear.',
-          careInstructions: 'Machine wash cold. Line dry. Press while slightly damp for best results.',
-          colors: ['White', 'Sky Blue', 'Coral'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=800&h=1200&fit=crop', alt: 'Italian Linen Shirt', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Wide Leg Resort Pants',
-          slug: 'wide-leg-resort-pants',
-          description: 'Elegant and comfortable, these wide-leg pants in crisp cotton poplin are a resort staple. High-waisted with a flattering fit that works from beach to dinner.',
-          category: 'pants',
-          price: 790,
-          fabricDetails: '100% cotton poplin with a slight sheen. Hidden side zipper for clean lines.',
-          careInstructions: 'Machine wash cold. Tumble dry low. Press with steam for crisp finish.',
-          colors: ['White', 'Navy', 'Khaki'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&h=1200&fit=crop', alt: 'Wide Leg Resort Pants', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Silk Evening Dress',
-          slug: 'silk-evening-dress',
-          description: 'Sophisticated simplicity in pure silk. This dress features a cowl neckline and bias-cut skirt that skims the body beautifully. Perfect for elegant dinners and special occasions.',
-          category: 'evening wear',
-          price: 1950,
-          fabricDetails: '100% silk crepe de chine, bias-cut for perfect drape. Fully lined.',
-          careInstructions: 'Dry clean only. Steam gently to remove wrinkles.',
-          colors: ['Black', 'Champagne', 'Emerald'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&h=1200&fit=crop', alt: 'Silk Evening Dress', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-      ],
-    },
-    'noir-ivoire': {
-      'monochrome': [
-        {
-          name: 'Tailored Black Blazer',
-          slug: 'tailored-black-blazer',
-          description: 'The ultimate wardrobe essential. This impeccably tailored blazer in Italian wool features subtle peak lapels and a slightly oversized fit for contemporary elegance.',
-          category: 'shirts',
-          price: 1580,
-          fabricDetails: 'Italian wool suiting with silk lining. Structured shoulders with natural drape through the body.',
-          careInstructions: 'Dry clean only. Store hanging with shoulder shaper.',
-          colors: ['Black'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&h=1200&fit=crop', alt: 'Tailored Black Blazer', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Contrast Stitch Pants',
-          slug: 'contrast-stitch-pants',
-          description: 'Black pants elevated with white topstitching detail. Straight leg with a modern ankle-length cut. A distinctive piece that works for both day and evening.',
-          category: 'pants',
-          price: 890,
-          fabricDetails: 'Cotton-blend twill with slight stretch. Comfortable waistband with hidden closure.',
-          careInstructions: 'Machine wash cold inside out. Hang dry. Press with warm iron if needed.',
-          colors: ['Black with White Stitch'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=800&h=1200&fit=crop', alt: 'Contrast Stitch Pants', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Monochrome Co-ord Set',
-          slug: 'monochrome-coord-set',
-          description: 'A versatile set in contrasting black and white panels. The structured top and matching pants create a striking silhouette perfect for making an impression.',
-          category: 'co-ord sets',
-          price: 1680,
-          fabricDetails: 'Structured cotton blend with excellent shape retention. Separate pieces can be worn independently.',
-          careInstructions: 'Dry clean recommended for best results. Can be hand washed cold if needed.',
-          colors: ['Black/White'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=800&h=1200&fit=crop', alt: 'Monochrome Co-ord Set', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-      ],
-    },
-    'luna-rosa': {
-      'mediterranean-whispers': [
-        {
-          name: 'Embroidered Maxi Dress',
-          slug: 'embroidered-maxi-dress',
-          description: 'A romantic maxi dress in organic cotton with hand-embroidered details inspired by Mediterranean flora. The perfect piece for sunset dinners and special occasions.',
-          category: 'dresses',
-          price: 1380,
-          fabricDetails: '100% organic cotton voile with hand-embroidered details. Lightweight and breathable.',
-          careInstructions: 'Hand wash cold or gentle machine cycle. Hang dry in shade. Warm iron on reverse side.',
-          colors: ['Ivory', 'Blush', 'Sky Blue'],
-          featured: true,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&h=1200&fit=crop', alt: 'Embroidered Maxi Dress', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Linen Co-ord Set',
-          slug: 'linen-coord-set',
-          description: 'Effortless bohemian chic in pure linen. This coordinated set features a flowing top and wide-leg pants, perfect for warm weather wandering.',
-          category: 'co-ord sets',
-          price: 950,
-          fabricDetails: 'European linen, pre-washed and softened. Natural fiber breathability.',
-          careInstructions: 'Machine wash cold. Line dry. Embrace natural wrinkles or press lightly.',
-          colors: ['Natural', 'Terracotta', 'Sage'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1502716119720-b23a93e5fe1b?w=800&h=1200&fit=crop', alt: 'Linen Co-ord Set', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-        {
-          name: 'Silk Cami Top',
-          slug: 'silk-cami-top',
-          description: 'A delicate silk camisole with adjustable straps and lace trim. Layer it or wear it alone for effortless summer style.',
-          category: 'tops',
-          price: 420,
-          fabricDetails: '100% silk satin with French lace trim. Adjustable shoulder straps.',
-          careInstructions: 'Hand wash cold in gentle detergent. Line dry away from sun. Cool iron if needed.',
-          colors: ['Ivory', 'Blush', 'Black'],
-          featured: false,
-          images: [
-            { url: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=800&h=1200&fit=crop', alt: 'Silk Cami Top', order: 0, isPrimary: true },
-          ],
-          sizes: standardSizes,
-        },
-      ],
-    },
-  }
+  await prisma.productImage.createMany({
+    data: [
+      { productId: msDress.id, url: '/images/brands/maison-solene/products/dress-01.jpg', order: 1, isPrimary: true },
+      { productId: msDress.id, url: '/images/brands/maison-solene/lookbook/look-01.jpg', order: 2 },
+    ],
+  })
 
-  return productsMap[brandSlug]?.[collectionSlug] || []
+  await prisma.productSize.createMany({
+    data: [
+      { productId: msDress.id, size: 'XS', inStock: true, quantity: 5 },
+      { productId: msDress.id, size: 'S', inStock: true, quantity: 8 },
+      { productId: msDress.id, size: 'M', inStock: true, quantity: 10 },
+      { productId: msDress.id, size: 'L', inStock: true, quantity: 6 },
+    ],
+  })
+
+  const msBlazer = await prisma.product.create({
+    data: {
+      collectionId: maisonSoleneCollection.id,
+      name: 'Asymmetric Blazer',
+      slug: 'asymmetric-blazer',
+      description: 'Tailored blazer with asymmetric closure and sculptural shoulders',
+      category: 'evening wear',
+      price: 1250,
+      fabricDetails: 'Wool crepe with silk lining',
+      careInstructions: 'Dry clean only',
+      colors: JSON.stringify(['Black', 'Charcoal']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: msBlazer.id, url: '/images/brands/maison-solene/products/blazer-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: msBlazer.id, size: 'S', inStock: true, quantity: 4 },
+      { productId: msBlazer.id, size: 'M', inStock: true, quantity: 6 },
+      { productId: msBlazer.id, size: 'L', inStock: true, quantity: 4 },
+    ],
+  })
+
+  const msPants = await prisma.product.create({
+    data: {
+      collectionId: maisonSoleneCollection.id,
+      name: 'Sculptural Wide-Leg Pants',
+      slug: 'sculptural-pants',
+      description: 'High-waisted pants with architectural pleating',
+      category: 'pants',
+      price: 685,
+      fabricDetails: 'Italian wool gabardine',
+      careInstructions: 'Dry clean only',
+      colors: JSON.stringify(['Black', 'Ivory', 'Camel']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: msPants.id, url: '/images/brands/maison-solene/products/pants-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: msPants.id, size: 'XS', inStock: true, quantity: 5 },
+      { productId: msPants.id, size: 'S', inStock: true, quantity: 8 },
+      { productId: msPants.id, size: 'M', inStock: true, quantity: 10 },
+      { productId: msPants.id, size: 'L', inStock: true, quantity: 6 },
+    ],
+  })
+
+  console.log('✓ Created brand: Maison Solène')
+
+  // Brand 2: Atelier Lumière
+  const atelierLumiere = await prisma.brand.create({
+    data: {
+      name: 'Atelier Lumière',
+      slug: 'atelier-lumiere',
+      description: 'Where art meets fashion. Hand-painted silks and artistic textiles tell stories of light and color.',
+      story: 'Atelier Lumière is the brainchild of sisters Marie and Claire Dubois, who bring together their backgrounds in fine arts and fashion design. Each piece features hand-painted silk and innovative dyeing techniques that create one-of-a-kind wearable art. Our collections tell stories of light, color, and feminine strength.',
+      videoUrl: 'https://player.vimeo.com/video/example2',
+      coverImage: '/images/brands/atelier-lumiere/campaign/hero.jpg',
+      founded: '2020',
+      location: 'Lyon, France',
+      aesthetic: JSON.stringify(['dresses', 'co-ord sets', 'tops', 'artistic', 'colorful', 'unique']),
+      featured: true,
+    },
+  })
+
+  await prisma.brandFeature.createMany({
+    data: [
+      { brandId: atelierLumiere.id, title: 'Best Artistic Collection', publication: 'Harper\'s Bazaar', date: '2024' },
+      { brandId: atelierLumiere.id, title: 'Designer to Watch', publication: 'WWD', date: '2023' },
+    ],
+  })
+
+  const atelierCollection = await prisma.collection.create({
+    data: {
+      brandId: atelierLumiere.id,
+      name: 'Chromatic Dreams',
+      slug: 'chromatic-dreams',
+      description: 'A painterly exploration of color, light, and movement on silk.',
+      season: 'Summer/Spring',
+      year: '2024',
+      coverImage: '/images/brands/atelier-lumiere/lookbook/look-01.jpg',
+      lookbookImages: JSON.stringify([
+        '/images/brands/atelier-lumiere/lookbook/look-01.jpg',
+        '/images/brands/atelier-lumiere/lookbook/look-02.jpg',
+        '/images/brands/atelier-lumiere/lookbook/look-03.jpg',
+        '/images/brands/atelier-lumiere/lookbook/look-04.jpg',
+        '/images/brands/atelier-lumiere/lookbook/look-05.jpg',
+      ]),
+      featured: true,
+    },
+  })
+
+  const alSilkDress = await prisma.product.create({
+    data: {
+      collectionId: atelierCollection.id,
+      name: 'Hand-Painted Silk Dress',
+      slug: 'hand-painted-silk-dress',
+      description: 'One-of-a-kind hand-painted silk dress with watercolor gradient',
+      category: 'dresses',
+      price: 1450,
+      fabricDetails: '100% hand-painted silk charmeuse',
+      careInstructions: 'Gentle hand wash or dry clean',
+      colors: JSON.stringify(['Sunset Gradient', 'Ocean Blue', 'Rose Garden']),
+      featured: true,
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: alSilkDress.id, url: '/images/brands/atelier-lumiere/products/silk-dress-01.jpg', order: 1, isPrimary: true },
+      { productId: alSilkDress.id, url: '/images/brands/atelier-lumiere/lookbook/look-02.jpg', order: 2 },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: alSilkDress.id, size: 'XS', inStock: true, quantity: 3 },
+      { productId: alSilkDress.id, size: 'S', inStock: true, quantity: 4 },
+      { productId: alSilkDress.id, size: 'M', inStock: true, quantity: 5 },
+      { productId: alSilkDress.id, size: 'L', inStock: true, quantity: 3 },
+    ],
+  })
+
+  const alCoordSet = await prisma.product.create({
+    data: {
+      collectionId: atelierCollection.id,
+      name: 'Color Block Co-ord Set',
+      slug: 'color-block-coord',
+      description: 'Two-piece set with abstract color blocking',
+      category: 'co-ord sets',
+      price: 980,
+      fabricDetails: 'Linen blend with hand-dyed details',
+      careInstructions: 'Hand wash cold',
+      colors: JSON.stringify(['Coral & Teal', 'Mauve & Gold']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: alCoordSet.id, url: '/images/brands/atelier-lumiere/products/coord-set-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: alCoordSet.id, size: 'XS', inStock: true, quantity: 4 },
+      { productId: alCoordSet.id, size: 'S', inStock: true, quantity: 6 },
+      { productId: alCoordSet.id, size: 'M', inStock: true, quantity: 8 },
+      { productId: alCoordSet.id, size: 'L', inStock: false, quantity: 0 },
+    ],
+  })
+
+  console.log('✓ Created brand: Atelier Lumière')
+
+  // Brand 3: Casa Valentina
+  const casaValentina = await prisma.brand.create({
+    data: {
+      name: 'Casa Valentina',
+      slug: 'casa-valentina',
+      description: 'Italian sophistication with a modern edge. Luxurious resort wear crafted in our Milanese atelier.',
+      story: 'Casa Valentina represents the pinnacle of Italian craftsmanship, founded by Valentina Romano in Milan. With over 20 years of experience at prestigious fashion houses, each garment is produced in limited quantities utilizing heritage techniques passed down through generations. We specialize in luxurious resort wear that transitions seamlessly from city to coast.',
+      videoUrl: 'https://player.vimeo.com/video/example3',
+      coverImage: '/images/brands/casa-valentina/campaign/hero.jpg',
+      founded: '2015',
+      location: 'Milan, Italy',
+      aesthetic: JSON.stringify(['evening wear', 'pants', 'shirts', 'resortwear', 'sophisticated', 'Italian']),
+      featured: true,
+    },
+  })
+
+  await prisma.brandFeature.createMany({
+    data: [
+      { brandId: casaValentina.id, title: 'Italian Excellence', publication: 'Vogue Italia', date: '2024' },
+      { brandId: casaValentina.id, title: 'Resort Wear Masters', publication: 'Elle', date: '2023' },
+    ],
+  })
+
+  const cvCollection = await prisma.collection.create({
+    data: {
+      brandId: casaValentina.id,
+      name: 'Costa Azzurra',
+      slug: 'costa-azzurra',
+      description: 'Inspired by the Italian Riviera. Effortless elegance for sun-soaked days.',
+      season: 'Resortwear',
+      year: '2024',
+      coverImage: '/images/brands/casa-valentina/lookbook/look-01.jpg',
+      lookbookImages: JSON.stringify([
+        '/images/brands/casa-valentina/lookbook/look-01.jpg',
+        '/images/brands/casa-valentina/lookbook/look-02.jpg',
+        '/images/brands/casa-valentina/lookbook/look-03.jpg',
+        '/images/brands/casa-valentina/lookbook/look-04.jpg',
+        '/images/brands/casa-valentina/lookbook/look-05.jpg',
+      ]),
+      featured: true,
+    },
+  })
+
+  const cvShirt = await prisma.product.create({
+    data: {
+      collectionId: cvCollection.id,
+      name: 'Italian Linen Shirt',
+      slug: 'italian-linen-shirt',
+      description: 'Classic linen shirt with refined details',
+      category: 'shirts',
+      price: 450,
+      fabricDetails: '100% Italian linen',
+      careInstructions: 'Machine wash gentle or dry clean',
+      colors: JSON.stringify(['White', 'Natural', 'Sky Blue']),
+      featured: true,
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: cvShirt.id, url: '/images/brands/casa-valentina/products/linen-shirt-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: cvShirt.id, size: 'XS', inStock: true, quantity: 10 },
+      { productId: cvShirt.id, size: 'S', inStock: true, quantity: 12 },
+      { productId: cvShirt.id, size: 'M', inStock: true, quantity: 15 },
+      { productId: cvShirt.id, size: 'L', inStock: true, quantity: 8 },
+      { productId: cvShirt.id, size: 'XL', inStock: true, quantity: 5 },
+    ],
+  })
+
+  const cvPants = await prisma.product.create({
+    data: {
+      collectionId: cvCollection.id,
+      name: 'Wide-Leg Resort Pants',
+      slug: 'resort-pants',
+      description: 'Flowing wide-leg pants perfect for coastal elegance',
+      category: 'pants',
+      price: 520,
+      fabricDetails: 'Linen-silk blend',
+      careInstructions: 'Dry clean recommended',
+      colors: JSON.stringify(['Cream', 'Sand', 'Terracotta']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: cvPants.id, url: '/images/brands/casa-valentina/products/resort-pants-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: cvPants.id, size: 'XS', inStock: true, quantity: 6 },
+      { productId: cvPants.id, size: 'S', inStock: true, quantity: 10 },
+      { productId: cvPants.id, size: 'M', inStock: true, quantity: 12 },
+      { productId: cvPants.id, size: 'L', inStock: true, quantity: 8 },
+    ],
+  })
+
+  const cvDress = await prisma.product.create({
+    data: {
+      collectionId: cvCollection.id,
+      name: 'Silk Evening Dress',
+      slug: 'silk-evening-dress',
+      description: 'Elegant silk dress for special occasions',
+      category: 'evening wear',
+      price: 1680,
+      fabricDetails: 'Pure silk satin',
+      careInstructions: 'Dry clean only',
+      colors: JSON.stringify(['Champagne', 'Midnight Blue', 'Ruby']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: cvDress.id, url: '/images/brands/casa-valentina/products/evening-dress-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: cvDress.id, size: 'XS', inStock: true, quantity: 4 },
+      { productId: cvDress.id, size: 'S', inStock: true, quantity: 5 },
+      { productId: cvDress.id, size: 'M', inStock: true, quantity: 6 },
+      { productId: cvDress.id, size: 'L', inStock: true, quantity: 4 },
+    ],
+  })
+
+  console.log('✓ Created brand: Casa Valentina')
+
+  // Brand 4: Noir & Ivoire
+  const noirIvoire = await prisma.brand.create({
+    data: {
+      name: 'Noir & Ivoire',
+      slug: 'noir-ivoire',
+      description: 'Monochromatic mastery in modern tailoring. Where black meets white in perfect harmony.',
+      story: 'Noir & Ivoire is the vision of Belgian designer Anaïs De Smet, who believes in the power of monochrome. Focusing exclusively on black and white pieces, we create a cohesive wardrobe philosophy that emphasizes versatility and elegance. Known for impeccable tailoring and innovative fabric combinations, each piece is designed to be a building block in a sophisticated, minimal wardrobe.',
+      videoUrl: 'https://player.vimeo.com/video/example4',
+      coverImage: '/images/brands/noir-ivoire/campaign/hero.jpg',
+      founded: '2019',
+      location: 'Antwerp, Belgium',
+      aesthetic: JSON.stringify(['shirts', 'pants', 'co-ord sets', 'minimalist', 'tailored', 'monochrome']),
+      featured: true,
+    },
+  })
+
+  await prisma.brandFeature.createMany({
+    data: [
+      { brandId: noirIvoire.id, title: 'Minimalist Icon', publication: 'WWD', date: '2024' },
+      { brandId: noirIvoire.id, title: 'Tailoring Excellence', publication: 'Business of Fashion', date: '2023' },
+    ],
+  })
+
+  const niCollection = await prisma.collection.create({
+    data: {
+      brandId: noirIvoire.id,
+      name: 'Monochrome',
+      slug: 'monochrome',
+      description: 'The art of black and white. Timeless pieces for the modern wardrobe.',
+      season: 'Fall/Winter',
+      year: '2024',
+      coverImage: '/images/brands/noir-ivoire/lookbook/look-01.jpg',
+      lookbookImages: JSON.stringify([
+        '/images/brands/noir-ivoire/lookbook/look-01.jpg',
+        '/images/brands/noir-ivoire/lookbook/look-02.jpg',
+        '/images/brands/noir-ivoire/lookbook/look-03.jpg',
+        '/images/brands/noir-ivoire/lookbook/look-04.jpg',
+        '/images/brands/noir-ivoire/lookbook/look-05.jpg',
+      ]),
+      featured: true,
+    },
+  })
+
+  const niBlazer = await prisma.product.create({
+    data: {
+      collectionId: niCollection.id,
+      name: 'Tailored Black Blazer',
+      slug: 'tailored-black-blazer',
+      description: 'Perfectly tailored blazer with peak lapels',
+      category: 'evening wear',
+      price: 1350,
+      fabricDetails: 'Italian wool with silk lining',
+      careInstructions: 'Dry clean only',
+      colors: JSON.stringify(['Black', 'White']),
+      featured: true,
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: niBlazer.id, url: '/images/brands/noir-ivoire/products/blazer-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: niBlazer.id, size: 'XS', inStock: true, quantity: 4 },
+      { productId: niBlazer.id, size: 'S', inStock: true, quantity: 8 },
+      { productId: niBlazer.id, size: 'M', inStock: true, quantity: 10 },
+      { productId: niBlazer.id, size: 'L', inStock: true, quantity: 6 },
+    ],
+  })
+
+  const niPants = await prisma.product.create({
+    data: {
+      collectionId: niCollection.id,
+      name: 'Contrast Stitch Pants',
+      slug: 'contrast-stitch-pants',
+      description: 'Wide-leg pants with contrast topstitching',
+      category: 'pants',
+      price: 720,
+      fabricDetails: 'Italian cotton-wool blend',
+      careInstructions: 'Dry clean recommended',
+      colors: JSON.stringify(['Black', 'White']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: niPants.id, url: '/images/brands/noir-ivoire/products/pants-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: niPants.id, size: 'XS', inStock: true, quantity: 5 },
+      { productId: niPants.id, size: 'S', inStock: true, quantity: 10 },
+      { productId: niPants.id, size: 'M', inStock: true, quantity: 12 },
+      { productId: niPants.id, size: 'L', inStock: true, quantity: 8 },
+    ],
+  })
+
+  const niCoord = await prisma.product.create({
+    data: {
+      collectionId: niCollection.id,
+      name: 'Monochrome Co-ord Set',
+      slug: 'monochrome-coord-set',
+      description: 'Two-piece set with architectural lines',
+      category: 'co-ord sets',
+      price: 1450,
+      fabricDetails: 'Cotton-silk blend',
+      careInstructions: 'Dry clean only',
+      colors: JSON.stringify(['Black & White', 'White & Black']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: niCoord.id, url: '/images/brands/noir-ivoire/products/coord-set-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: niCoord.id, size: 'XS', inStock: true, quantity: 4 },
+      { productId: niCoord.id, size: 'S', inStock: true, quantity: 6 },
+      { productId: niCoord.id, size: 'M', inStock: true, quantity: 8 },
+      { productId: niCoord.id, size: 'L', inStock: false, quantity: 0 },
+    ],
+  })
+
+  console.log('✓ Created brand: Noir & Ivoire')
+
+  // Brand 5: Luna Rosa
+  const lunaRosa = await prisma.brand.create({
+    data: {
+      name: 'Luna Rosa',
+      slug: 'luna-rosa',
+      description: 'Bohemian luxury with an ethereal touch. Dreamy designs inspired by Mediterranean summers.',
+      story: 'Luna Rosa brings the romance of Mediterranean summers to life through dreamy, feminine designs. Founded by Spanish designer Isabella Martínez, we draw inspiration from coastal landscapes, ancient textiles, and the golden hour light of Ibiza. Using organic linens, silk chiffons, and hand-embroidered details, Luna Rosa creates pieces that feel both timeless and contemporary.',
+      videoUrl: 'https://player.vimeo.com/video/example5',
+      coverImage: '/images/brands/luna-rosa/campaign/hero.jpg',
+      founded: '2017',
+      location: 'Barcelona, Spain',
+      aesthetic: JSON.stringify(['dresses', 'co-ord sets', 'tops', 'resortwear', 'bohemian', 'romantic']),
+      featured: true,
+    },
+  })
+
+  await prisma.brandFeature.createMany({
+    data: [
+      { brandId: lunaRosa.id, title: 'Bohemian Chic', publication: 'Elle', date: '2024' },
+      { brandId: lunaRosa.id, title: 'Summer Style', publication: 'Marie Claire', date: '2023' },
+    ],
+  })
+
+  const lrCollection = await prisma.collection.create({
+    data: {
+      brandId: lunaRosa.id,
+      name: 'Mediterranean Whispers',
+      slug: 'mediterranean-whispers',
+      description: 'Flowing silhouettes and delicate embroidery inspired by coastal magic.',
+      season: 'Summer/Spring',
+      year: '2024',
+      coverImage: '/images/brands/luna-rosa/lookbook/look-01.jpg',
+      lookbookImages: JSON.stringify([
+        '/images/brands/luna-rosa/lookbook/look-01.jpg',
+        '/images/brands/luna-rosa/lookbook/look-02.jpg',
+        '/images/brands/luna-rosa/lookbook/look-03.jpg',
+        '/images/brands/luna-rosa/lookbook/look-04.jpg',
+        '/images/brands/luna-rosa/lookbook/look-05.jpg',
+      ]),
+      featured: true,
+    },
+  })
+
+  const lrMaxi = await prisma.product.create({
+    data: {
+      collectionId: lrCollection.id,
+      name: 'Embroidered Maxi Dress',
+      slug: 'embroidered-maxi-dress',
+      description: 'Flowing maxi dress with hand-embroidered details',
+      category: 'dresses',
+      price: 950,
+      fabricDetails: '100% organic cotton with silk embroidery',
+      careInstructions: 'Hand wash cold or dry clean',
+      colors: JSON.stringify(['Ivory', 'Dusty Rose', 'Sage Green']),
+      featured: true,
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: lrMaxi.id, url: '/images/brands/luna-rosa/products/maxi-dress-01.jpg', order: 1, isPrimary: true },
+      { productId: lrMaxi.id, url: '/images/brands/luna-rosa/lookbook/look-02.jpg', order: 2 },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: lrMaxi.id, size: 'XS', inStock: true, quantity: 6 },
+      { productId: lrMaxi.id, size: 'S', inStock: true, quantity: 10 },
+      { productId: lrMaxi.id, size: 'M', inStock: true, quantity: 12 },
+      { productId: lrMaxi.id, size: 'L', inStock: true, quantity: 8 },
+    ],
+  })
+
+  const lrCoord = await prisma.product.create({
+    data: {
+      collectionId: lrCollection.id,
+      name: 'Linen Co-ord Set',
+      slug: 'linen-coord-set',
+      description: 'Relaxed linen two-piece with delicate detailing',
+      category: 'co-ord sets',
+      price: 680,
+      fabricDetails: 'European linen',
+      careInstructions: 'Machine wash gentle',
+      colors: JSON.stringify(['Natural', 'White', 'Coral']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: lrCoord.id, url: '/images/brands/luna-rosa/products/linen-coord-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: lrCoord.id, size: 'XS', inStock: true, quantity: 8 },
+      { productId: lrCoord.id, size: 'S', inStock: true, quantity: 12 },
+      { productId: lrCoord.id, size: 'M', inStock: true, quantity: 14 },
+      { productId: lrCoord.id, size: 'L', inStock: true, quantity: 10 },
+    ],
+  })
+
+  const lrCami = await prisma.product.create({
+    data: {
+      collectionId: lrCollection.id,
+      name: 'Silk Cami Top',
+      slug: 'silk-cami-top',
+      description: 'Delicate silk camisole with lace trim',
+      category: 'tops',
+      price: 380,
+      fabricDetails: 'Pure silk charmeuse with French lace',
+      careInstructions: 'Hand wash or dry clean',
+      colors: JSON.stringify(['Blush', 'Ivory', 'Champagne']),
+    },
+  })
+
+  await prisma.productImage.createMany({
+    data: [
+      { productId: lrCami.id, url: '/images/brands/luna-rosa/products/silk-cami-01.jpg', order: 1, isPrimary: true },
+    ],
+  })
+
+  await prisma.productSize.createMany({
+    data: [
+      { productId: lrCami.id, size: 'XS', inStock: true, quantity: 10 },
+      { productId: lrCami.id, size: 'S', inStock: true, quantity: 15 },
+      { productId: lrCami.id, size: 'M', inStock: true, quantity: 15 },
+      { productId: lrCami.id, size: 'L', inStock: true, quantity: 10 },
+    ],
+  })
+
+  console.log('✓ Created brand: Luna Rosa')
+
+  console.log('\n✅ Database seeded successfully!')
+  console.log(`\nCreated:`)
+  console.log(`- 5 luxury brands`)
+  console.log(`- 5 collections`)
+  console.log(`- 15 products`)
+  console.log(`- 47+ product images (local paths)`)
+  console.log(`- 10 brand features`)
 }
 
 main()
@@ -561,8 +670,7 @@ main()
     await prisma.$disconnect()
   })
   .catch(async (e) => {
-    console.error('Error seeding database:', e)
+    console.error(e)
     await prisma.$disconnect()
     process.exit(1)
   })
-

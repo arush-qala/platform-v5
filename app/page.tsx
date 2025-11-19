@@ -28,6 +28,12 @@ interface Collection {
 const categories = ['Everything', 'Dresses', 'Co-ord Sets', 'Evening Wear', 'Tops', 'Shirts', 'Pants']
 const seasons = ['Everyone', 'Summer/Spring', 'Fall/Winter', 'Resortwear']
 
+const slideshowImages = [
+  '/images/homepage/slide-01.jpg',
+  '/images/homepage/slide-02.jpg',
+  '/images/homepage/slide-03.jpg',
+]
+
 export default function Home() {
   const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
@@ -35,9 +41,19 @@ export default function Home() {
   const [selectedSeason, setSelectedSeason] = useState('Everyone')
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
   const [showSeasonDropdown, setShowSeasonDropdown] = useState(false)
+  const [slideIndex, setSlideIndex] = useState(0)
 
   useEffect(() => {
     fetchBrands('Everything', 'Everyone')
+  }, [])
+
+  // Slideshow auto-advance
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSlideIndex((prev) => (prev + 1) % slideshowImages.length)
+    }, 5000) // Change slide every 5 seconds
+
+    return () => clearInterval(interval)
   }, [])
 
   const fetchBrands = async (category: string, season: string) => {
@@ -99,19 +115,24 @@ export default function Home() {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image Slideshow */}
         <div className="absolute inset-0 z-0">
-          <motion.div
-            className="relative w-full h-full"
-            animate={{ opacity: [0.7, 0.5, 0.7] }}
-            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <Image
-              src="https://images.unsplash.com/photo-1558769132-cb1aea2f783d?q=80&w=2074"
-              alt="Luxury Fashion Background"
-              fill
-              className="object-cover"
-              priority
-            />
-          </motion.div>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={slideIndex}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.6 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              className="absolute inset-0"
+            >
+              <Image
+                src={slideshowImages[slideIndex]}
+                alt={`Luxury Fashion Background ${slideIndex + 1}`}
+                fill
+                className="object-cover"
+                priority={slideIndex === 0}
+              />
+            </motion.div>
+          </AnimatePresence>
           <div className="absolute inset-0 bg-cream/80 backdrop-blur-sm" />
         </div>
 
