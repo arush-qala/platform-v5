@@ -152,19 +152,44 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Hero Section */}
-      <section className="max-w-[1920px] mx-auto px-6 md:px-12 py-20">
+      {/* Hero Section with Dual Selector */}
+      <section className="max-w-[1920px] mx-auto px-6 md:px-12 py-20 min-h-[60vh] flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-center mb-16"
+          className="text-center w-full"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-cormorant text-deep-charcoal mb-6 font-light leading-tight">
-            We curate Luxury
-          </h1>
-          <p className="text-xl md:text-2xl text-taupe font-light max-w-3xl mx-auto leading-relaxed">
-            for Boutiques
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-cormorant text-deep-charcoal mb-12 font-light">
+            I want to find
+          </h2>
+          
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-xl md:text-2xl lg:text-3xl mb-8">
+            <button
+              onClick={() => setShowFilterPanel(!showFilterPanel)}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
+            >
+              <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
+                {selectedCategory}
+              </span>
+              <ChevronDown className="w-6 h-6 text-taupe group-hover:text-gold-accent transition-all group-hover:translate-y-1" />
+            </button>
+            
+            <span className="text-taupe font-light">for</span>
+            
+            <button
+              onClick={() => setShowFilterPanel(!showFilterPanel)}
+              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
+            >
+              <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
+                {selectedSeason}
+              </span>
+              <ChevronDown className="w-6 h-6 text-taupe group-hover:text-gold-accent transition-all group-hover:translate-y-1" />
+            </button>
+          </div>
+
+          <p className="text-sm text-taupe">
+            {brands.length} {brands.length === 1 ? 'brand' : 'brands'} discovered
           </p>
         </motion.div>
       </section>
