@@ -135,46 +135,39 @@ export default function CollectionPage() {
         <div className="w-32" /> {/* Spacer for centering */}
       </header>
 
-      {/* Product Section */}
-      <main className="flex-shrink-0">
-        {/* Split Layout: Carousel (top 50vh) and Details (bottom 50vh) */}
-        <div className="grid grid-rows-2" style={{ height: 'calc(100vh - 88px)' }}>
-          {/* Product Carousel - Top Half */}
-          <div className="relative overflow-hidden">
-            <ProductCarousel
-              products={collection.products}
-              activeIndex={activeProductIndex}
-              onIndexChange={setActiveProductIndex}
-            />
-          </div>
+      {/* Product Carousel - Fixed at Top */}
+      <div className="relative h-[50vh] overflow-hidden bg-gray-50">
+        <ProductCarousel
+          products={collection.products}
+          activeIndex={activeProductIndex}
+          onIndexChange={setActiveProductIndex}
+        />
+      </div>
 
-          {/* Product Details - Bottom Half */}
-          <div className="relative overflow-hidden">
-            <motion.div
-              key={activeProductIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="h-full"
-            >
-              <ProductDetails 
-                product={activeProduct} 
-                brandName={collection.brand.name}
-                brandSlug={collection.brand.slug}
-              />
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Virtual Try-On Section Indicator */}
-        <div className="bg-gray-100 border-t border-gray-300 px-6 py-4 text-center">
-          <p className="text-sm text-gray-600 uppercase tracking-wider">
-            ↓ Scroll down for Virtual Try-On Experience ↓
-          </p>
-        </div>
+      {/* Product Details Section - Scrollable */}
+      <main className="bg-white">
+        <motion.div
+          key={activeProductIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <ProductDetails 
+            product={activeProduct} 
+            brandName={collection.brand.name}
+            brandSlug={collection.brand.slug}
+          />
+        </motion.div>
       </main>
 
-      {/* Virtual Try-On Section - Below Main Content */}
+      {/* Virtual Try-On Section Indicator */}
+      <div className="bg-gray-100 border-t border-gray-300 px-6 py-4 text-center">
+        <p className="text-sm text-gray-600 uppercase tracking-wider">
+          Virtual Try-On Experience
+        </p>
+      </div>
+
+      {/* Virtual Try-On Section - Directly Below Product Details */}
       <VirtualTryOn
         productName={activeProduct.name}
         productImage={activeProduct.images[0]?.url || ''}
