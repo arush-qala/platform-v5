@@ -119,18 +119,18 @@ export default function CollectionPage() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-ivory border-b border-warm-grey px-6 md:px-12 py-6 flex items-center justify-between">
+      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 px-6 md:px-12 py-6 flex items-center justify-between">
         <Link
           href={`/brands/${collection.brand.slug}`}
-          className="text-lg font-cormorant text-deep-charcoal hover:text-gold-accent transition-colors"
+          className="text-sm font-light text-gray-600 hover:text-black transition-colors uppercase tracking-wider"
         >
           ← {collection.brand.name}
         </Link>
         <div className="text-center">
-          <h1 className="text-2xl md:text-3xl font-cormorant text-deep-charcoal">
+          <h1 className="text-2xl md:text-3xl font-light text-black">
             {collection.name}
           </h1>
-          <p className="text-sm text-taupe">{collection.season} • {collection.products.length} Pieces</p>
+          <p className="text-sm text-gray-500">{collection.season} • {collection.products.length} Pieces</p>
         </div>
         <div className="w-32" /> {/* Spacer for centering */}
       </header>
@@ -157,14 +157,18 @@ export default function CollectionPage() {
               transition={{ duration: 0.4 }}
               className="h-full"
             >
-              <ProductDetails product={activeProduct} />
+              <ProductDetails 
+                product={activeProduct} 
+                brandName={collection.brand.name}
+                brandSlug={collection.brand.slug}
+              />
             </motion.div>
           </div>
         </div>
 
         {/* Virtual Try-On Section Indicator */}
-        <div className="bg-sand/50 border-t border-warm-grey px-6 py-3 text-center">
-          <p className="text-sm text-taupe">
+        <div className="bg-gray-100 border-t border-gray-300 px-6 py-4 text-center">
+          <p className="text-sm text-gray-600 uppercase tracking-wider">
             ↓ Scroll down for Virtual Try-On Experience ↓
           </p>
         </div>

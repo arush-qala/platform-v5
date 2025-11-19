@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Minus, Package } from 'lucide-react'
+import { Plus, Minus } from 'lucide-react'
+import Link from 'next/link'
 
 interface ProductSize {
   id: string
@@ -25,14 +26,15 @@ interface Product {
 
 interface ProductDetailsProps {
   product: Product
+  brandName?: string
+  brandSlug?: string
 }
 
-export function ProductDetails({ product }: ProductDetailsProps) {
+export function ProductDetails({ product, brandName, brandSlug }: ProductDetailsProps) {
   const [quantities, setQuantities] = useState<Record<string, number>>(
     product.sizes.reduce((acc, size) => ({ ...acc, [size.size]: 0 }), {})
   )
-  const [showBrandKit, setShowBrandKit] = useState(false)
-  const [customizationRequest, setCustomizationRequest] = useState('')
+  const [activeTab, setActiveTab] = useState('details')
 
   const colors = JSON.parse(product.colors)
 
@@ -46,69 +48,91 @@ export function ProductDetails({ product }: ProductDetailsProps) {
   const totalQuantity = Object.values(quantities).reduce((sum, qty) => sum + qty, 0)
   const totalPrice = totalQuantity * product.price
 
+  const tabs = [
+    { id: 'details', label: 'Details' },
+    { id: 'material', label: 'Material' },
+    { id: 'care', label: 'Wash & Care' },
+    { id: 'bulk', label: 'Bulk Price' },
+    { id: 'shipping', label: 'Shipping' },
+  ]
+
   return (
-    <div className="bg-ivory p-8 md:p-12 overflow-y-auto">
+    <div className="bg-white p-8 md:p-12 overflow-y-auto h-full">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-4xl"
+        className="max-w-4xl mx-auto"
       >
-        {/* Product Header */}
-        <div className="mb-8">
-          <p className="text-sm text-taupe uppercase tracking-wider mb-2">{product.category}</p>
-          <h2 className="text-4xl md:text-5xl font-cormorant text-deep-charcoal mb-4">
-            {product.name}
-          </h2>
-          <p className="text-3xl text-gold-accent font-light">
-            ${product.price.toFixed(2)}
-          </p>
-        </div>
+        {/* Brand Name (Clickable) */}
+        {brandName && brandSlug && (
+          <Link 
+            href={`/brands/${brandSlug}`}
+            className="block text-sm text-gray-500 hover:text-black uppercase tracking-widest mb-2 transition-colors"
+          >
+            {brandName}
+          </Link>
+        )}
+
+        {/* Product Name */}
+        <h2 className="text-4xl font-light text-black mb-2">
+          {product.name}
+        </h2>
+
+        {/* Product Category */}
+        <p className="text-base text-black mb-3">{product.category}</p>
+
+        {/* Price */}
+        <p className="text-2xl text-gray-600 mb-6">
+          ${product.price.toFixed(2)}
+        </p>
 
         {/* Description */}
         {product.description && (
-          <div className="mb-8">
-            <p className="text-taupe leading-relaxed">{product.description}</p>
+          <div className="mb-6">
+            <p className="text-gray-700 leading-relaxed">{product.description}</p>
           </div>
         )}
 
         {/* Available Colors */}
-        <div className="mb-8">
-          <h3 className="text-sm font-medium text-deep-charcoal mb-3 uppercase tracking-wider">
-            Available Colors
-          </h3>
-          <div className="flex flex-wrap gap-2">
+        <div className="mb-6">
+          <p className="text-sm text-black mb-2">
             {colors.map((color: string, index: number) => (
-              <span
-                key={index}
-                className="px-4 py-2 bg-sand text-charcoal text-sm rounded-sm"
-              >
+              <span key={index}>
                 {color}
+                {index < colors.length - 1 && '  '}
               </span>
             ))}
-          </div>
+          </p>
         </div>
 
-        {/* Size & Quantity Matrix */}
+        {/* Size Guide Link */}
+        <div className="mb-6">
+          <a href="#" className="text-sm text-black underline hover:text-gray-600 transition-colors uppercase tracking-wider">
+            SIZE GUIDE
+          </a>
+        </div>
+
+        {/* Size & Quantity Selection Matrix */}
         <div className="mb-8">
-          <h3 className="text-sm font-medium text-deep-charcoal mb-4 uppercase tracking-wider">
+          <h3 className="text-sm font-medium text-black mb-4 uppercase tracking-wider">
             Select Sizes & Quantities
           </h3>
           <div className="space-y-3">
             {product.sizes.map((size) => (
               <div
                 key={size.id}
-                className={`flex items-center justify-between p-4 border-2 rounded-sm transition-all ${
+                className={`flex items-center justify-between p-4 border transition-all ${
                   size.inStock
-                    ? 'border-warm-grey hover:border-gold-accent bg-surface'
-                    : 'border-warm-grey bg-sand opacity-50'
+                    ? 'border-gray-300 hover:border-black bg-white'
+                    : 'border-gray-200 bg-gray-50 opacity-50'
                 }`}
               >
                 <div className="flex items-center gap-4">
-                  <span className="text-lg font-medium text-deep-charcoal w-12">
+                  <span className="text-base font-normal text-black w-12">
                     {size.size}
                   </span>
-                  <span className="text-sm text-taupe">
+                  <span className="text-sm text-gray-500">
                     {size.inStock ? `${size.quantity} available` : 'Out of Stock'}
                   </span>
                 </div>
@@ -117,19 +141,19 @@ export function ProductDetails({ product }: ProductDetailsProps) {
                     <button
                       onClick={() => handleQuantityChange(size.size, -1)}
                       disabled={quantities[size.size] === 0}
-                      className="w-8 h-8 flex items-center justify-center bg-sand hover:bg-warm-grey disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-sm"
+                      className="w-10 h-10 flex items-center justify-center border border-gray-300 hover:border-black disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
-                      <Minus className="w-4 h-4 text-charcoal" />
+                      <Minus className="w-4 h-4 text-black" />
                     </button>
-                    <span className="w-12 text-center text-lg font-medium text-deep-charcoal">
+                    <span className="w-12 text-center text-base font-normal text-black">
                       {quantities[size.size]}
                     </span>
                     <button
                       onClick={() => handleQuantityChange(size.size, 1)}
                       disabled={quantities[size.size] >= size.quantity}
-                      className="w-8 h-8 flex items-center justify-center bg-sand hover:bg-warm-grey disabled:opacity-30 disabled:cursor-not-allowed transition-colors rounded-sm"
+                      className="w-10 h-10 flex items-center justify-center border border-gray-300 hover:border-black disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                     >
-                      <Plus className="w-4 h-4 text-charcoal" />
+                      <Plus className="w-4 h-4 text-black" />
                     </button>
                   </div>
                 )}
@@ -138,99 +162,137 @@ export function ProductDetails({ product }: ProductDetailsProps) {
           </div>
         </div>
 
-        {/* Brand Kit Option */}
-        <div className="mb-8">
-          <button
-            onClick={() => setShowBrandKit(!showBrandKit)}
-            className="flex items-center gap-3 w-full p-4 border-2 border-warm-grey hover:border-gold-accent bg-surface rounded-sm transition-all"
-          >
-            <Package className="w-5 h-5 text-gold-accent" />
-            <div className="flex-1 text-left">
-              <p className="text-lg font-medium text-deep-charcoal">Add Brand Kit</p>
-              <p className="text-sm text-taupe">
-                Includes catalog, hand block & up to 3 samples
-              </p>
-            </div>
-            <div className="text-right">
-              <p className="text-xl text-gold-accent">$75</p>
-            </div>
-          </button>
-          {showBrandKit && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              className="mt-4 p-4 bg-sand/50 rounded-sm"
-            >
-              <p className="text-sm text-taupe">
-                The brand kit will help you better understand the quality and aesthetic of the collection.
-              </p>
-            </motion.div>
-          )}
-        </div>
-
-        {/* Customization Request */}
-        <div className="mb-8">
-          <h3 className="text-sm font-medium text-deep-charcoal mb-3 uppercase tracking-wider">
-            Customization Request (Optional)
-          </h3>
-          <textarea
-            value={customizationRequest}
-            onChange={(e) => setCustomizationRequest(e.target.value)}
-            placeholder="Describe any customizations you'd like to request..."
-            rows={4}
-            className="w-full px-4 py-3 border-2 border-warm-grey focus:border-gold-accent bg-surface rounded-sm resize-none focus:outline-none transition-colors"
-          />
-        </div>
-
-        {/* Fabric Details */}
-        {product.fabricDetails && (
-          <div className="mb-6">
-            <h3 className="text-sm font-medium text-deep-charcoal mb-2 uppercase tracking-wider">
-              Fabric Details
-            </h3>
-            <p className="text-taupe text-sm leading-relaxed">{product.fabricDetails}</p>
-          </div>
-        )}
-
-        {/* Care Instructions */}
-        {product.careInstructions && (
-          <div className="mb-8">
-            <h3 className="text-sm font-medium text-deep-charcoal mb-2 uppercase tracking-wider">
-              Care Instructions
-            </h3>
-            <p className="text-taupe text-sm leading-relaxed">{product.careInstructions}</p>
-          </div>
-        )}
-
         {/* Order Summary */}
         {totalQuantity > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="sticky bottom-0 left-0 right-0 bg-deep-charcoal text-ivory p-6 rounded-sm mb-6"
+            className="bg-gray-100 p-6 mb-8"
           >
             <div className="flex items-center justify-between mb-4">
               <div>
-                <p className="text-sm text-warm-grey mb-1">Total Quantity</p>
-                <p className="text-2xl font-cormorant">{totalQuantity} pieces</p>
+                <p className="text-sm text-gray-600 mb-1">Total Quantity</p>
+                <p className="text-xl font-light">{totalQuantity} pieces</p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-warm-grey mb-1">Estimated Total</p>
-                <p className="text-3xl font-cormorant text-gold-accent">
+                <p className="text-sm text-gray-600 mb-1">Estimated Total</p>
+                <p className="text-2xl font-light text-black">
                   ${totalPrice.toFixed(2)}
                 </p>
               </div>
             </div>
-            <button className="w-full py-4 bg-gold-accent hover:bg-warm-grey text-deep-charcoal font-medium rounded-sm transition-all">
+            <button className="w-full py-4 bg-black hover:bg-gray-800 text-white font-normal transition-all uppercase tracking-wider text-sm">
               Send Enquiry
             </button>
           </motion.div>
         )}
 
+        {/* Tabs Section */}
+        <div className="mb-8 border-t border-gray-200 pt-8">
+          {/* Tab Headers */}
+          <div className="flex gap-8 border-b border-gray-200 mb-6">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`pb-3 text-sm transition-colors uppercase tracking-wider ${
+                  activeTab === tab.id
+                    ? 'text-black border-b-2 border-black font-medium'
+                    : 'text-gray-500 hover:text-black'
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Tab Content */}
+          <div className="text-gray-700 leading-relaxed">
+            {activeTab === 'details' && (
+              <div>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                  Product details
+                </h4>
+                {product.description ? (
+                  <p className="mb-4">{product.description}</p>
+                ) : (
+                  <p>Sculptural dress with asymmetric draping and architectural details</p>
+                )}
+                <ul className="list-disc list-inside space-y-1 text-sm">
+                  <li>Relaxed fit, full length sleeves</li>
+                  <li>The model is wearing size M</li>
+                  <li>No. of components - 1</li>
+                </ul>
+              </div>
+            )}
+
+            {activeTab === 'material' && (
+              <div>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                  Material
+                </h4>
+                {product.fabricDetails ? (
+                  <p>{product.fabricDetails}</p>
+                ) : (
+                  <p>100% premium quality fabric with sustainable production methods.</p>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'care' && (
+              <div>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                  Wash & Care
+                </h4>
+                {product.careInstructions ? (
+                  <p>{product.careInstructions}</p>
+                ) : (
+                  <>
+                    <p className="mb-2">Wash care - Dry clean only</p>
+                    <p className="text-sm">
+                      Disclaimer: This product will be exclusively handcrafted for you, making the 
+                      colour/texture/pattern slightly vary from the image shown, due to multiple 
+                      artisan-led techniques and processes involved.
+                    </p>
+                  </>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'bulk' && (
+              <div>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                  Bulk Price
+                </h4>
+                <p className="mb-4">Special pricing available for bulk orders:</p>
+                <ul className="space-y-2 text-sm">
+                  <li>10-50 pieces: 10% discount</li>
+                  <li>51-100 pieces: 15% discount</li>
+                  <li>100+ pieces: Custom pricing - contact us</li>
+                </ul>
+              </div>
+            )}
+
+            {activeTab === 'shipping' && (
+              <div>
+                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                  Shipping
+                </h4>
+                <p className="mb-4">We ship worldwide with the following options:</p>
+                <ul className="space-y-2 text-sm">
+                  <li>Standard Shipping: 7-14 business days</li>
+                  <li>Express Shipping: 3-5 business days</li>
+                  <li>Free shipping on orders over $500</li>
+                </ul>
+              </div>
+            )}
+          </div>
+        </div>
+
         {/* Empty State CTA */}
         {totalQuantity === 0 && (
-          <div className="text-center py-8">
-            <p className="text-taupe mb-4">
+          <div className="text-center py-8 border-t border-gray-200">
+            <p className="text-gray-500 text-sm">
               Select sizes and quantities to send an enquiry
             </p>
           </div>
