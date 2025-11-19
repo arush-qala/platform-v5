@@ -114,71 +114,71 @@ export default function Home() {
               </AnimatePresence>
             </div>
             
-              <span className="text-deep-charcoal">&</span>
-              <span className="text-deep-charcoal">my boutique is</span>
-              
-              {/* Season Dropdown - Inline */}
-              <div className="relative inline-block">
-                <button
-                  onClick={() => {
-                    setShowSeasonDropdown(!showSeasonDropdown)
-                    setShowCategoryDropdown(false)
-                  }}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
-                >
-                  <span className="font-normal text-deep-charcoal">
-                    {selectedSeason}
-                  </span>
-                  <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
-                </button>
+            <span className="text-deep-charcoal">&</span>
+            <span className="text-deep-charcoal">my boutique is</span>
+            
+            {/* Season Dropdown - Inline */}
+            <div className="relative inline-block">
+              <button
+                onClick={() => {
+                  setShowSeasonDropdown(!showSeasonDropdown)
+                  setShowCategoryDropdown(false)
+                }}
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
+              >
+                <span className="font-normal text-deep-charcoal">
+                  {selectedSeason}
+                </span>
+                <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+              </button>
 
-                {/* Season Modal Overlay */}
-                <AnimatePresence>
-                  {showSeasonDropdown && (
+              {/* Season Modal Overlay */}
+              <AnimatePresence>
+                {showSeasonDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
+                    onClick={() => setShowSeasonDropdown(false)}
+                  >
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
-                      onClick={() => setShowSeasonDropdown(false)}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      className="relative max-w-4xl w-full px-6"
+                      onClick={(e) => e.stopPropagation()}
                     >
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="relative max-w-4xl w-full px-6"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex flex-wrap justify-center gap-3">
-                          {seasons.map((season) => (
-                            <button
-                              key={season}
-                              onClick={() => handleSeasonSelect(season)}
-                              className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
-                                selectedSeason === season
-                                  ? 'bg-deep-charcoal text-ivory'
-                                  : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
-                              }`}
-                            >
-                              {season}
-                            </button>
-                          ))}
-                        </div>
-                      </motion.div>
+                      <div className="flex flex-wrap justify-center gap-3">
+                        {seasons.map((season) => (
+                          <button
+                            key={season}
+                            onClick={() => handleSeasonSelect(season)}
+                            className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
+                              selectedSeason === season
+                                ? 'bg-deep-charcoal text-ivory'
+                                : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
+                            }`}
+                          >
+                            {season}
+                          </button>
+                        ))}
+                      </div>
                     </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-
-            {/* Find Button */}
-            <button
-              onClick={navigateToDiscover}
-              className="px-12 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 rounded-sm text-lg font-light"
-            >
-              Find
-            </button>
           </div>
+
+          {/* Find Button */}
+          <button
+            onClick={navigateToDiscover}
+            className="px-12 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 rounded-sm text-lg font-light"
+          >
+            Find
+          </button>
+        </div>
 
         </motion.div>
       </section>
