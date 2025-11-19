@@ -1,22 +1,25 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
-import SmoothScrollProvider from "@/components/SmoothScrollProvider";
-import Navigation from "@/components/Navigation";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Qala - Next Generation Luxury Sourcing Platform",
-  description: "Discover new age independent designer fashion labels for hi-end and luxury niche boutiques",
+  title: "Qala - Luxury Fashion Sourcing Platform",
+  description: "Discover exceptional independent designer fashion labels for your boutique. The next generation luxury sourcing platform connecting discerning buyers with emerging designers.",
+  keywords: "luxury fashion, designer brands, boutique sourcing, B2B fashion platform, independent designers",
 };
 
 export default function RootLayout({
@@ -25,14 +28,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="smooth-scroll">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${cormorant.variable} ${inter.variable} antialiased`}
       >
-        <SmoothScrollProvider>
-          <Navigation />
-          {children}
-        </SmoothScrollProvider>
+        {children}
       </body>
     </html>
   );

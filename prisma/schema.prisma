@@ -1,0 +1,167 @@
+// Qala Platform - Luxury B2B Fashion Sourcing Platform Schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Brand {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  story       String?
+  videoUrl    String?
+  logoUrl     String?
+  coverImage  String?
+  founded     String?
+  location    String?
+  aesthetic   String   // JSON stringified array
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  collections Collection[]
+  messages    Message[]
+  features    BrandFeature[]
+
+  @@index([slug])
+}
+
+model BrandFeature {
+  id          String @id @default(cuid())
+  brandId     String
+  title       String
+  publication String
+  url         String?
+  imageUrl    String?
+  date        String?
+
+  brand Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
+
+  @@index([brandId])
+}
+
+model Collection {
+  id              String   @id @default(cuid())
+  brandId         String
+  name            String
+  slug            String
+  description     String?
+  season          String   // Summer/Spring, Fall/Winter, Resortwear
+  year            String?
+  coverImage      String?
+  lookbookImages  String   // JSON stringified array
+  featured        Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  brand    Brand     @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  products Product[]
+
+  @@unique([brandId, slug])
+  @@index([brandId])
+  @@index([season])
+}
+
+model Product {
+  id               String   @id @default(cuid())
+  collectionId     String
+  name             String
+  slug             String
+  description      String?
+  category         String   // dresses, co-ord sets, evening wear, tops, shirts, pants
+  price            Float
+  fabricDetails    String?
+  careInstructions String?
+  colors           String   // JSON stringified array
+  featured         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  collection    Collection      @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  images        ProductImage[]
+  sizes         ProductSize[]
+  customization Customization[]
+
+  @@unique([collectionId, slug])
+  @@index([collectionId])
+  @@index([category])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  url       String
+  alt       String?
+  order     Int     @default(0)
+  isPrimary Boolean @default(false)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+}
+
+model ProductSize {
+  id        String  @id @default(cuid())
+  productId String
+  size      String  // XS, S, M, L, XL, etc.
+  inStock   Boolean @default(true)
+  quantity  Int     @default(0)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, size])
+  @@index([productId])
+}
+
+model Customization {
+  id          String   @id @default(cuid())
+  productId   String
+  userId      String?
+  description String
+  status      String   @default("pending") // pending, approved, declined
+  createdAt   DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([productId])
+  @@index([userId])
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  storeName     String?
+  storeLocation String?
+  phone         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  messagesSent Message[]       @relation("SentMessages")
+  customization Customization[]
+
+  @@index([email])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  brandId   String
+  userId    String
+  content   String
+  createdAt DateTime @default(now())
+  read      Boolean  @default(false)
+
+  brand Brand @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  user  User  @relation("SentMessages", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([brandId])
+  @@index([userId])
+  @@index([createdAt])
+}

@@ -1,56 +1,59 @@
-# Qala Platform - Next Generation Luxury Sourcing Platform
+# Qala - Luxury Fashion Sourcing Platform
 
-A B2B platform for discovering and sourcing new age independent designer fashion labels for hi-end and luxury niche boutiques and retail stores globally.
+A Next Generation B2B platform connecting discerning boutique owners with independent designer fashion labels.
+
+## Overview
+
+Qala is a sophisticated B2B fashion sourcing platform designed for owners and buyers of luxury boutiques and retail stores. The platform provides an elegant, easy-to-use interface for discovering and sourcing unique designer pieces from emerging brands worldwide.
 
 ## Features
 
-### 🏠 Homepage
-- **Dual-Selector Filter Interface**: Natural language filter with two sequential dropdowns ("I want to find [Category] for [Season]")
-- **Brand Timeline Navigation**: Horizontal timeline slider with 5 designer brands, featuring smooth transitions and full-screen content displays
-- **Luxury Design Aesthetic**: Clean, minimalist UI with quiet, old money luxury color palette
+### ✨ Core Functionality
 
-### 🏪 Brand B2B Storefront
-- **Visual Storytelling**: High-definition brand videos, features, and publications
-- **Collections Gallery**: Grid view of brand collections with hover effects
-- **Featured Lookbook**: Clickable banner leading to horizontal scroll-triggered parallax gallery
-- **Chat Functionality**: Direct messaging with designers
+- **Intelligent Brand Discovery**: Dual-selector filter interface inspired by Pentagram's design for intuitive brand discovery
+- **Brand Timeline Navigation**: Interactive horizontal timeline showcasing 5 curated brands matching user preferences
+- **Brand B2B Storefront**: Visual storytelling pages featuring brand history, collections, and press features
+- **Horizontal Scroll Lookbooks**: Scroll-triggered parallax galleries for immersive collection viewing
+- **Product Carousel**: Instagram-style highlight reel with adjacent item preview for browsing products
+- **Smart Size & Quantity Selection**: Matrix-style interface for ordering multiple sizes efficiently
+- **Virtual Try-On**: AI-powered body shape customization with 3D runway visualization (placeholder ready for DressX/Vntana integration)
+- **Real-time Chat**: Direct messaging with brands for inquiries and customization requests
+- **Brand Kit Option**: Order samples, catalogs, and hand blocks to evaluate collections
 
-### 📸 Lookbook Gallery
-- **Horizontal Scroll Parallax**: Vertical scrolling drives horizontal content movement
-- **Full-Page Experience**: Each panel takes full viewport width
-- **Smooth Transitions**: Buttery smooth scroll experience with progress indicator
+### 🎨 Design System
 
-### 👗 Collection & Product View
-- **Centered Carousel**: Instagram-style highlight reel with adjacent item previews
-- **Product Details**: Comprehensive product information with size/quantity matrix
-- **Customization Options**: Request customizations for products
-- **Brand Kit Ordering**: Optional selection of keepsakes, catalog, hand block, and samples
-- **Virtual Try-On**: Body shape templates with customizable measurements
-- **Virtual Runway**: 3D render preview (placeholder for future implementation)
+**Old Money Luxury Aesthetic**
+- Cream (#FAF8F5), Ivory (#FFFEF9), Sand (#E8E2D5) base tones
+- Gold Accent (#B8956A) for highlights
+- Muted Rose (#D4ABA4) and Sage (#9CAA9E) for depth
+- Cormorant Garamond for elegant headings
+- Inter for clean, readable body text
 
-### 💳 Checkout & Enquiry
-- **Enquiry Form**: Complete form for submitting orders to designers
-- **Order Tracking**: Real-time tracking with automated updates
-- **Status Updates**: Visual progress indicators for order stages
+### 🏗️ Technical Architecture
 
-### 📊 Buyer Dashboard
-- **Order Management**: View all recent orders with status tracking
-- **Feedback System**: Rate and review brands and products
-- **Reorder Functionality**: Easy reordering from previous purchases
-- **Order History**: Complete order history with tracking links
+**Frontend**
+- Next.js 16 with App Router
+- React 19 with TypeScript
+- Framer Motion for smooth animations
+- GSAP for advanced scroll interactions
+- Lenis for buttery smooth scrolling
+- Tailwind CSS 4 for styling
 
-## Technology Stack
+**Backend**
+- Next.js API Routes
+- Prisma ORM for database operations
+- SQLite for development (easily switchable to PostgreSQL)
 
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
-- **Animations**: Framer Motion
-- **Smooth Scrolling**: Lenis
-- **Icons**: Lucide React
+**Database Schema**
+- Brand, Collection, Product models
+- ProductImage, ProductSize for variants
+- User, Message for chat functionality
+- Customization for bespoke requests
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js 18+ 
 - npm or yarn
 
@@ -60,73 +63,170 @@ A B2B platform for discovering and sourcing new age independent designer fashion
 # Install dependencies
 npm install
 
-# Run development server
+# Generate Prisma client
+npx prisma generate
+
+# Push database schema
+npx prisma db push
+
+# Seed database with sample brands
+npm run db:seed
+
+# Start development server
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+Visit `http://localhost:3000` to view the platform.
 
-### Build for Production
+### Database Management
 
 ```bash
-npm run build
-npm start
+# View database in Prisma Studio
+npm run db:studio
+
+# Reset and reseed database
+npx prisma db push --force-reset
+npm run db:seed
 ```
 
 ## Project Structure
 
 ```
-platform-v5/
-├── app/                    # Next.js app router pages
-│   ├── page.tsx           # Homepage
-│   ├── brand/             # Brand pages
-│   │   └── [id]/
-│   │       ├── page.tsx   # Brand storefront
-│   │       ├── lookbook/  # Lookbook gallery
-│   │       └── collection/[collectionId]/  # Collection view
-│   ├── checkout/          # Checkout/enquiry page
-│   ├── tracking/          # Order tracking
-│   └── dashboard/         # Buyer dashboard
-├── components/            # React components
-│   ├── DualSelectorFilter.tsx
-│   ├── BrandTimeline.tsx
-│   ├── Navigation.tsx
-│   └── SmoothScrollProvider.tsx
-├── data/                  # Mock data
-│   └── brands.ts
-├── types/                 # TypeScript types
-│   └── index.ts
-└── public/               # Static assets
+qala-platform/
+├── app/
+│   ├── api/                    # API routes
+│   │   ├── brands/            # Brand endpoints
+│   │   └── collections/       # Collection endpoints
+│   ├── brands/                # Brand pages
+│   │   └── [slug]/
+│   │       ├── page.tsx       # Brand storefront
+│   │       ├── collections/   # Collection pages
+│   │       └── lookbook/      # Lookbook galleries
+│   ├── globals.css            # Design system styles
+│   ├── layout.tsx             # Root layout
+│   └── page.tsx               # Homepage
+├── components/
+│   ├── chat/                  # Chat components
+│   ├── home/                  # Homepage components
+│   ├── products/              # Product components
+│   └── ui/                    # Reusable UI components
+├── lib/
+│   └── prisma.ts              # Prisma client
+├── prisma/
+│   ├── schema.prisma          # Database schema
+│   └── seed.ts                # Sample data
+└── public/                    # Static assets
 ```
 
-## Design Philosophy
+## Sample Brands
 
-The platform is designed with a **quiet, old money luxury** aesthetic:
-- Light, neutral color palettes (creams, beiges, soft grays)
-- Minimalist design with clean lines
-- Smooth, seamless transitions throughout
-- Intuitive navigation for users aged 40-60
-- Luxury feel without complexity
+The platform comes seeded with 5 fictional luxury brands:
 
-## Key User Flows
+1. **Maison Solène** - Contemporary Parisian elegance
+2. **Atelier Lumière** - Artistic, hand-painted textiles
+3. **Casa Valentina** - Italian sophistication
+4. **Noir & Ivoire** - Monochromatic mastery
+5. **Luna Rosa** - Bohemian luxury
 
-1. **Discovery**: Homepage → Filter → Browse Brands → Select Brand
-2. **Exploration**: Brand Page → View Collections → Explore Lookbook
-3. **Selection**: Collection → Product Carousel → Select Size/Quantity → Customize
-4. **Purchase**: Add to Enquiry → Checkout → Submit Enquiry
-5. **Tracking**: Dashboard → View Orders → Track Status → Leave Feedback
+Each brand includes:
+- 1-2 collections
+- 3+ products per collection
+- High-quality imagery
+- Complete product details
+
+## User Journey
+
+1. **Discovery**: Use dual-selector to filter by category and season
+2. **Browse**: Navigate brand timeline to explore matching brands
+3. **Explore**: Visit brand storefront to view story, collections, and press
+4. **View Lookbook**: Experience collections through horizontal scroll gallery
+5. **Shop Collection**: Use carousel to browse products with details below
+6. **Customize**: Select sizes/quantities, add customization requests
+7. **Try On**: Use virtual try-on to visualize products on different body shapes
+8. **Connect**: Chat with brand representatives for inquiries
+9. **Order**: Send enquiry with selected items and customizations
+
+## Customization
+
+### Switching to PostgreSQL
+
+1. Update `prisma/schema.prisma`:
+```prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+```
+
+2. Create `.env.local`:
+```
+DATABASE_URL="postgresql://user:password@localhost:5432/qala"
+```
+
+3. Run migrations:
+```bash
+npx prisma db push
+npm run db:seed
+```
+
+### Virtual Try-On Integration
+
+The platform includes a sophisticated placeholder for virtual try-on functionality. To integrate with DressX or Vntana:
+
+1. Obtain API credentials from your chosen provider
+2. Update `components/products/VirtualTryOn.tsx`
+3. Implement API calls for 3D model generation
+4. Replace placeholder video with actual rendered output
+
+### Real-time Chat
+
+Current implementation uses simulated responses. To add real-time functionality:
+
+1. Install Socket.io: `npm install socket.io socket.io-client`
+2. Create WebSocket server in `app/api/socket/route.ts`
+3. Update `components/chat/ChatPanel.tsx` with Socket.io client
+4. Connect to your preferred messaging backend
+
+## Performance Optimizations
+
+- Image optimization with Next.js Image component
+- Lazy loading for off-screen content
+- Smooth scroll with Lenis
+- Hardware-accelerated animations with Framer Motion
+- Code splitting with dynamic imports
+
+## Browser Support
+
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
 
 ## Future Enhancements
 
-- [ ] Real 3D virtual try-on integration
-- [ ] Virtual runway with actual 3D renders
-- [ ] Real-time chat functionality
-- [ ] Backend API integration
-- [ ] Payment processing
-- [ ] Advanced search and filtering
-- [ ] Saved favorites/wishlist
+- [ ] User authentication and profiles
+- [ ] Order tracking and management
+- [ ] Wishlist and saved collections
+- [ ] Email notifications
+- [ ] Invoice generation
 - [ ] Multi-language support
+- [ ] Currency conversion
+- [ ] Mobile app (React Native)
+- [ ] AI-powered style recommendations
+- [ ] Blockchain-based authenticity verification
+
+## Contributing
+
+This is a proprietary platform. For inquiries about contributing or licensing, please contact the development team.
 
 ## License
 
-Private - Qala Platform
+Copyright © 2024 Qala Platform. All rights reserved.
+
+## Support
+
+For technical support or feature requests, please reach out through the appropriate channels.
+
+---
+
+Built with ❤️ for the luxury fashion industry
