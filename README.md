@@ -10,10 +10,10 @@ Qala is a sophisticated B2B fashion sourcing platform designed for owners and bu
 
 ### ✨ Core Functionality
 
-- **Intelligent Brand Discovery**: Dual-selector filter interface inspired by Pentagram's design for intuitive brand discovery
-- **Brand Timeline Navigation**: Interactive horizontal timeline showcasing 5 curated brands matching user preferences
-- **Brand B2B Storefront**: Visual storytelling pages featuring brand history, collections, and press features
-- **Horizontal Scroll Lookbooks**: Scroll-triggered parallax galleries for immersive collection viewing
+- **Intelligent Brand Discovery**: Full-screen image slideshow with natural language filter interface ("I want to source for [Category] & my boutique is [Season]") inspired by [Pentagram's design](https://www.pentagram.com/)
+- **Brand Timeline Navigation**: Interactive horizontal timeline inspired by [Bulgari's history page](https://www.bulgari.com/en-in/bvlgari-history), showcasing 5 curated brands with image galleries, heart/like functionality, and smooth transitions
+- **Brand B2B Storefront**: Single-page visual storytelling featuring brand campaign images, featured publications, process write-ups, and socio-environmental commitments
+- **Scroll-Hijacking Lookbooks**: Revolutionary horizontal scroll experience where vertical scrolling drives horizontal content movement through lookbook images (300vh scroll space)
 - **Product Carousel**: Instagram-style highlight reel with adjacent item preview for browsing products
 - **Smart Size & Quantity Selection**: Matrix-style interface for ordering multiple sizes efficiently
 - **Virtual Try-On**: AI-powered body shape customization with 3D runway visualization (placeholder ready for DressX/Vntana integration)
@@ -136,15 +136,29 @@ Each brand includes:
 
 ## User Journey
 
-1. **Discovery**: Use dual-selector to filter by category and season
-2. **Browse**: Navigate brand timeline to explore matching brands
-3. **Explore**: Visit brand storefront to view story, collections, and press
-4. **View Lookbook**: Experience collections through horizontal scroll gallery
-5. **Shop Collection**: Use carousel to browse products with details below
-6. **Customize**: Select sizes/quantities, add customization requests
-7. **Try On**: Use virtual try-on to visualize products on different body shapes
-8. **Connect**: Chat with brand representatives for inquiries
-9. **Order**: Send enquiry with selected items and customizations
+1. **Discovery (Page 1)**: 
+   - Land on full-screen slideshow with elegant filter interface
+   - Select from natural language dropdowns: "I want to source for [Category] & my boutique is [Season]"
+   - Modal overlays with pill-style selections (Pentagram-inspired)
+
+2. **Browse (Page 2)**:
+   - View 5 curated brand recommendations in horizontal timeline (Bulgari-inspired)
+   - Navigate using numbered circular markers with animated progress indicator
+   - Like brands with heart button for more recommendations
+   - View brand info + 5-image gallery for each brand
+   - Click "Visit Brand Store" to explore further
+
+3. **Explore Brand Store**:
+   - Hero section with brand logo, location, and featured publications
+   - **Scroll-hijacking lookbook**: Vertical scrolling drives horizontal image gallery
+   - Process write-up with socio-environmental tags
+   - Behind-the-scenes content and founder story
+
+4. **Shop Collection**: Use carousel to browse products with details below
+5. **Customize**: Select sizes/quantities, add customization requests
+6. **Try On**: Use virtual try-on to visualize products on different body shapes
+7. **Connect**: Chat with brand representatives for inquiries
+8. **Order**: Send enquiry with selected items and customizations
 
 ## Customization
 

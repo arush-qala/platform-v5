@@ -95,19 +95,38 @@ export default function Home() {
       </motion.header>
 
 
-      {/* Hero Section with Dual Selector */}
-      <section className="max-w-[1920px] mx-auto px-6 md:px-12 py-20 min-h-[60vh] flex items-center justify-center">
+      {/* Hero Section with Full Screen Slideshow and Dual Selector */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Background Image Slideshow */}
+        <div className="absolute inset-0 z-0">
+          <motion.div
+            className="relative w-full h-full"
+            animate={{ opacity: [0.7, 0.5, 0.7] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          >
+            <Image
+              src="https://images.unsplash.com/photo-1558769132-cb1aea2f783d?q=80&w=2074"
+              alt="Luxury Fashion Background"
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
+          <div className="absolute inset-0 bg-cream/80 backdrop-blur-sm" />
+        </div>
+
+        {/* Centered Filter Interface */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="text-center w-full"
+          className="relative z-10 text-center w-full max-w-5xl px-6"
         >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-cormorant text-deep-charcoal mb-12 font-light">
-            I want to find
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-cormorant text-deep-charcoal mb-16 font-light leading-tight">
+            I want to source for
           </h2>
           
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-xl md:text-2xl lg:text-3xl mb-8">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 text-2xl md:text-3xl lg:text-4xl mb-12 flex-wrap">
             {/* Category Dropdown */}
             <div className="relative">
               <button
@@ -115,91 +134,141 @@ export default function Home() {
                   setShowCategoryDropdown(!showCategoryDropdown)
                   setShowSeasonDropdown(false)
                 }}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
+                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-ivory/95 backdrop-blur-sm border border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[240px] shadow-sm"
               >
-                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
+                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors font-light">
                   {selectedCategory}
                 </span>
-                <ChevronDown className={`w-6 h-6 text-taupe group-hover:text-gold-accent transition-all ${showCategoryDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-7 h-7 text-taupe group-hover:text-gold-accent transition-all ${showCategoryDropdown ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Category Dropdown Menu */}
+              {/* Category Modal Overlay */}
               <AnimatePresence>
                 {showCategoryDropdown && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full mt-2 left-0 right-0 bg-ivory border-2 border-warm-grey rounded-sm shadow-lg z-50 max-h-80 overflow-y-auto"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    onClick={() => setShowCategoryDropdown(false)}
                   >
-                    {categories.map((cat) => (
-                      <button
-                        key={cat}
-                        onClick={() => handleCategorySelect(cat)}
-                        className={`w-full px-6 py-3 text-left text-base font-cormorant hover:bg-sand transition-colors ${
-                          selectedCategory === cat ? 'bg-sand text-gold-accent' : 'text-charcoal'
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
+                    <div className="absolute inset-0 bg-cream/95 backdrop-blur-md" />
+                    
+                    <motion.div
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.9, opacity: 0 }}
+                      className="relative z-50 max-w-4xl w-full px-6"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="text-center mb-12">
+                        <h3 className="text-4xl md:text-5xl font-cormorant text-deep-charcoal mb-4 font-light">
+                          Select Category
+                        </h3>
+                        <p className="text-taupe text-lg">What are you looking to source?</p>
+                      </div>
+                      
+                      <div className="flex flex-wrap justify-center gap-4">
+                        {categories.map((cat) => (
+                          <button
+                            key={cat}
+                            onClick={() => handleCategorySelect(cat)}
+                            className={`px-10 py-5 text-xl md:text-2xl font-cormorant rounded-full transition-all duration-300 ${
+                              selectedCategory === cat
+                                ? 'bg-deep-charcoal text-ivory shadow-lg scale-105'
+                                : 'bg-ivory text-charcoal hover:bg-sand border border-warm-grey hover:border-gold-accent hover:scale-105'
+                            }`}
+                          >
+                            {cat}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
             
-            <span className="text-taupe font-light">for</span>
+            <span className="text-charcoal font-cormorant font-light">&</span>
+            <span className="text-charcoal font-cormorant font-light">my boutique is</span>
             
-            {/* Season Dropdown */}
+            {/* Season/Boutique Type Dropdown */}
             <div className="relative">
               <button
                 onClick={() => {
                   setShowSeasonDropdown(!showSeasonDropdown)
                   setShowCategoryDropdown(false)
                 }}
-                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
+                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-ivory/95 backdrop-blur-sm border border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[240px] shadow-sm"
               >
-                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
+                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors font-light">
                   {selectedSeason}
                 </span>
-                <ChevronDown className={`w-6 h-6 text-taupe group-hover:text-gold-accent transition-all ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-7 h-7 text-taupe group-hover:text-gold-accent transition-all ${showSeasonDropdown ? 'rotate-180' : ''}`} />
               </button>
 
-              {/* Season Dropdown Menu */}
+              {/* Season Modal Overlay */}
               <AnimatePresence>
                 {showSeasonDropdown && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="absolute top-full mt-2 left-0 right-0 bg-ivory border-2 border-warm-grey rounded-sm shadow-lg z-50"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    onClick={() => setShowSeasonDropdown(false)}
                   >
-                    {seasons.map((season) => (
-                      <button
-                        key={season}
-                        onClick={() => handleSeasonSelect(season)}
-                        className={`w-full px-6 py-3 text-left text-base font-cormorant hover:bg-sand transition-colors ${
-                          selectedSeason === season ? 'bg-sand text-gold-accent' : 'text-charcoal'
-                        }`}
-                      >
-                        {season}
-                      </button>
-                    ))}
+                    <div className="absolute inset-0 bg-cream/95 backdrop-blur-md" />
+                    
+                    <motion.div
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.9, opacity: 0 }}
+                      className="relative z-50 max-w-4xl w-full px-6"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="text-center mb-12">
+                        <h3 className="text-4xl md:text-5xl font-cormorant text-deep-charcoal mb-4 font-light">
+                          Select Season
+                        </h3>
+                        <p className="text-taupe text-lg">Which season does your boutique cater to?</p>
+                      </div>
+                      
+                      <div className="flex flex-wrap justify-center gap-4">
+                        {seasons.map((season) => (
+                          <button
+                            key={season}
+                            onClick={() => handleSeasonSelect(season)}
+                            className={`px-10 py-5 text-xl md:text-2xl font-cormorant rounded-full transition-all duration-300 ${
+                              selectedSeason === season
+                                ? 'bg-deep-charcoal text-ivory shadow-lg scale-105'
+                                : 'bg-ivory text-charcoal hover:bg-sand border border-warm-grey hover:border-gold-accent hover:scale-105'
+                            }`}
+                          >
+                            {season}
+                          </button>
+                        ))}
+                      </div>
+                    </motion.div>
                   </motion.div>
                 )}
               </AnimatePresence>
             </div>
           </div>
 
-          <p className="text-sm text-taupe">
+          <motion.p 
+            className="text-base text-taupe"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
             {brands.length} {brands.length === 1 ? 'brand' : 'brands'} discovered
-          </p>
+          </motion.p>
         </motion.div>
       </section>
 
       {/* Loading State */}
       {loading && (
-        <div className="flex items-center justify-center py-32">
+        <div className="flex items-center justify-center py-32 bg-cream">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
@@ -208,77 +277,20 @@ export default function Home() {
         </div>
       )}
 
-      {/* Magazine Grid Layout */}
+      {/* Brand Timeline Navigation - Bulgari Inspired */}
       {!loading && brands.length > 0 && (
-        <section className="max-w-[1920px] mx-auto px-6 md:px-12 pb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {brands.map((brand, index) => (
-              <motion.div
-                key={brand.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1, duration: 0.6 }}
-              >
-                <Link href={`/brands/${brand.slug}`} className="group block">
-                  {/* Brand Image */}
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-sm mb-4 bg-sand">
-                    <Image
-                      src={brand.coverImage}
-                      alt={brand.name}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-deep-charcoal/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                      <p className="text-ivory text-sm">Explore Brand →</p>
-                    </div>
-                  </div>
-
-                  {/* Brand Info */}
-                  <h3 className="text-2xl font-cormorant text-deep-charcoal group-hover:text-gold-accent transition-colors mb-2">
-                    {brand.name}
-                  </h3>
-                  <p className="text-sm text-taupe mb-2">{brand.location}</p>
-                  <p className="text-sm text-charcoal leading-relaxed line-clamp-2">
-                    {brand.description}
-                  </p>
-
-                  {/* Collection Tags */}
-                  {brand.collections.length > 0 && (
-                    <div className="mt-3 flex flex-wrap gap-2">
-                      {brand.collections.slice(0, 2).map((collection) => (
-                        <span
-                          key={collection.id}
-                          className="text-xs px-3 py-1 bg-sand text-taupe rounded-full"
-                        >
-                          {collection.season}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-
-        </section>
-      )}
-
-      {/* Brand Timeline Navigation */}
-      {!loading && brands.length > 0 && (
-        <section className="py-20 bg-sand/30">
-          <div className="max-w-[1920px] mx-auto px-6 md:px-12 mb-12">
+        <section className="min-h-screen bg-cream">
+          <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-center"
+              transition={{ delay: 0.3 }}
+              className="text-center mb-16"
             >
-              <h2 className="text-3xl md:text-4xl font-cormorant text-deep-charcoal mb-4">
-                Explore Brands
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-cormorant text-deep-charcoal mb-4 font-light">
+                Curated For You
               </h2>
-              <p className="text-taupe">Navigate through our curated selection</p>
+              <p className="text-taupe text-lg">Discover {brands.length} brands that match your boutique</p>
             </motion.div>
           </div>
           <BrandTimeline brands={brands} />
