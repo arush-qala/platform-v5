@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
 import { BrandTimeline } from '@/components/home/BrandTimeline'
 
@@ -28,12 +27,6 @@ interface Collection {
 const categories = ['Everything', 'Dresses', 'Co-ord Sets', 'Evening Wear', 'Tops', 'Shirts', 'Pants']
 const seasons = ['Everyone', 'Summer/Spring', 'Fall/Winter', 'Resortwear']
 
-const slideshowImages = [
-  '/images/homepage/slide-01.jpg',
-  '/images/homepage/slide-02.jpg',
-  '/images/homepage/slide-03.jpg',
-]
-
 export default function Home() {
   const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
@@ -41,19 +34,10 @@ export default function Home() {
   const [selectedSeason, setSelectedSeason] = useState('Everyone')
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
   const [showSeasonDropdown, setShowSeasonDropdown] = useState(false)
-  const [slideIndex, setSlideIndex] = useState(0)
+  const [showResults, setShowResults] = useState(false)
 
   useEffect(() => {
     fetchBrands('Everything', 'Everyone')
-  }, [])
-
-  // Slideshow auto-advance
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSlideIndex((prev) => (prev + 1) % slideshowImages.length)
-    }, 5000) // Change slide every 5 seconds
-
-    return () => clearInterval(interval)
   }, [])
 
   const fetchBrands = async (category: string, season: string) => {
@@ -77,90 +61,55 @@ export default function Home() {
     setSelectedCategory(category)
     fetchBrands(category, selectedSeason)
     setShowCategoryDropdown(false)
+    setShowResults(true)
   }
 
   const handleSeasonSelect = (season: string) => {
     setSelectedSeason(season)
     fetchBrands(selectedCategory, season)
     setShowSeasonDropdown(false)
+    setShowResults(true)
   }
 
   return (
-    <main className="min-h-screen bg-cream">
-      {/* Fixed Header */}
+    <main className="min-h-screen bg-[#f5f5f5]">
+      {/* Ultra Minimal Header - Only Logo */}
       <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="sticky top-0 z-40 bg-ivory/95 backdrop-blur-md border-b border-warm-grey"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="fixed top-0 left-0 right-0 z-40 py-8 px-8"
       >
-        <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-6">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-3xl md:text-4xl font-cormorant text-deep-charcoal font-light tracking-tight">
-              Qala
-            </Link>
-            
-            <nav className="hidden lg:flex items-center gap-8 text-sm text-charcoal font-medium">
-              <a href="#" className="hover:text-gold-accent transition-colors">About</a>
-              <a href="#" className="hover:text-gold-accent transition-colors">For Brands</a>
-              <a href="#" className="hover:text-gold-accent transition-colors">Contact</a>
-            </nav>
-
-            <div className="w-8" />
-          </div>
-        </div>
+        <Link href="/" className="text-2xl font-cormorant text-deep-charcoal font-light tracking-tight">
+          Qala
+        </Link>
       </motion.header>
 
-
-      {/* Hero Section with Full Screen Slideshow and Dual Selector */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background Image Slideshow */}
-        <div className="absolute inset-0 z-0">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={slideIndex}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.6 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5 }}
-              className="absolute inset-0"
-            >
-              <Image
-                src={slideshowImages[slideIndex]}
-                alt={`Luxury Fashion Background ${slideIndex + 1}`}
-                fill
-                className="object-cover"
-                priority={slideIndex === 0}
-              />
-            </motion.div>
-          </AnimatePresence>
-          <div className="absolute inset-0 bg-cream/80 backdrop-blur-sm" />
-        </div>
-
-        {/* Centered Filter Interface */}
+      {/* Hero Section - Pentagram Style Minimalism */}
+      <section className="min-h-screen flex items-center justify-center px-6">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          className="relative z-10 text-center w-full max-w-5xl px-6"
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="text-center max-w-5xl mx-auto"
         >
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-cormorant text-deep-charcoal mb-16 font-light leading-tight">
-            I want to source for
-          </h2>
-          
-          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-4 text-2xl md:text-3xl lg:text-4xl mb-12 flex-wrap">
-            {/* Category Dropdown */}
-            <div className="relative">
+          {/* The Sentence with Inline Dropdowns */}
+          <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed">
+            <span className="text-deep-charcoal">I want to source for</span>
+            
+            {/* Category Dropdown - Inline */}
+            <div className="relative inline-block">
               <button
                 onClick={() => {
                   setShowCategoryDropdown(!showCategoryDropdown)
                   setShowSeasonDropdown(false)
                 }}
-                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-ivory/95 backdrop-blur-sm border border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[240px] shadow-sm"
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
               >
-                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors font-light">
+                <span className="font-normal text-deep-charcoal">
                   {selectedCategory}
                 </span>
-                <ChevronDown className={`w-7 h-7 text-taupe group-hover:text-gold-accent transition-all ${showCategoryDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Category Modal Overlay */}
@@ -170,34 +119,25 @@ export default function Home() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
                     onClick={() => setShowCategoryDropdown(false)}
                   >
-                    <div className="absolute inset-0 bg-cream/95 backdrop-blur-md" />
-                    
                     <motion.div
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.9, opacity: 0 }}
-                      className="relative z-50 max-w-4xl w-full px-6"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      className="relative max-w-4xl w-full px-6"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="text-center mb-12">
-                        <h3 className="text-4xl md:text-5xl font-cormorant text-deep-charcoal mb-4 font-light">
-                          Select Category
-                        </h3>
-                        <p className="text-taupe text-lg">What are you looking to source?</p>
-                      </div>
-                      
-                      <div className="flex flex-wrap justify-center gap-4">
+                      <div className="flex flex-wrap justify-center gap-3">
                         {categories.map((cat) => (
                           <button
                             key={cat}
                             onClick={() => handleCategorySelect(cat)}
-                            className={`px-10 py-5 text-xl md:text-2xl font-cormorant rounded-full transition-all duration-300 ${
+                            className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
                               selectedCategory === cat
-                                ? 'bg-deep-charcoal text-ivory shadow-lg scale-105'
-                                : 'bg-ivory text-charcoal hover:bg-sand border border-warm-grey hover:border-gold-accent hover:scale-105'
+                                ? 'bg-deep-charcoal text-ivory'
+                                : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
                             }`}
                           >
                             {cat}
@@ -210,22 +150,22 @@ export default function Home() {
               </AnimatePresence>
             </div>
             
-            <span className="text-charcoal font-cormorant font-light">&</span>
-            <span className="text-charcoal font-cormorant font-light">my boutique is</span>
+            <span className="text-deep-charcoal">&</span>
+            <span className="text-deep-charcoal">my boutique is</span>
             
-            {/* Season/Boutique Type Dropdown */}
-            <div className="relative">
+            {/* Season Dropdown - Inline */}
+            <div className="relative inline-block">
               <button
                 onClick={() => {
                   setShowSeasonDropdown(!showSeasonDropdown)
                   setShowCategoryDropdown(false)
                 }}
-                className="group relative inline-flex items-center gap-3 px-10 py-5 bg-ivory/95 backdrop-blur-sm border border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[240px] shadow-sm"
+                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
               >
-                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors font-light">
+                <span className="font-normal text-deep-charcoal">
                   {selectedSeason}
                 </span>
-                <ChevronDown className={`w-7 h-7 text-taupe group-hover:text-gold-accent transition-all ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Season Modal Overlay */}
@@ -235,34 +175,25 @@ export default function Home() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center"
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
                     onClick={() => setShowSeasonDropdown(false)}
                   >
-                    <div className="absolute inset-0 bg-cream/95 backdrop-blur-md" />
-                    
                     <motion.div
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.9, opacity: 0 }}
-                      className="relative z-50 max-w-4xl w-full px-6"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 20 }}
+                      className="relative max-w-4xl w-full px-6"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="text-center mb-12">
-                        <h3 className="text-4xl md:text-5xl font-cormorant text-deep-charcoal mb-4 font-light">
-                          Select Season
-                        </h3>
-                        <p className="text-taupe text-lg">Which season does your boutique cater to?</p>
-                      </div>
-                      
-                      <div className="flex flex-wrap justify-center gap-4">
+                      <div className="flex flex-wrap justify-center gap-3">
                         {seasons.map((season) => (
                           <button
                             key={season}
                             onClick={() => handleSeasonSelect(season)}
-                            className={`px-10 py-5 text-xl md:text-2xl font-cormorant rounded-full transition-all duration-300 ${
+                            className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
                               selectedSeason === season
-                                ? 'bg-deep-charcoal text-ivory shadow-lg scale-105'
-                                : 'bg-ivory text-charcoal hover:bg-sand border border-warm-grey hover:border-gold-accent hover:scale-105'
+                                ? 'bg-deep-charcoal text-ivory'
+                                : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
                             }`}
                           >
                             {season}
@@ -276,31 +207,45 @@ export default function Home() {
             </div>
           </div>
 
-          <motion.p 
-            className="text-base text-taupe"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            {brands.length} {brands.length === 1 ? 'brand' : 'brands'} discovered
-          </motion.p>
+          {/* Subtle Results Counter - Only shows after selection */}
+          {showResults && !loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="mt-12"
+            >
+              <p className="text-sm text-taupe font-light">
+                {brands.length} {brands.length === 1 ? 'brand' : 'brands'} found
+              </p>
+              <button
+                onClick={() => {
+                  const resultsSection = document.getElementById('results')
+                  resultsSection?.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="mt-4 text-sm text-charcoal hover:text-deep-charcoal transition-colors underline underline-offset-4"
+              >
+                View results
+              </button>
+            </motion.div>
+          )}
         </motion.div>
       </section>
 
       {/* Loading State */}
-      {loading && (
-        <div className="flex items-center justify-center py-32 bg-cream">
+      {loading && showResults && (
+        <div className="flex items-center justify-center py-32">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-            className="w-16 h-16 border-2 border-gold-accent border-t-transparent rounded-full"
+            className="w-12 h-12 border border-charcoal border-t-transparent rounded-full"
           />
         </div>
       )}
 
-      {/* Brand Timeline Navigation - Bulgari Inspired */}
-      {!loading && brands.length > 0 && (
-        <section className="min-h-screen bg-cream">
+      {/* Results Section - Only shows after selection */}
+      {showResults && !loading && brands.length > 0 && (
+        <section id="results" className="min-h-screen bg-[#fafafa] py-20">
           <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-20">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -311,7 +256,7 @@ export default function Home() {
               <h2 className="text-4xl md:text-5xl lg:text-6xl font-cormorant text-deep-charcoal mb-4 font-light">
                 Curated For You
               </h2>
-              <p className="text-taupe text-lg">Discover {brands.length} brands that match your boutique</p>
+              <p className="text-taupe text-lg font-light">Discover {brands.length} brands that match your boutique</p>
             </motion.div>
           </div>
           <BrandTimeline brands={brands} />
@@ -319,55 +264,40 @@ export default function Home() {
       )}
 
       {/* No Results */}
-      {!loading && brands.length === 0 && (
-        <div className="flex flex-col items-center justify-center py-32">
-          <p className="text-2xl text-taupe mb-4">No brands found</p>
-          <p className="text-sm text-taupe mb-8">Try adjusting your filters</p>
+      {showResults && !loading && brands.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-32 bg-[#fafafa]">
+          <p className="text-2xl text-taupe mb-4 font-light">No brands found</p>
+          <p className="text-sm text-taupe mb-8 font-light">Try adjusting your selections</p>
           <button
             onClick={() => {
               setSelectedCategory('Everything')
               setSelectedSeason('Everyone')
+              setShowResults(false)
               fetchBrands('Everything', 'Everyone')
+              window.scrollTo({ top: 0, behavior: 'smooth' })
             }}
-            className="px-8 py-3 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all rounded-sm"
+            className="px-8 py-3 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all rounded-sm font-light"
           >
-            Clear Filters
+            Start Over
           </button>
         </div>
       )}
 
-      {/* Footer */}
-      <footer className="border-t border-warm-grey bg-ivory">
-        <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-12">
-          <div className="grid md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h4 className="text-2xl font-cormorant text-deep-charcoal mb-4">Qala</h4>
-              <p className="text-sm text-taupe leading-relaxed">
-                The next generation luxury sourcing platform connecting discerning buyers with emerging designers.
-              </p>
-            </div>
-            <div>
-              <h5 className="text-sm font-medium text-charcoal mb-4 uppercase tracking-wider">Explore</h5>
-              <ul className="space-y-2 text-sm text-taupe">
-                <li><a href="#" className="hover:text-gold-accent transition-colors">All Brands</a></li>
-                <li><a href="#" className="hover:text-gold-accent transition-colors">New Arrivals</a></li>
-                <li><a href="#" className="hover:text-gold-accent transition-colors">Featured Collections</a></li>
-              </ul>
-            </div>
-            <div>
-              <h5 className="text-sm font-medium text-charcoal mb-4 uppercase tracking-wider">Connect</h5>
-              <ul className="space-y-2 text-sm text-taupe">
-                <li><a href="#" className="hover:text-gold-accent transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-gold-accent transition-colors">For Brands</a></li>
-                <li><a href="#" className="hover:text-gold-accent transition-colors">Contact</a></li>
-              </ul>
+      {/* Minimal Footer - Only shows on results page */}
+      {showResults && (
+        <footer className="bg-[#f5f5f5] border-t border-[#e0e0e0]">
+          <div className="max-w-7xl mx-auto px-6 md:px-12 py-12">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+              <p className="text-sm text-taupe font-light">© 2024 Qala. All rights reserved.</p>
+              <div className="flex gap-8 text-sm text-taupe font-light">
+                <a href="#" className="hover:text-deep-charcoal transition-colors">About</a>
+                <a href="#" className="hover:text-deep-charcoal transition-colors">For Brands</a>
+                <a href="#" className="hover:text-deep-charcoal transition-colors">Contact</a>
+              </div>
             </div>
           </div>
-          <div className="pt-8 border-t border-warm-grey text-center text-sm text-taupe">
-            <p>© 2024 Qala. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
     </main>
   )
 }
