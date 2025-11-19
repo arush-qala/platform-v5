@@ -57,7 +57,7 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
   ]
 
   return (
-    <div className="bg-white px-8 py-10 md:px-12 md:py-12">
+    <div className="bg-white px-8 pt-16 pb-10 md:px-12 md:pt-20 md:pb-12">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
         </div>
 
         {/* SECTION 2: SIZE & QUANTITY SELECTION */}
-        <div className="mb-8 pb-8 border-b border-gray-100">
+        <div className="mb-8 pb-8 border-b border-gray-100 mt-12">
           <h2 className="text-[17px] font-medium text-[#1a1a1a] mb-6 tracking-[0.08em]">
             Select Sizes & Quantities
           </h2>
@@ -191,7 +191,7 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
         )}
 
         {/* SECTION 4: DETAILED INFORMATION TABS */}
-        <div className="mb-8 pt-4">
+        <div className="mb-8 pt-16">
           {/* Tab Headers */}
           <div className="flex gap-2 border-b border-gray-200 mb-6">
             {tabs.map((tab) => (
