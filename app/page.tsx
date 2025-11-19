@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ChevronDown, Filter } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 
 interface Brand {
   id: string
@@ -32,7 +32,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [selectedCategory, setSelectedCategory] = useState('Everything')
   const [selectedSeason, setSelectedSeason] = useState('Everyone')
-  const [showFilterPanel, setShowFilterPanel] = useState(false)
+  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
+  const [showSeasonDropdown, setShowSeasonDropdown] = useState(false)
 
   useEffect(() => {
     fetchBrands('Everything', 'Everyone')
@@ -55,11 +56,16 @@ export default function Home() {
     }
   }
 
-  const handleFilterChange = (category: string, season: string) => {
+  const handleCategorySelect = (category: string) => {
     setSelectedCategory(category)
+    fetchBrands(category, selectedSeason)
+    setShowCategoryDropdown(false)
+  }
+
+  const handleSeasonSelect = (season: string) => {
     setSelectedSeason(season)
-    fetchBrands(category, season)
-    setShowFilterPanel(false)
+    fetchBrands(selectedCategory, season)
+    setShowSeasonDropdown(false)
   }
 
   return (
@@ -77,80 +83,16 @@ export default function Home() {
             </Link>
             
             <nav className="hidden lg:flex items-center gap-8 text-sm text-charcoal font-medium">
-              <button 
-                onClick={() => setShowFilterPanel(!showFilterPanel)}
-                className="flex items-center gap-2 hover:text-gold-accent transition-colors"
-              >
-                <Filter className="w-4 h-4" />
-                Discover
-              </button>
               <a href="#" className="hover:text-gold-accent transition-colors">About</a>
               <a href="#" className="hover:text-gold-accent transition-colors">For Brands</a>
               <a href="#" className="hover:text-gold-accent transition-colors">Contact</a>
             </nav>
 
-            <button
-              onClick={() => setShowFilterPanel(!showFilterPanel)}
-              className="lg:hidden p-2 hover:bg-sand rounded-full transition-colors"
-            >
-              <Filter className="w-5 h-5 text-charcoal" />
-            </button>
+            <div className="w-8" />
           </div>
         </div>
       </motion.header>
 
-      {/* Filter Panel */}
-      <AnimatePresence>
-        {showFilterPanel && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="sticky top-[88px] z-30 bg-sand/95 backdrop-blur-md border-b border-warm-grey overflow-hidden"
-          >
-            <div className="max-w-[1920px] mx-auto px-6 md:px-12 py-8">
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-sm font-medium text-charcoal mb-4 uppercase tracking-wider">Category</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {categories.map((cat) => (
-                      <button
-                        key={cat}
-                        onClick={() => handleFilterChange(cat, selectedSeason)}
-                        className={`px-4 py-2 rounded-full text-sm transition-all ${
-                          selectedCategory === cat
-                            ? 'bg-deep-charcoal text-ivory'
-                            : 'bg-ivory text-charcoal hover:bg-warm-grey'
-                        }`}
-                      >
-                        {cat}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-sm font-medium text-charcoal mb-4 uppercase tracking-wider">Season</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {seasons.map((season) => (
-                      <button
-                        key={season}
-                        onClick={() => handleFilterChange(selectedCategory, season)}
-                        className={`px-4 py-2 rounded-full text-sm transition-all ${
-                          selectedSeason === season
-                            ? 'bg-deep-charcoal text-ivory'
-                            : 'bg-ivory text-charcoal hover:bg-warm-grey'
-                        }`}
-                      >
-                        {season}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Hero Section with Dual Selector */}
       <section className="max-w-[1920px] mx-auto px-6 md:px-12 py-20 min-h-[60vh] flex items-center justify-center">
@@ -165,27 +107,87 @@ export default function Home() {
           </h2>
           
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 text-xl md:text-2xl lg:text-3xl mb-8">
-            <button
-              onClick={() => setShowFilterPanel(!showFilterPanel)}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
-            >
-              <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
-                {selectedCategory}
-              </span>
-              <ChevronDown className="w-6 h-6 text-taupe group-hover:text-gold-accent transition-all group-hover:translate-y-1" />
-            </button>
+            {/* Category Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowCategoryDropdown(!showCategoryDropdown)
+                  setShowSeasonDropdown(false)
+                }}
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
+              >
+                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
+                  {selectedCategory}
+                </span>
+                <ChevronDown className={`w-6 h-6 text-taupe group-hover:text-gold-accent transition-all ${showCategoryDropdown ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Category Dropdown Menu */}
+              <AnimatePresence>
+                {showCategoryDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full mt-2 left-0 right-0 bg-ivory border-2 border-warm-grey rounded-sm shadow-lg z-50 max-h-80 overflow-y-auto"
+                  >
+                    {categories.map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => handleCategorySelect(cat)}
+                        className={`w-full px-6 py-3 text-left text-base font-cormorant hover:bg-sand transition-colors ${
+                          selectedCategory === cat ? 'bg-sand text-gold-accent' : 'text-charcoal'
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
             
             <span className="text-taupe font-light">for</span>
             
-            <button
-              onClick={() => setShowFilterPanel(!showFilterPanel)}
-              className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
-            >
-              <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
-                {selectedSeason}
-              </span>
-              <ChevronDown className="w-6 h-6 text-taupe group-hover:text-gold-accent transition-all group-hover:translate-y-1" />
-            </button>
+            {/* Season Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => {
+                  setShowSeasonDropdown(!showSeasonDropdown)
+                  setShowCategoryDropdown(false)
+                }}
+                className="group relative inline-flex items-center gap-3 px-8 py-4 bg-ivory border-2 border-warm-grey hover:border-gold-accent transition-all duration-300 rounded-sm min-w-[200px]"
+              >
+                <span className="font-cormorant text-charcoal group-hover:text-gold-accent transition-colors">
+                  {selectedSeason}
+                </span>
+                <ChevronDown className={`w-6 h-6 text-taupe group-hover:text-gold-accent transition-all ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+              </button>
+
+              {/* Season Dropdown Menu */}
+              <AnimatePresence>
+                {showSeasonDropdown && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute top-full mt-2 left-0 right-0 bg-ivory border-2 border-warm-grey rounded-sm shadow-lg z-50"
+                  >
+                    {seasons.map((season) => (
+                      <button
+                        key={season}
+                        onClick={() => handleSeasonSelect(season)}
+                        className={`w-full px-6 py-3 text-left text-base font-cormorant hover:bg-sand transition-colors ${
+                          selectedSeason === season ? 'bg-sand text-gold-accent' : 'text-charcoal'
+                        }`}
+                      >
+                        {season}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           <p className="text-sm text-taupe">
