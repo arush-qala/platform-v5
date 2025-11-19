@@ -62,98 +62,99 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-4xl mx-auto"
+        className="max-w-5xl mx-auto"
       >
-        {/* Brand Name (Clickable) */}
-        {brandName && brandSlug && (
-          <Link 
-            href={`/brands/${brandSlug}`}
-            className="block text-sm text-gray-500 hover:text-black uppercase tracking-widest mb-2 transition-colors"
-          >
-            {brandName}
-          </Link>
-        )}
+        {/* SECTION 1: PRODUCT HEADER */}
+        <div className="mb-8 pb-8 border-b border-gray-200">
+          {/* Brand Name (Clickable) */}
+          {brandName && brandSlug && (
+            <Link 
+              href={`/brands/${brandSlug}`}
+              className="block text-xs text-black hover:text-gray-600 uppercase tracking-[0.2em] mb-4 transition-colors font-medium"
+            >
+              {brandName}
+            </Link>
+          )}
 
-        {/* Product Name */}
-        <h2 className="text-4xl font-light text-black mb-2">
-          {product.name}
-        </h2>
+          {/* Product Name */}
+          <h1 className="text-5xl font-light text-black mb-3 leading-tight">
+            {product.name}
+          </h1>
 
-        {/* Product Category */}
-        <p className="text-base text-black mb-3">{product.category}</p>
+          {/* Product Category */}
+          <p className="text-sm text-gray-500 lowercase mb-6 tracking-wide">{product.category}</p>
 
-        {/* Price */}
-        <p className="text-2xl text-gray-600 mb-6">
-          ${product.price.toFixed(2)}
-        </p>
-
-        {/* Description */}
-        {product.description && (
-          <div className="mb-6">
-            <p className="text-gray-700 leading-relaxed">{product.description}</p>
-          </div>
-        )}
-
-        {/* Available Colors */}
-        <div className="mb-6">
-          <p className="text-sm text-black mb-2">
-            {colors.map((color: string, index: number) => (
-              <span key={index}>
-                {color}
-                {index < colors.length - 1 && '  '}
-              </span>
-            ))}
+          {/* Price */}
+          <p className="text-3xl text-gray-600 font-light mb-6">
+            ${product.price.toFixed(2)}
           </p>
-        </div>
 
-        {/* Size Guide Link */}
-        <div className="mb-6">
-          <a href="#" className="text-sm text-black underline hover:text-gray-600 transition-colors uppercase tracking-wider">
+          {/* Description */}
+          {product.description && (
+            <p className="text-base text-gray-700 leading-relaxed mb-6">
+              {product.description}
+            </p>
+          )}
+
+          {/* Available Colors */}
+          <div className="mb-4">
+            <p className="text-sm text-gray-700">
+              {colors.map((color: string, index: number) => (
+                <span key={index}>
+                  {color}
+                  {index < colors.length - 1 && '  '}
+                </span>
+              ))}
+            </p>
+          </div>
+
+          {/* Size Guide Link */}
+          <a href="#" className="inline-block text-xs text-black underline hover:text-gray-600 transition-colors uppercase tracking-[0.2em] font-medium">
             SIZE GUIDE
           </a>
         </div>
 
-        {/* Size & Quantity Selection Matrix */}
-        <div className="mb-8">
-          <h3 className="text-sm font-medium text-black mb-4 uppercase tracking-wider">
+        {/* SECTION 2: SIZE & QUANTITY SELECTION */}
+        <div className="mb-8 pb-8 border-b border-gray-200">
+          <h2 className="text-2xl font-light text-black mb-6 uppercase tracking-[0.15em]">
             Select Sizes & Quantities
-          </h3>
-          <div className="space-y-3">
+          </h2>
+          <div className="space-y-2">
             {product.sizes.map((size) => (
               <div
                 key={size.id}
-                className={`flex items-center justify-between p-4 border transition-all ${
+                className={`flex items-center justify-between px-6 py-5 border transition-all ${
                   size.inStock
                     ? 'border-gray-300 hover:border-black bg-white'
                     : 'border-gray-200 bg-gray-50 opacity-50'
                 }`}
               >
-                <div className="flex items-center gap-4">
-                  <span className="text-base font-normal text-black w-12">
+                <div className="flex items-center gap-8 flex-1">
+                  <span className="text-lg font-light text-black w-16 uppercase tracking-wide">
                     {size.size}
                   </span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-500 tracking-wide">
                     {size.inStock ? `${size.quantity} available` : 'Out of Stock'}
                   </span>
                 </div>
                 {size.inStock && (
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-6">
                     <button
                       onClick={() => handleQuantityChange(size.size, -1)}
                       disabled={quantities[size.size] === 0}
-                      className="w-10 h-10 flex items-center justify-center border border-gray-300 hover:border-black disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="w-12 h-12 flex items-center justify-center border border-gray-300 hover:border-black disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                     >
-                      <Minus className="w-4 h-4 text-black" />
+                      <Minus className="w-5 h-5 text-black" />
                     </button>
-                    <span className="w-12 text-center text-base font-normal text-black">
+                    <span className="w-16 text-center text-lg font-light text-black">
                       {quantities[size.size]}
                     </span>
                     <button
                       onClick={() => handleQuantityChange(size.size, 1)}
                       disabled={quantities[size.size] >= size.quantity}
-                      className="w-10 h-10 flex items-center justify-center border border-gray-300 hover:border-black disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                      className="w-12 h-12 flex items-center justify-center border border-gray-300 hover:border-black disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                     >
-                      <Plus className="w-4 h-4 text-black" />
+                      <Plus className="w-5 h-5 text-black" />
                     </button>
                   </div>
                 )}
@@ -162,43 +163,43 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
           </div>
         </div>
 
-        {/* Order Summary */}
+        {/* SECTION 3: ORDER SUMMARY */}
         {totalQuantity > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-100 p-6 mb-8"
+            className="bg-gray-50 border border-gray-200 p-8 mb-8"
           >
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-6">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Total Quantity</p>
-                <p className="text-xl font-light">{totalQuantity} pieces</p>
+                <p className="text-xs text-gray-500 mb-2 uppercase tracking-[0.2em]">Total Quantity</p>
+                <p className="text-2xl font-light text-black">{totalQuantity} pieces</p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-gray-600 mb-1">Estimated Total</p>
-                <p className="text-2xl font-light text-black">
+                <p className="text-xs text-gray-500 mb-2 uppercase tracking-[0.2em]">Estimated Total</p>
+                <p className="text-3xl font-light text-black">
                   ${totalPrice.toFixed(2)}
                 </p>
               </div>
             </div>
-            <button className="w-full py-4 bg-black hover:bg-gray-800 text-white font-normal transition-all uppercase tracking-wider text-sm">
+            <button className="w-full py-5 bg-black hover:bg-gray-800 text-white font-light transition-all uppercase tracking-[0.2em] text-sm">
               Send Enquiry
             </button>
           </motion.div>
         )}
 
-        {/* Tabs Section */}
-        <div className="mb-8 border-t border-gray-200 pt-8">
+        {/* SECTION 4: DETAILED INFORMATION TABS */}
+        <div className="mb-8 pt-4">
           {/* Tab Headers */}
-          <div className="flex gap-8 border-b border-gray-200 mb-6">
+          <div className="flex gap-10 border-b border-gray-300 mb-8">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`pb-3 text-sm transition-colors uppercase tracking-wider ${
+                className={`pb-4 text-sm transition-colors uppercase tracking-[0.15em] font-light ${
                   activeTab === tab.id
-                    ? 'text-black border-b-2 border-black font-medium'
-                    : 'text-gray-500 hover:text-black'
+                    ? 'text-black border-b-2 border-black'
+                    : 'text-gray-400 hover:text-black'
                 }`}
               >
                 {tab.label}
@@ -207,49 +208,64 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
           </div>
 
           {/* Tab Content */}
-          <div className="text-gray-700 leading-relaxed">
+          <div className="text-gray-700 leading-relaxed min-h-[200px]">
             {activeTab === 'details' && (
               <div>
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                <h3 className="text-lg font-light text-black mb-4 uppercase tracking-[0.15em]">
                   Product details
-                </h4>
+                </h3>
                 {product.description ? (
-                  <p className="mb-4">{product.description}</p>
+                  <p className="mb-6 text-base text-gray-700 leading-relaxed">{product.description}</p>
                 ) : (
-                  <p>Sculptural dress with asymmetric draping and architectural details</p>
+                  <p className="mb-6 text-base text-gray-700 leading-relaxed">
+                    Sculptural dress with asymmetric draping and architectural details
+                  </p>
                 )}
-                <ul className="list-disc list-inside space-y-1 text-sm">
-                  <li>Relaxed fit, full length sleeves</li>
-                  <li>The model is wearing size M</li>
-                  <li>No. of components - 1</li>
+                <ul className="space-y-3 text-sm text-gray-600">
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>Relaxed fit, full length sleeves</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>The model is wearing size M</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>No. of components - 1</span>
+                  </li>
                 </ul>
               </div>
             )}
 
             {activeTab === 'material' && (
               <div>
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                <h3 className="text-lg font-light text-black mb-4 uppercase tracking-[0.15em]">
                   Material
-                </h4>
+                </h3>
                 {product.fabricDetails ? (
-                  <p>{product.fabricDetails}</p>
+                  <p className="text-base text-gray-700 leading-relaxed">{product.fabricDetails}</p>
                 ) : (
-                  <p>100% premium quality fabric with sustainable production methods.</p>
+                  <p className="text-base text-gray-700 leading-relaxed">
+                    100% premium quality fabric with sustainable production methods.
+                  </p>
                 )}
               </div>
             )}
 
             {activeTab === 'care' && (
               <div>
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                <h3 className="text-lg font-light text-black mb-4 uppercase tracking-[0.15em]">
                   Wash & Care
-                </h4>
+                </h3>
                 {product.careInstructions ? (
-                  <p>{product.careInstructions}</p>
+                  <p className="text-base text-gray-700 leading-relaxed">{product.careInstructions}</p>
                 ) : (
                   <>
-                    <p className="mb-2">Wash care - Dry clean only</p>
-                    <p className="text-sm">
+                    <p className="mb-6 text-base text-gray-700 leading-relaxed">
+                      Wash care - Dry clean only
+                    </p>
+                    <p className="text-sm text-gray-500 leading-relaxed">
                       Disclaimer: This product will be exclusively handcrafted for you, making the 
                       colour/texture/pattern slightly vary from the image shown, due to multiple 
                       artisan-led techniques and processes involved.
@@ -261,38 +277,60 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
 
             {activeTab === 'bulk' && (
               <div>
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                <h3 className="text-lg font-light text-black mb-4 uppercase tracking-[0.15em]">
                   Bulk Price
-                </h4>
-                <p className="mb-4">Special pricing available for bulk orders:</p>
-                <ul className="space-y-2 text-sm">
-                  <li>10-50 pieces: 10% discount</li>
-                  <li>51-100 pieces: 15% discount</li>
-                  <li>100+ pieces: Custom pricing - contact us</li>
+                </h3>
+                <p className="mb-6 text-base text-gray-700 leading-relaxed">
+                  Special pricing available for bulk orders:
+                </p>
+                <ul className="space-y-3 text-sm text-gray-600">
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>10-50 pieces: 10% discount</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>51-100 pieces: 15% discount</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>100+ pieces: Custom pricing - contact us</span>
+                  </li>
                 </ul>
               </div>
             )}
 
             {activeTab === 'shipping' && (
               <div>
-                <h4 className="text-sm font-medium text-black mb-3 uppercase tracking-wider">
+                <h3 className="text-lg font-light text-black mb-4 uppercase tracking-[0.15em]">
                   Shipping
-                </h4>
-                <p className="mb-4">We ship worldwide with the following options:</p>
-                <ul className="space-y-2 text-sm">
-                  <li>Standard Shipping: 7-14 business days</li>
-                  <li>Express Shipping: 3-5 business days</li>
-                  <li>Free shipping on orders over $500</li>
+                </h3>
+                <p className="mb-6 text-base text-gray-700 leading-relaxed">
+                  We ship worldwide with the following options:
+                </p>
+                <ul className="space-y-3 text-sm text-gray-600">
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>Standard Shipping: 7-14 business days</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>Express Shipping: 3-5 business days</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="mr-3">•</span>
+                    <span>Free shipping on orders over $500</span>
+                  </li>
                 </ul>
               </div>
             )}
           </div>
         </div>
 
-        {/* Empty State CTA */}
+        {/* EMPTY STATE */}
         {totalQuantity === 0 && (
-          <div className="text-center py-8 border-t border-gray-200">
-            <p className="text-gray-500 text-sm">
+          <div className="text-center py-12 border-t border-gray-200">
+            <p className="text-gray-400 text-sm uppercase tracking-[0.15em]">
               Select sizes and quantities to send an enquiry
             </p>
           </div>
