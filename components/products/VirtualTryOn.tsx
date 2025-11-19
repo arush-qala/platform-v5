@@ -51,12 +51,12 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-16 mt-10"
         >
-          <h2 className="text-4xl md:text-6xl font-cormorant text-deep-charcoal mb-4">
+          <h2 className="text-[30px] md:text-[32px] font-light text-[#1a1a1a] mb-4 tracking-wide">
             Virtual Try-On Experience
           </h2>
-          <p className="text-lg text-taupe max-w-2xl mx-auto">
+          <p className="text-[14px] text-[#777] max-w-2xl mx-auto leading-[1.6]">
             See how this piece looks on different body shapes with our AI-powered virtual runway
           </p>
         </motion.div>
@@ -72,23 +72,23 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
           >
             {/* Template Selection */}
             <div className="bg-ivory p-6 rounded-sm">
-              <h3 className="text-xl font-cormorant text-deep-charcoal mb-4 flex items-center gap-2">
-                <Sliders className="w-5 h-5 text-gold-accent" />
+              <h3 className="text-[15px] font-normal text-[#1a1a1a] mb-5 flex items-center gap-2">
+                <Sliders className="w-4 h-4 text-gold-accent" />
                 Select Body Shape
               </h3>
-              <div className="grid grid-cols-2 gap-3 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-6">
                 {bodyShapeTemplates.map((template) => (
                   <button
                     key={template.name}
                     onClick={() => handleTemplateSelect(template)}
-                    className={`p-4 rounded-sm border-2 transition-all ${
+                    className={`p-5 rounded-sm border transition-all ${
                       selectedTemplate.name === template.name
-                        ? 'border-gold-accent bg-sand'
-                        : 'border-warm-grey hover:border-taupe'
+                        ? 'border-[#1a1a1a] bg-sand'
+                        : 'border-gray-300 hover:border-gray-400'
                     }`}
                   >
-                    <p className="font-medium text-deep-charcoal">{template.name}</p>
-                    <p className="text-sm text-taupe">{template.height}cm</p>
+                    <p className="font-normal text-[#1a1a1a] text-[14px]">{template.name}</p>
+                    <p className="text-[13px] text-[#999] mt-1">{template.height}cm</p>
                   </button>
                 ))}
               </div>
@@ -192,12 +192,11 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
             )}
 
             {/* Integration Note */}
-            <div className="bg-gold-accent/10 border border-gold-accent p-6 rounded-sm">
-              <h4 className="font-medium text-charcoal mb-2 flex items-center gap-2">
-                <span className="text-gold-accent">✨</span>
+            <div className="bg-[#f8f7f5] border border-[#e5e5e5] p-5 rounded-sm">
+              <h4 className="font-normal text-[#1a1a1a] mb-2 text-[14px]">
                 3D Virtual Try-On Integration
               </h4>
-              <p className="text-sm text-taupe leading-relaxed">
+              <p className="text-[13px] text-[#555] leading-[1.6]">
                 This feature will be powered by DressX or Vntana API integration, providing 
                 photorealistic 3D rendering of garments on custom body shapes with AI-powered 
                 fit prediction and virtual runway experiences.
@@ -261,24 +260,24 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
 
             {/* Additional Info */}
             <div className="bg-ivory p-6 rounded-sm">
-              <h4 className="font-cormorant text-xl text-deep-charcoal mb-3">
+              <h4 className="font-light text-[17px] text-[#1a1a1a] mb-4">
                 About Virtual Try-On
               </h4>
-              <ul className="space-y-2 text-sm text-taupe">
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-accent mt-1">•</span>
+              <ul className="space-y-[10px] text-[14px] text-[#666]">
+                <li className="flex items-start gap-3 leading-[1.7]">
+                  <span className="text-[#999] mt-1">•</span>
                   <span>High-definition 3D rendering with realistic fabric simulation</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-accent mt-1">•</span>
+                <li className="flex items-start gap-3 leading-[1.7]">
+                  <span className="text-[#999] mt-1">•</span>
                   <span>AI-powered fit prediction based on body measurements</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-accent mt-1">•</span>
+                <li className="flex items-start gap-3 leading-[1.7]">
+                  <span className="text-[#999] mt-1">•</span>
                   <span>Dynamic runway walk with professional lighting</span>
                 </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-gold-accent mt-1">•</span>
+                <li className="flex items-start gap-3 leading-[1.7]">
+                  <span className="text-[#999] mt-1">•</span>
                   <span>Multiple angles and poses for comprehensive view</span>
                 </li>
               </ul>
