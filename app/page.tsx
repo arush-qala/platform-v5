@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -256,14 +255,9 @@ export default function Home() {
             
             {/* Qala Logo */}
             <Link href="/" className="relative block">
-              <Image 
-                src="/qala-logo.png" 
-                alt="Qala Global"
-                width={120}
-                height={60}
-                className="object-contain opacity-70"
-                priority
-              />
+              <div className="text-2xl font-light tracking-[0.3em] text-deep-charcoal font-cormorant">
+                QALA
+              </div>
             </Link>
             
             {/* Subtle shimmer effect */}
