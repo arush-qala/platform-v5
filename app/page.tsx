@@ -188,20 +188,23 @@ export default function Home() {
                   className="absolute inset-0 pointer-events-none"
                 />
                 
-                {/* Button Text with Animated Silver Gradient */}
+                {/* Button Text with Cursor-style Shimmer */}
                 <motion.span
                   animate={{
-                    backgroundPosition: ['0% center', '200% center'],
+                    backgroundPosition: ['200% 0', '-200% 0'],
                   }}
                   transition={{
-                    duration: 2.5,
+                    duration: 8,
                     repeat: Infinity,
-                    repeatDelay: 1.5,
-                    ease: "easeInOut"
+                    ease: "linear"
                   }}
-                  className="relative text-xl font-light tracking-[0.3em] uppercase bg-gradient-to-r from-deep-charcoal via-[#C0C0C0] to-deep-charcoal bg-[length:200%_100%] bg-clip-text text-transparent"
+                  className="relative text-xl font-light tracking-[0.3em] uppercase"
                   style={{
-                    backgroundImage: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 40%, #C0C0C0 50%, #FFFFFF 55%, #C0C0C0 60%, #1A1A1A 70%, #1A1A1A 100%)'
+                    background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
+                    backgroundSize: '200% 100%',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
                   }}
                 >
                   Find
