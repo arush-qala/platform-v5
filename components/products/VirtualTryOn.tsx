@@ -53,7 +53,7 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-[30px] md:text-[32px] font-light text-[#1a1a1a] mb-4 tracking-wide">
+          <h2 className="text-[30px] md:text-[32px] font-light text-[#1a1a1a] mb-4 tracking-wide font-cormorant">
             Virtual Try-On Experience
           </h2>
           <p className="text-[14px] text-[#777] max-w-2xl mx-auto leading-[1.6]">
@@ -72,7 +72,7 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
           >
             {/* Template Selection */}
             <div className="bg-ivory p-6 rounded-sm">
-              <h3 className="text-[15px] font-normal text-[#1a1a1a] mb-5 flex items-center gap-2">
+              <h3 className="text-[15px] font-light text-[#1a1a1a] mb-5 flex items-center gap-2">
                 <Sliders className="w-4 h-4 text-gold-accent" />
                 Select Body Shape
               </h3>
@@ -193,7 +193,7 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
 
             {/* Integration Note */}
             <div className="bg-[#f8f7f5] border border-[#e5e5e5] p-5 rounded-sm">
-              <h4 className="font-normal text-[#1a1a1a] mb-2 text-[14px]">
+              <h4 className="font-light text-[#1a1a1a] mb-2 text-[14px] font-cormorant">
                 3D Virtual Try-On Integration
               </h4>
               <p className="text-[13px] text-[#555] leading-[1.6]">
@@ -260,7 +260,7 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
 
             {/* Additional Info */}
             <div className="bg-ivory p-6 rounded-sm">
-              <h4 className="font-light text-[17px] text-[#1a1a1a] mb-4">
+              <h4 className="font-light text-[17px] text-[#1a1a1a] mb-4 font-cormorant">
                 About Virtual Try-On
               </h4>
               <ul className="space-y-[10px] text-[14px] text-[#666]">

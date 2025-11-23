@@ -77,7 +77,7 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
           )}
 
           {/* Product Name */}
-          <h1 className="text-2xl font-light text-[#1a1a1a] mb-3 leading-[1.35]">
+          <h1 className="text-2xl font-light text-[#1a1a1a] mb-3 leading-[1.35] font-cormorant">
             {product.name}
           </h1>
 

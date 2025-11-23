@@ -114,16 +114,16 @@ export default function BrandPage() {
       {/* Minimal Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-[1920px] mx-auto px-8 md:px-16 py-6 flex items-center justify-between">
-          <Link href="/" className="text-sm text-black hover:text-gray-600 transition-colors tracking-wider">
-            ← BACK
+          <Link href="/" className="text-[11px] text-black hover:text-gray-600 transition-colors tracking-[0.15em] uppercase font-light">
+            ← Back
           </Link>
-          <h1 className="text-lg font-light tracking-[0.3em] text-black">{brand.name.toUpperCase()}</h1>
+          <h1 className="text-[15px] font-light tracking-[0.3em] text-black uppercase">{brand.name}</h1>
           <button
             onClick={() => setShowChat(!showChat)}
-            className="flex items-center gap-2 px-6 py-2 bg-black text-white hover:bg-gray-800 transition-all text-sm tracking-wider"
+            className="flex items-center gap-2 px-6 py-2 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
           >
             <MessageCircle className="w-4 h-4" />
-            <span>CONTACT</span>
+            <span>Contact</span>
           </button>
         </div>
       </header>
@@ -179,32 +179,32 @@ export default function BrandPage() {
           >
             {/* Left: Brand Name and Location */}
             <div className="md:col-span-5 space-y-6">
-              <h2 className="text-5xl md:text-7xl font-light text-black leading-tight tracking-tight">
+              <h2 className="text-5xl md:text-7xl font-light text-black leading-tight tracking-tight font-cormorant">
                 {brand.name}
               </h2>
               
               <div className="flex items-center gap-3 text-gray-600 pt-4">
                 <MapPin className="w-5 h-5" />
-                <p className="text-base tracking-wider">{brand.location}</p>
+                <p className="text-[14px] tracking-[0.1em] font-light">{brand.location}</p>
               </div>
 
               <div className="pt-6 border-t border-gray-200">
-                <p className="text-sm text-gray-500 uppercase tracking-widest mb-2">ESTABLISHED</p>
-                <p className="text-3xl text-black font-light">{brand.founded}</p>
+                <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2 font-light">Established</p>
+                <p className="text-3xl text-black font-light font-cormorant">{brand.founded}</p>
               </div>
             </div>
 
             {/* Right: Description */}
             <div className="md:col-span-7 space-y-6">
               <div className="bg-gray-50 p-8 md:p-12">
-                <p className="text-lg md:text-xl text-gray-800 leading-relaxed font-light">
+                <p className="text-[16px] md:text-[18px] text-gray-800 leading-[1.7] font-light">
                   {brand.description}
                 </p>
               </div>
 
               {/* Featured In Tags */}
               <div className="pt-8">
-                <h3 className="text-xs text-gray-500 uppercase tracking-widest mb-6">FEATURED IN</h3>
+                <h3 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-6 font-light">Featured In</h3>
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                   {brand.features.length > 0 ? (
                     brand.features.slice(0, 4).map((feature, idx) => (
@@ -213,26 +213,26 @@ export default function BrandPage() {
                         className="flex flex-col items-center justify-center p-6 border border-gray-200 hover:border-black transition-colors"
                       >
                         <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-xs text-black tracking-wider text-center">{feature.publication}</p>
+                        <p className="text-[10px] text-black tracking-[0.15em] text-center uppercase font-light">{feature.publication}</p>
                       </div>
                     ))
                   ) : (
                     <>
                       <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
                         <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-xs text-black tracking-wider">VOGUE</p>
+                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">Vogue</p>
                       </div>
                       <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
                         <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-xs text-black tracking-wider">ELLE</p>
+                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">Elle</p>
                       </div>
                       <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
                         <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-xs text-black tracking-wider">BAZAAR</p>
+                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">Bazaar</p>
                       </div>
                       <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
                         <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-xs text-black tracking-wider">WWD</p>
+                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">WWD</p>
                       </div>
                     </>
                   )}
@@ -255,14 +255,14 @@ export default function BrandPage() {
             >
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <h2 className="text-3xl md:text-4xl font-light text-black mb-2">{featuredCollection.name}</h2>
-                  <p className="text-sm text-gray-500 uppercase tracking-widest">{featuredCollection.season}</p>
+                  <h2 className="text-3xl md:text-4xl font-light text-black mb-2 font-cormorant">{featuredCollection.name}</h2>
+                  <p className="text-[11px] text-gray-500 uppercase tracking-[0.2em] font-light">{featuredCollection.season}</p>
                 </div>
                 <Link
                   href={`/brands/${brand.slug}/collections/${featuredCollection.slug}`}
-                  className="px-8 py-3 bg-black text-white hover:bg-gray-800 transition-all text-sm tracking-wider"
+                  className="px-8 py-3 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
                 >
-                  VIEW COLLECTION
+                  View Collection
                 </Link>
               </div>
 
@@ -302,7 +302,7 @@ export default function BrandPage() {
                 </div>
                 
                 {/* Scroll Hint */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-gray-400 uppercase tracking-widest pointer-events-none">
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 uppercase tracking-[0.2em] pointer-events-none font-light">
                   Scroll to explore →
                 </div>
               </div>
@@ -334,17 +334,17 @@ export default function BrandPage() {
             {/* Center: Process Write-up */}
             <div className="space-y-8 md:pt-12">
               <div>
-                <h3 className="text-xs text-gray-500 uppercase tracking-widest mb-4">OUR PROCESS</h3>
-                <h2 className="text-3xl md:text-4xl font-light text-black mb-6">
+                <h3 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-4 font-light">Our Process</h3>
+                <h2 className="text-3xl md:text-4xl font-light text-black mb-6 font-cormorant">
                   Craftsmanship & Heritage
                 </h2>
               </div>
               
-              <div className="space-y-4 text-gray-700 leading-relaxed">
-                <p className="text-base font-light">
+              <div className="space-y-4 text-gray-700 leading-[1.7]">
+                <p className="text-[15px] font-light">
                   {brand.story}
                 </p>
-                <p className="text-sm text-gray-600 font-light">
+                <p className="text-[14px] text-gray-600 font-light">
                   Each piece is crafted with meticulous attention to detail, honoring traditional techniques while embracing contemporary design sensibilities.
                 </p>
               </div>
@@ -372,8 +372,8 @@ export default function BrandPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-xs text-gray-500 uppercase tracking-widest mb-12 text-center">
-              BEHIND THE SCENES
+            <h2 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-12 text-center font-light">
+              Behind The Scenes
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -419,16 +419,16 @@ export default function BrandPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h3 className="text-xs text-gray-500 uppercase tracking-widest mb-16 text-center">
-              OUR COMMITMENTS
+            <h3 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-16 text-center font-light">
+              Our Commitments
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
               <div className="text-center space-y-4">
                 <div className="w-16 h-16 mx-auto border border-gray-300 flex items-center justify-center">
                   <Leaf className="w-8 h-8 text-black" />
                 </div>
-                <h4 className="text-lg font-light text-black tracking-wide">Organic Materials</h4>
-                <p className="text-sm text-gray-600 font-light leading-relaxed">
+                <h4 className="text-[16px] font-light text-black tracking-[0.1em]">Organic Materials</h4>
+                <p className="text-[14px] text-gray-600 font-light leading-[1.7]">
                   100% organic and sustainably sourced fabrics
                 </p>
               </div>
@@ -437,8 +437,8 @@ export default function BrandPage() {
                 <div className="w-16 h-16 mx-auto border border-gray-300 flex items-center justify-center">
                   <Recycle className="w-8 h-8 text-black" />
                 </div>
-                <h4 className="text-lg font-light text-black tracking-wide">Zero Waste</h4>
-                <p className="text-sm text-gray-600 font-light leading-relaxed">
+                <h4 className="text-[16px] font-light text-black tracking-[0.1em]">Zero Waste</h4>
+                <p className="text-[14px] text-gray-600 font-light leading-[1.7]">
                   Circular production with minimal environmental impact
                 </p>
               </div>
@@ -447,8 +447,8 @@ export default function BrandPage() {
                 <div className="w-16 h-16 mx-auto border border-gray-300 flex items-center justify-center">
                   <Users className="w-8 h-8 text-black" />
                 </div>
-                <h4 className="text-lg font-light text-black tracking-wide">Fair Trade</h4>
-                <p className="text-sm text-gray-600 font-light leading-relaxed">
+                <h4 className="text-[16px] font-light text-black tracking-[0.1em]">Fair Trade</h4>
+                <p className="text-[14px] text-gray-600 font-light leading-[1.7]">
                   Ethical production supporting artisan communities
                 </p>
               </div>
@@ -466,10 +466,10 @@ export default function BrandPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-xs text-gray-500 uppercase tracking-widest mb-3 text-center">
-              EXPLORE MORE
+            <h2 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3 text-center font-light">
+              Explore More
             </h2>
-            <p className="text-3xl md:text-4xl font-light text-black text-center mb-16">Other Collections</p>
+            <p className="text-3xl md:text-4xl font-light text-black text-center mb-16 font-cormorant">Other Collections</p>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {brand.collections.slice(0, 3).map((collection, index) => (
@@ -492,10 +492,10 @@ export default function BrandPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     </div>
-                    <h3 className="text-2xl font-light text-black group-hover:text-gray-600 transition-colors mb-2">
+                    <h3 className="text-2xl font-light text-black group-hover:text-gray-600 transition-colors mb-2 font-cormorant">
                       {collection.name}
                     </h3>
-                    <p className="text-xs text-gray-500 uppercase tracking-widest">{collection.season}</p>
+                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-light">{collection.season}</p>
                   </Link>
                 </motion.div>
               ))}
@@ -513,10 +513,10 @@ export default function BrandPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-xs text-gray-500 uppercase tracking-widest mb-3 text-center">
-              YOU MAY ALSO LIKE
+            <h2 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3 text-center font-light">
+              You May Also Like
             </h2>
-            <p className="text-3xl md:text-4xl font-light text-black text-center mb-16">
+            <p className="text-3xl md:text-4xl font-light text-black text-center mb-16 font-cormorant">
               Discover Similar Brands
             </p>
             
@@ -542,11 +542,11 @@ export default function BrandPage() {
                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                     </div>
-                    <h3 className="text-2xl font-light text-black group-hover:text-gray-600 transition-colors mb-2">
+                    <h3 className="text-2xl font-light text-black group-hover:text-gray-600 transition-colors mb-2 font-cormorant">
                       {recBrand.name}
                     </h3>
-                    <p className="text-xs text-gray-500 mb-2">{recBrand.location}</p>
-                    <p className="text-sm text-gray-700 line-clamp-2 font-light">{recBrand.description}</p>
+                    <p className="text-[11px] text-gray-500 mb-2 tracking-[0.1em] font-light">{recBrand.location}</p>
+                    <p className="text-[14px] text-gray-700 line-clamp-2 font-light">{recBrand.description}</p>
                   </Link>
                 </motion.div>
               ))}
@@ -556,17 +556,17 @@ export default function BrandPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="/"
-                className="inline-flex items-center gap-3 px-12 py-4 bg-black text-white hover:bg-gray-800 transition-all text-sm tracking-wider"
+                className="inline-flex items-center gap-3 px-12 py-4 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
               >
-                <span>BACK TO DISCOVERY</span>
+                <span>Back To Discovery</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
               
               <button
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="px-12 py-4 border border-gray-300 text-black hover:border-black transition-all text-sm tracking-wider"
+                className="px-12 py-4 border border-gray-300 text-black hover:border-black transition-all text-[11px] tracking-[0.15em] uppercase font-light"
               >
-                BACK TO TOP
+                Back To Top
               </button>
             </div>
           </motion.div>

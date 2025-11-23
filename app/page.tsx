@@ -47,7 +47,7 @@ export default function Home() {
         >
           {/* The Sentence with Inline Dropdowns */}
           <div className="flex flex-col items-center gap-8">
-            <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed">
+            <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant">
               <span className="text-deep-charcoal">I want to source for</span>
               
               {/* Category Dropdown - Inline */}
@@ -160,16 +160,59 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Find Button */}
-          <motion.button
-            onClick={navigateToDiscover}
+          {/* Find Button - Floating Glass with Silver Shimmer */}
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-8 px-16 py-4 bg-white text-black hover:bg-gray-100 transition-all duration-300 text-xl font-light tracking-wide border border-black"
+            className="mt-8"
           >
-            Find
-          </motion.button>
+            <div className="relative group">
+              {/* Liquid Glass Effect Background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-sm blur-xl"></div>
+              
+              {/* Main Glass Container */}
+              <button
+                onClick={navigateToDiscover}
+                className="relative px-16 py-4 bg-white/30 backdrop-blur-md rounded-sm border border-white/50 shadow-2xl overflow-hidden hover:scale-105 transition-transform duration-300"
+              >
+                {/* Animated Gradient Overlay */}
+                <motion.div
+                  animate={{
+                    background: [
+                      'radial-gradient(circle at 0% 0%, rgba(192,192,192,0.4) 0%, transparent 50%)',
+                      'radial-gradient(circle at 100% 100%, rgba(192,192,192,0.4) 0%, transparent 50%)',
+                      'radial-gradient(circle at 0% 0%, rgba(192,192,192,0.4) 0%, transparent 50%)',
+                    ],
+                  }}
+                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 pointer-events-none"
+                />
+                
+                {/* Button Text with Silver Effect */}
+                <span className="relative text-xl font-light tracking-[0.3em] text-deep-charcoal uppercase">
+                  Find
+                </span>
+                
+                {/* Silver Shimmer Effect */}
+                <motion.div
+                  animate={{
+                    x: ['-100%', '200%'],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    repeatDelay: 1.5,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
+                  style={{
+                    background: 'linear-gradient(90deg, transparent, rgba(192,192,192,0.8), rgba(255,255,255,0.9), rgba(192,192,192,0.8), transparent)'
+                  }}
+                />
+              </button>
+            </div>
+          </motion.div>
         </div>
 
         </motion.div>

@@ -122,15 +122,15 @@ export default function CollectionPage() {
       <header className="sticky top-0 z-50 bg-white border-b border-gray-200 px-6 md:px-12 py-6 flex items-center justify-between">
         <Link
           href={`/brands/${collection.brand.slug}`}
-          className="text-sm font-light text-gray-600 hover:text-black transition-colors uppercase tracking-wider"
+          className="text-[11px] font-light text-gray-600 hover:text-black transition-colors uppercase tracking-[0.15em]"
         >
           ← {collection.brand.name}
         </Link>
         <div className="text-center">
-          <h1 className="text-2xl md:text-3xl font-light text-black">
+          <h1 className="text-2xl md:text-3xl font-light text-black font-cormorant">
             {collection.name}
           </h1>
-          <p className="text-sm text-gray-500">{collection.season} • {collection.products.length} Pieces</p>
+          <p className="text-[11px] text-gray-500 tracking-[0.1em]">{collection.season} • {collection.products.length} Pieces</p>
         </div>
         <div className="w-32" /> {/* Spacer for centering */}
       </header>
@@ -162,7 +162,7 @@ export default function CollectionPage() {
 
       {/* Virtual Try-On Section Indicator */}
       <div className="bg-gray-100 border-t border-gray-300 px-6 py-4 text-center">
-        <p className="text-sm text-gray-600 uppercase tracking-wider">
+        <p className="text-[11px] text-gray-600 uppercase tracking-[0.2em] font-light">
           Virtual Try-On Experience
         </p>
       </div>
