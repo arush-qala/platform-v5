@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -196,7 +197,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-2xl blur-xl"></div>
           
           {/* Main Glass Container */}
-          <div className="relative px-8 py-4 bg-white/30 backdrop-blur-md rounded-2xl border border-white/50 shadow-2xl overflow-hidden">
+          <div className="relative px-6 py-3 bg-white/30 backdrop-blur-md rounded-2xl border border-white/50 shadow-2xl overflow-hidden">
             {/* Animated Gradient Overlay */}
             <motion.div
               animate={{
@@ -210,11 +211,16 @@ export default function Home() {
               className="absolute inset-0 pointer-events-none"
             />
             
-            {/* Qala Text */}
+            {/* Qala Logo */}
             <Link href="/" className="relative block">
-              <span className="text-3xl font-cormorant text-black/70 font-light tracking-tight">
-                Qala
-              </span>
+              <Image 
+                src="/qala-logo.png" 
+                alt="Qala Global"
+                width={120}
+                height={60}
+                className="object-contain opacity-70"
+                priority
+              />
             </Link>
             
             {/* Subtle shimmer effect */}
