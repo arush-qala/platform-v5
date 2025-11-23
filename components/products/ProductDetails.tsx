@@ -57,7 +57,7 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
   ]
 
   return (
-    <div className="bg-white px-8 pt-16 pb-10 md:px-12 md:pt-20 md:pb-12">
+    <div className="bg-white px-8 pt-16 pb-4 md:px-12 md:pt-20 md:pb-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -43,7 +43,7 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
   }
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-cream to-sand py-20 px-6 md:px-12">
+    <section className="min-h-screen bg-gradient-to-b from-cream to-sand pt-12 pb-20 px-6 md:px-12">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -51,7 +51,7 @@ export function VirtualTryOn({ productName, productImage }: VirtualTryOnProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16 mt-10"
+          className="text-center mb-16"
         >
           <h2 className="text-[30px] md:text-[32px] font-light text-[#1a1a1a] mb-4 tracking-wide">
             Virtual Try-On Experience
