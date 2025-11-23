@@ -35,19 +35,7 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f5f5]">
-      {/* Ultra Minimal Header - Only Logo */}
-      <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
-        className="fixed top-0 left-0 right-0 z-40 py-8 px-8"
-      >
-        <Link href="/" className="text-2xl font-cormorant text-deep-charcoal font-light tracking-tight">
-          Qala
-        </Link>
-      </motion.header>
-
+    <main className="min-h-screen bg-[#f5f5f5] relative">
       {/* Hero Section - Pentagram Style Minimalism */}
       <section className="min-h-screen flex items-center justify-center px-6">
         <motion.div
@@ -185,6 +173,66 @@ export default function Home() {
 
         </motion.div>
       </section>
+
+      {/* Floating Liquid Glass Qala Logo - Bottom Right */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ 
+          opacity: 1, 
+          y: [0, -8, 0],
+        }}
+        transition={{ 
+          opacity: { duration: 1, delay: 0.8 },
+          y: { 
+            duration: 3, 
+            repeat: Infinity, 
+            ease: "easeInOut" 
+          }
+        }}
+        className="fixed bottom-8 right-8 z-50"
+      >
+        <div className="relative group">
+          {/* Liquid Glass Effect */}
+          <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-2xl blur-xl"></div>
+          
+          {/* Main Glass Container */}
+          <div className="relative px-8 py-4 bg-white/30 backdrop-blur-md rounded-2xl border border-white/50 shadow-2xl overflow-hidden">
+            {/* Animated Gradient Overlay */}
+            <motion.div
+              animate={{
+                background: [
+                  'radial-gradient(circle at 0% 0%, rgba(255,255,255,0.3) 0%, transparent 50%)',
+                  'radial-gradient(circle at 100% 100%, rgba(255,255,255,0.3) 0%, transparent 50%)',
+                  'radial-gradient(circle at 0% 0%, rgba(255,255,255,0.3) 0%, transparent 50%)',
+                ],
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="absolute inset-0 pointer-events-none"
+            />
+            
+            {/* Qala Text */}
+            <Link href="/" className="relative block">
+              <span className="text-3xl font-cormorant text-black/70 font-light tracking-tight">
+                Qala
+              </span>
+            </Link>
+            
+            {/* Subtle shimmer effect */}
+            <motion.div
+              animate={{
+                x: ['-100%', '200%'],
+              }}
+              transition={{
+                duration: 3,
+                repeat: Infinity,
+                repeatDelay: 2,
+                ease: "easeInOut"
+              }}
+              className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
+            />
+          </div>
+        </div>
+      </motion.div>
     </main>
   )
 }
