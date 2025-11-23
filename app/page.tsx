@@ -188,15 +188,10 @@ export default function Home() {
                   className="absolute inset-0 pointer-events-none"
                 />
                 
-                {/* Button Text with Silver Effect */}
-                <span className="relative text-xl font-light tracking-[0.3em] text-deep-charcoal uppercase">
-                  Find
-                </span>
-                
-                {/* Silver Shimmer Effect */}
-                <motion.div
+                {/* Button Text with Animated Silver Gradient */}
+                <motion.span
                   animate={{
-                    x: ['-100%', '200%'],
+                    backgroundPosition: ['0% center', '200% center'],
                   }}
                   transition={{
                     duration: 2.5,
@@ -204,11 +199,13 @@ export default function Home() {
                     repeatDelay: 1.5,
                     ease: "easeInOut"
                   }}
-                  className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/60 to-transparent skew-x-12"
+                  className="relative text-xl font-light tracking-[0.3em] uppercase bg-gradient-to-r from-deep-charcoal via-[#C0C0C0] to-deep-charcoal bg-[length:200%_100%] bg-clip-text text-transparent"
                   style={{
-                    background: 'linear-gradient(90deg, transparent, rgba(192,192,192,0.8), rgba(255,255,255,0.9), rgba(192,192,192,0.8), transparent)'
+                    backgroundImage: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 40%, #C0C0C0 50%, #FFFFFF 55%, #C0C0C0 60%, #1A1A1A 70%, #1A1A1A 100%)'
                   }}
-                />
+                >
+                  Find
+                </motion.span>
               </button>
             </div>
           </motion.div>
