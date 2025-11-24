@@ -47,7 +47,25 @@ export default function Home() {
           {/* The Sentence with Inline Dropdowns */}
           <div className="flex flex-col items-center gap-8">
             <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant">
-              <span className="text-deep-charcoal">I want to source for</span>
+              <motion.span
+                animate={{
+                  backgroundPosition: ['200% 0', '-200% 0'],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+                style={{
+                  background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
+                  backgroundSize: '200% 100%',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
+                I want to source for
+              </motion.span>
               
               {/* Category Dropdown - Inline */}
               <div className="relative inline-block">
@@ -102,8 +120,44 @@ export default function Home() {
               </AnimatePresence>
             </div>
             
-            <span className="text-deep-charcoal">&</span>
-            <span className="text-deep-charcoal">my boutique is</span>
+            <motion.span
+              animate={{
+                backgroundPosition: ['200% 0', '-200% 0'],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              style={{
+                background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              &
+            </motion.span>
+            <motion.span
+              animate={{
+                backgroundPosition: ['200% 0', '-200% 0'],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              style={{
+                background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              my boutique is
+            </motion.span>
             
             {/* Season Dropdown - Inline */}
             <div className="relative inline-block">
@@ -188,27 +242,10 @@ export default function Home() {
                   className="absolute inset-0 pointer-events-none"
                 />
                 
-                {/* Button Text with Cursor-style Shimmer */}
-                <motion.span
-                  animate={{
-                    backgroundPosition: ['200% 0', '-200% 0'],
-                  }}
-                  transition={{
-                    duration: 8,
-                    repeat: Infinity,
-                    ease: "linear"
-                  }}
-                  className="relative text-xl font-light tracking-[0.3em] uppercase"
-                  style={{
-                    background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
-                    backgroundSize: '200% 100%',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text'
-                  }}
-                >
+                {/* Button Text */}
+                <span className="relative text-xl font-light tracking-[0.3em] uppercase text-deep-charcoal">
                   Find
-                </motion.span>
+                </span>
               </button>
             </div>
           </motion.div>
