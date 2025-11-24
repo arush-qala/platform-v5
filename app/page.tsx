@@ -46,26 +46,25 @@ export default function Home() {
         >
           {/* The Sentence with Inline Dropdowns */}
           <div className="flex flex-col items-center gap-8">
-            <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant">
-              <motion.span
-                animate={{
-                  backgroundPosition: ['200% 0', '-200% 0'],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "linear"
-                }}
-                style={{
-                  background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
-                  backgroundSize: '200% 100%',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                I want to source for
-              </motion.span>
+            <motion.div 
+              className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant"
+              animate={{
+                backgroundPosition: ['200% 0', '-200% 0'],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+              style={{
+                background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
+                backgroundSize: '200% 100%',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}
+            >
+              <span>I want to source for</span>
               
               {/* Category Dropdown - Inline */}
               <div className="relative inline-block">
@@ -120,44 +119,8 @@ export default function Home() {
               </AnimatePresence>
             </div>
             
-            <motion.span
-              animate={{
-                backgroundPosition: ['200% 0', '-200% 0'],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{
-                background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
-                backgroundSize: '200% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              &
-            </motion.span>
-            <motion.span
-              animate={{
-                backgroundPosition: ['200% 0', '-200% 0'],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{
-                background: 'linear-gradient(90deg, #1A1A1A 0%, #1A1A1A 45%, rgba(192,192,192,0.8) 50%, #FFFFFF 52%, rgba(192,192,192,0.8) 55%, #1A1A1A 60%, #1A1A1A 100%)',
-                backgroundSize: '200% 100%',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}
-            >
-              my boutique is
-            </motion.span>
+            <span>&</span>
+            <span>my boutique is</span>
             
             {/* Season Dropdown - Inline */}
             <div className="relative inline-block">
@@ -210,7 +173,7 @@ export default function Home() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+            </motion.div>
           </div>
 
           {/* Find Button - Floating Glass with Silver Shimmer */}
