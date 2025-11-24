@@ -218,6 +218,8 @@ export default function Home() {
         </motion.div>
       </section>
 
+
+
       {/* Floating Liquid Glass Qala Logo - Bottom Right */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
