@@ -213,7 +213,6 @@ export default function Home() {
               </button>
             </div>
           </motion.div>
-        </div>
 
         </motion.div>
       </section>
