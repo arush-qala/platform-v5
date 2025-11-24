@@ -174,7 +174,6 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </motion.div>
-          </div>
 
           {/* Find Button - Floating Glass with Silver Shimmer */}
           <motion.div
