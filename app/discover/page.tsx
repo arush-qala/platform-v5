@@ -241,16 +241,16 @@ function DiscoverContent() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative aspect-[3/4] w-full shadow-2xl"
+                className="relative aspect-[3/4] w-full shadow-2xl group"
               >
                 <Image
                   src={brandImages[0]}
                   alt={`${activeBrand.name} collection`}
                   fill
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </motion.div>
 
               {/* Center - Brand Info */}
@@ -287,16 +287,16 @@ function DiscoverContent() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="relative aspect-[3/4] w-full shadow-2xl lg:mt-24"
+                className="relative aspect-[3/4] w-full shadow-2xl lg:mt-24 group"
               >
                 <Image
                   src={brandImages[1]}
                   alt={`${activeBrand.name} detail`}
                   fill
-                  className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
+                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </motion.div>
             </div>
           </motion.div>
