@@ -277,7 +277,7 @@ function DiscoverContent() {
                     {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
                       <span
                         key={i}
-                        style={{ paddingLeft: '3rem', paddingRight: '3rem', paddingTop: '1rem', paddingBottom: '1rem' }}
+                        style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
                         className="rounded-full border border-black/10 text-xs uppercase tracking-[0.25em] text-black/60 hover:border-black hover:text-black transition-all duration-500 cursor-default bg-white hover:bg-black/5"
                       >
                         {tag}
