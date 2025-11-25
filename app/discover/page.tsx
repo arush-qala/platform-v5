@@ -19,9 +19,9 @@
  * - If no filters: Shows all featured brands (up to 5)
  * 
  * DESIGN APPROACH:
- * - Black background for dramatic, luxury feel
- * - Large brand name in center with images on sides
- * - Grayscale images that become color on hover
+ * - Cream/Ivory background for "Old Money" luxury feel
+ * - Editorial layout with large images
+ * - Elegant typography
  * - Minimal navigation at bottom
  * 
  * TECHNICAL DETAILS:
@@ -34,10 +34,11 @@
 'use client'
 
 import { Suspense, useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSearchParams } from 'next/navigation'
+import { ChevronRight } from 'lucide-react'
 
 /**
  * Brand Interface
@@ -87,7 +88,7 @@ function DiscoverContent() {
   const [brands, setBrands] = useState<Brand[]>([])
   const [loading, setLoading] = useState(true)
   const [activeBrandIndex, setActiveBrandIndex] = useState(0)
-  
+
   /**
    * Extract filter parameters from URL
    * Defaults to "Everything" and "Everyone" if not provided
@@ -118,10 +119,10 @@ function DiscoverContent() {
       if (category !== 'Everything') params.append('category', category)
       // Only add season param if user selected a specific season
       if (season !== 'Everyone') params.append('season', season)
-      
+
       const response = await fetch(`/api/brands?${params.toString()}`)
       const data = await response.json()
-      
+
       /**
        * BUSINESS REQUIREMENT: Limit to 5 brands
        * The discover page should show exactly 5 brand suggestions
@@ -154,11 +155,11 @@ function DiscoverContent() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-black flex items-center justify-center">
+      <main className="min-h-screen bg-cream flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="w-12 h-12 border border-[#8B7355] border-t-transparent rounded-full"
+          className="w-12 h-12 border border-gold-accent border-t-transparent rounded-full"
         />
       </main>
     )
@@ -166,12 +167,12 @@ function DiscoverContent() {
 
   if (brands.length === 0) {
     return (
-      <main className="min-h-screen bg-black flex items-center justify-center">
+      <main className="min-h-screen bg-cream flex items-center justify-center">
         <div className="text-center">
-          <p className="text-2xl text-[#8B7355] mb-8 font-light">No brands found</p>
+          <p className="text-2xl text-deep-charcoal mb-8 font-light font-cormorant">No brands found matching your criteria</p>
           <Link
             href="/"
-            className="px-8 py-3 bg-[#8B7355] text-black hover:bg-[#A08968] transition-all font-light"
+            className="px-8 py-3 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all font-light tracking-widest uppercase text-sm"
           >
             Start Over
           </Link>
@@ -187,10 +188,10 @@ function DiscoverContent() {
    * - Prefers collection cover images (more dynamic, shows variety)
    * - Falls back to brand cover image if not enough collections
    * - Always ensures exactly 2 images for the two-column layout
-   * - Images displayed in grayscale with color on hover
+   * - Images displayed in full color (removed grayscale for richer feel)
    */
   const activeBrand = brands[activeBrandIndex]
-  
+
   // Get two images from the brand's collections or use cover image
   const brandImages = activeBrand.collections.slice(0, 2).map(c => c.coverImage)
   // Fallback to brand cover image if not enough collection images
@@ -203,83 +204,103 @@ function DiscoverContent() {
   }
 
   return (
-    <main className="min-h-screen bg-black text-white flex flex-col">
+    <main className="min-h-screen bg-cream text-deep-charcoal flex flex-col relative overflow-hidden">
+      {/* Background Texture */}
+      <div className="absolute inset-0 opacity-[0.4] pointer-events-none mix-blend-multiply"
+        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
+      />
+
       {/* Header - QALA */}
       <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         className="fixed top-0 left-0 right-0 z-50 py-8 text-center"
       >
-        <Link href="/" className="text-2xl font-cormorant text-[#8B7355] font-light tracking-[0.3em]">
+        <Link href="/" className="text-2xl font-cormorant text-deep-charcoal font-light tracking-[0.3em] hover:text-gold-accent transition-colors">
           QALA
         </Link>
       </motion.header>
 
       {/* Main Content Area - Brand Display */}
-      <section className="flex-1 flex items-center justify-center px-6 pt-24">
-        <motion.div
-          key={activeBrandIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-7xl"
-        >
-          {/* Two Images with Brand Name in Center */}
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-16 items-center mb-12">
-            {/* Left Image */}
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative aspect-[3/4] w-full max-w-md mx-auto"
-            >
-              <Image
-                src={brandImages[0]}
-                alt={`${activeBrand.name} image 1`}
-                fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-              />
-            </motion.div>
+      <section className="flex-1 flex items-center justify-center px-6 pt-24 pb-32 relative z-10">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeBrandIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6 }}
+            className="w-full max-w-7xl"
+          >
+            {/* Editorial Layout: Image - Text - Image */}
+            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1.2fr] gap-8 lg:gap-16 items-center">
 
-            {/* Center - Brand Name and Year */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-center px-8 min-w-[200px]"
-            >
-              <h1 className="text-6xl md:text-8xl font-light text-white mb-4 font-cormorant">
-                {activeBrand.name}
-              </h1>
-              <p className="text-[#8B7355] text-sm font-light tracking-wider mb-8">
-                {activeBrand.location}
-              </p>
-              <Link
-                href={`/brands/${activeBrand.slug}`}
-                className="text-sm text-white hover:text-[#8B7355] transition-colors underline underline-offset-4 tracking-wider font-light"
+              {/* Left Image */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="relative aspect-[3/4] w-full shadow-2xl"
               >
-                DISCOVER MORE
-              </Link>
-            </motion.div>
+                <Image
+                  src={brandImages[0]}
+                  alt={`${activeBrand.name} collection`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
 
-            {/* Right Image */}
-            <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative aspect-[3/4] w-full max-w-md mx-auto"
-            >
-              <Image
-                src={brandImages[1]}
-                alt={`${activeBrand.name} image 2`}
-                fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
-              />
-            </motion.div>
-          </div>
-        </motion.div>
+              {/* Center - Brand Info */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="text-center px-4 py-8"
+              >
+                <p className="text-gold-accent text-sm font-medium tracking-[0.2em] mb-6 uppercase">
+                  Featured Brand
+                </p>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-deep-charcoal mb-6 font-cormorant leading-tight">
+                  {activeBrand.name}
+                </h1>
+                <p className="text-taupe text-sm font-light tracking-wider mb-8 uppercase">
+                  {activeBrand.location}
+                </p>
+                <p className="text-charcoal/80 font-light leading-relaxed mb-10 max-w-md mx-auto line-clamp-4">
+                  {activeBrand.description}
+                </p>
+
+                <Link
+                  href={`/brands/${activeBrand.slug}`}
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  <span className="text-sm tracking-[0.2em] uppercase">Explore Brand</span>
+                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </motion.div>
+
+              {/* Right Image */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="relative aspect-[3/4] w-full shadow-2xl lg:mt-24"
+              >
+                <Image
+                  src={brandImages[1]}
+                  alt={`${activeBrand.name} detail`}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
+              </motion.div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
       </section>
 
       {/* 
@@ -287,44 +308,38 @@ function DiscoverContent() {
         
         UX PATTERN:
         - Horizontal list of all 5 brand names
-        - Active brand highlighted in white
-        - Inactive brands in gray with hover effect
+        - Active brand highlighted in dark charcoal
+        - Inactive brands in taupe with hover effect
         - Clicking a brand name switches the displayed brand
         - Simple, minimal navigation that doesn't distract from content
-        
-        DESIGN DETAILS:
-        - Uppercase text with wide letter spacing (tracking-[0.2em])
-        - Border-top separates navigation from main content
-        - Smooth fade-in animation on page load
       */}
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="border-t border-[#333] py-12 px-6"
+        className="fixed bottom-0 left-0 right-0 bg-cream/90 backdrop-blur-md border-t border-warm-grey/30 py-6 z-40"
       >
-        <div className="max-w-7xl mx-auto">
-          {/* 
-            BRAND NAME BUTTONS
-            - Each brand name is clickable
-            - Active brand has white text
-            - Inactive brands have gray text that becomes white on hover
-            - Clicking updates activeBrandIndex to switch displayed brand
-          */}
-          <div className="flex justify-center items-center gap-12">
+        <div className="max-w-7xl mx-auto px-6 overflow-x-auto no-scrollbar">
+          <div className="flex justify-center items-center gap-8 md:gap-16 min-w-max">
             {brands.map((brand, index) => (
               <button
                 key={brand.id}
                 onClick={() => setActiveBrandIndex(index)}
-                className="group"
+                className="group relative py-2"
               >
-                <span className={`text-lg font-light tracking-[0.2em] transition-colors whitespace-nowrap uppercase ${
-                  index === activeBrandIndex
-                    ? 'text-white'
-                    : 'text-[#666] group-hover:text-white'
-                }`}>
+                <span className={`text-sm md:text-base font-light tracking-[0.2em] transition-colors whitespace-nowrap uppercase ${index === activeBrandIndex
+                    ? 'text-deep-charcoal font-medium'
+                    : 'text-taupe group-hover:text-deep-charcoal'
+                  }`}>
                   {brand.name}
                 </span>
+                {index === activeBrandIndex && (
+                  <motion.div
+                    layoutId="activeIndicator"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold-accent"
+                    transition={{ duration: 0.3 }}
+                  />
+                )}
               </button>
             ))}
           </div>
@@ -342,17 +357,17 @@ function DiscoverContent() {
  * Uses Next.js 13+ Suspense boundaries for streaming SSR
  * 
  * DESIGN:
- * - Black background matches page theme
- * - Spinning loader with brand color (#8B7355)
+ * - Cream background matches page theme
+ * - Spinning loader with brand color
  * - Centered for visual balance
  */
 function LoadingFallback() {
   return (
-    <main className="min-h-screen bg-black flex items-center justify-center">
+    <main className="min-h-screen bg-cream flex items-center justify-center">
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        className="w-12 h-12 border border-[#8B7355] border-t-transparent rounded-full"
+        className="w-12 h-12 border border-gold-accent border-t-transparent rounded-full"
       />
     </main>
   )
@@ -365,11 +380,6 @@ function LoadingFallback() {
  * - Wraps DiscoverContent in Suspense boundary
  * - useSearchParams() requires Suspense in Next.js App Router
  * - LoadingFallback shown while searchParams are being resolved
- * 
- * TECHNICAL NOTE:
- * This pattern is required by Next.js 13+ App Router when using
- * useSearchParams() hook. The Suspense boundary allows the page
- * to stream in the search parameters without blocking the entire page.
  */
 export default function DiscoverPage() {
   return (

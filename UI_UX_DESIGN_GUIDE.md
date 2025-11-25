@@ -1108,3 +1108,4 @@ The more specific and visual your requests to Cursor, the better the output will
 
 ---
 
+

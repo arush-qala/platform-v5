@@ -34,6 +34,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { BackgroundMedia } from '@/components/ui/BackgroundMedia'
 
 /**
  * PRODUCT CATEGORIES
@@ -67,11 +68,11 @@ const seasons = ['Everyone', 'Summer/Spring', 'Fall/Winter', 'Resortwear']
  */
 export default function Home() {
   const router = useRouter()
-  
+
   // State for selected filters - defaults to "no filter" values
   const [selectedCategory, setSelectedCategory] = useState('Everything')
   const [selectedSeason, setSelectedSeason] = useState('Everyone')
-  
+
   // State for modal visibility - only one modal open at a time
   const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
   const [showSeasonDropdown, setShowSeasonDropdown] = useState(false)
@@ -96,7 +97,7 @@ export default function Home() {
     if (selectedCategory !== 'Everything') params.append('category', selectedCategory)
     // Only add season param if not "Everyone" (which means "all seasons")
     if (selectedSeason !== 'Everyone') params.append('season', selectedSeason)
-    
+
     router.push(`/discover?${params.toString()}`)
   }
 
@@ -119,7 +120,18 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f5f5f5] relative">
+    <main className="min-h-screen relative overflow-hidden">
+      {/* 
+        BACKGROUND MEDIA
+        - Uses a high-quality fashion image/video
+        - Adds a cream overlay to maintain readability and "Old Money" aesthetic
+      */}
+      <BackgroundMedia
+        type="image"
+        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop"
+        overlayOpacity={0.85}
+      />
+
       {/* 
         HERO SECTION
         
@@ -134,7 +146,7 @@ export default function Home() {
         - Inline dropdowns feel integrated, not like separate UI elements
         - Modal overlays for selection provide focus and prevent distraction
       */}
-      <section className="min-h-screen flex items-center justify-center px-6">
+      <section className="min-h-screen flex items-center justify-center px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -149,7 +161,7 @@ export default function Home() {
           <div className="flex flex-col items-center gap-8">
             <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant">
               <span className="text-deep-charcoal">I want to source for</span>
-              
+
               {/* 
                 CATEGORY DROPDOWN BUTTON
                 - Inline button that opens full-screen modal
@@ -163,7 +175,7 @@ export default function Home() {
                     setShowCategoryDropdown(!showCategoryDropdown)
                     setShowSeasonDropdown(false)
                   }}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-charcoal/20"
                 >
                   <span className="font-normal text-deep-charcoal">
                     {selectedCategory}
@@ -171,120 +183,118 @@ export default function Home() {
                   <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
                 </button>
 
-              {/* 
-                CATEGORY SELECTION MODAL
-                
-                UX PATTERN:
-                - Full-screen overlay with backdrop blur for focus
-                - Click outside to close (backdrop click)
-                - Smooth fade-in/fade-out animations
-                - Selected category highlighted with inverted colors
-                - All categories displayed as large, tappable buttons
-                
-                ANIMATION DETAILS:
-                - Overlay fades in/out (opacity transition)
-                - Content slides up slightly on enter (y: 20 → 0)
-                - AnimatePresence handles exit animations smoothly
-              */}
-              <AnimatePresence>
-                {showCategoryDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
-                    onClick={() => setShowCategoryDropdown(false)}
-                  >
+                {/* 
+                  CATEGORY SELECTION MODAL
+                  
+                  UX PATTERN:
+                  - Full-screen overlay with backdrop blur for focus
+                  - Click outside to close (backdrop click)
+                  - Smooth fade-in/fade-out animations
+                  - Selected category highlighted with inverted colors
+                  - All categories displayed as large, tappable buttons
+                  
+                  ANIMATION DETAILS:
+                  - Overlay fades in/out (opacity transition)
+                  - Content slides up slightly on enter (y: 20 → 0)
+                  - AnimatePresence handles exit animations smoothly
+                */}
+                <AnimatePresence>
+                  {showCategoryDropdown && (
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      className="relative max-w-4xl w-full px-6"
-                      onClick={(e) => e.stopPropagation()}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 z-50 flex items-center justify-center bg-cream/95 backdrop-blur-md"
+                      onClick={() => setShowCategoryDropdown(false)}
                     >
-                      {/* 
-                        CATEGORY BUTTONS GRID
-                        - Responsive flex-wrap layout
-                        - Selected category has dark background (bg-deep-charcoal)
-                        - Unselected categories have light background with hover effect
-                        - Large touch targets (px-8 py-4) for mobile usability
-                      */}
-                      <div className="flex flex-wrap justify-center gap-3">
-                        {categories.map((cat) => (
-                          <button
-                            key={cat}
-                            onClick={() => handleCategorySelect(cat)}
-                            className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
-                              selectedCategory === cat
-                                ? 'bg-deep-charcoal text-ivory'
-                                : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
-                            }`}
-                          >
-                            {cat}
-                          </button>
-                        ))}
-                      </div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        className="relative max-w-4xl w-full px-6"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {/* 
+                          CATEGORY BUTTONS GRID
+                          - Responsive flex-wrap layout
+                          - Selected category has dark background (bg-deep-charcoal)
+                          - Unselected categories have light background with hover effect
+                          - Large touch targets (px-8 py-4) for mobile usability
+                        */}
+                        <div className="flex flex-wrap justify-center gap-3">
+                          {categories.map((cat) => (
+                            <button
+                              key={cat}
+                              onClick={() => handleCategorySelect(cat)}
+                              className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedCategory === cat
+                                  ? 'bg-deep-charcoal text-ivory'
+                                  : 'bg-white text-deep-charcoal hover:bg-sand border border-warm-grey'
+                                }`}
+                            >
+                              {cat}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-            
-            <span className="text-deep-charcoal">&</span>
-            <span className="text-deep-charcoal">my boutique is</span>
-            
-            {/* Season Dropdown - Inline */}
-            <div className="relative inline-block">
-              <button
-                onClick={() => {
-                  setShowSeasonDropdown(!showSeasonDropdown)
-                  setShowCategoryDropdown(false)
-                }}
-                className="group inline-flex items-center gap-2 px-6 py-3 bg-[#e8e8e8] hover:bg-[#d8d8d8] transition-all duration-300 rounded-sm"
-              >
-                <span className="font-normal text-deep-charcoal">
-                  {selectedSeason}
-                </span>
-                <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
-              </button>
+                  )}
+                </AnimatePresence>
+              </div>
 
-              {/* Season Modal Overlay */}
-              <AnimatePresence>
-                {showSeasonDropdown && (
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 flex items-center justify-center bg-[#f5f5f5]/95"
-                    onClick={() => setShowSeasonDropdown(false)}
-                  >
+              <span className="text-deep-charcoal">&</span>
+              <span className="text-deep-charcoal">my boutique is</span>
+
+              {/* Season Dropdown - Inline */}
+              <div className="relative inline-block">
+                <button
+                  onClick={() => {
+                    setShowSeasonDropdown(!showSeasonDropdown)
+                    setShowCategoryDropdown(false)
+                  }}
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-charcoal/20"
+                >
+                  <span className="font-normal text-deep-charcoal">
+                    {selectedSeason}
+                  </span>
+                  <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {/* Season Modal Overlay */}
+                <AnimatePresence>
+                  {showSeasonDropdown && (
                     <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 20 }}
-                      className="relative max-w-4xl w-full px-6"
-                      onClick={(e) => e.stopPropagation()}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="fixed inset-0 z-50 flex items-center justify-center bg-cream/95 backdrop-blur-md"
+                      onClick={() => setShowSeasonDropdown(false)}
                     >
-                      <div className="flex flex-wrap justify-center gap-3">
-                        {seasons.map((season) => (
-                          <button
-                            key={season}
-                            onClick={() => handleSeasonSelect(season)}
-                            className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm ${
-                              selectedSeason === season
-                                ? 'bg-deep-charcoal text-ivory'
-                                : 'bg-[#e8e8e8] text-deep-charcoal hover:bg-[#d8d8d8]'
-                            }`}
-                          >
-                            {season}
-                          </button>
-                        ))}
-                      </div>
+                      <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 20 }}
+                        className="relative max-w-4xl w-full px-6"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="flex flex-wrap justify-center gap-3">
+                          {seasons.map((season) => (
+                            <button
+                              key={season}
+                              onClick={() => handleSeasonSelect(season)}
+                              className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedSeason === season
+                                  ? 'bg-deep-charcoal text-ivory'
+                                  : 'bg-white text-deep-charcoal hover:bg-sand border border-warm-grey'
+                                }`}
+                            >
+                              {season}
+                            </button>
+                          ))}
+                        </div>
+                      </motion.div>
                     </motion.div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </div>
 
@@ -312,39 +322,37 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-8"
+            className="mt-12"
           >
-            <div className="relative group">
+            <div className="relative group inline-block">
               {/* Blurred background layer for depth */}
-              <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-sm blur-xl"></div>
-              
+              <div className="absolute inset-0 bg-gold-accent/20 rounded-sm blur-xl group-hover:bg-gold-accent/30 transition-colors duration-500"></div>
+
               {/* Main glass button container */}
               <button
                 onClick={navigateToDiscover}
-                className="relative px-16 py-4 bg-white/30 backdrop-blur-md rounded-sm border border-white/50 shadow-2xl overflow-hidden hover:scale-105 transition-transform duration-300"
+                className="relative px-20 py-5 bg-deep-charcoal text-ivory rounded-sm overflow-hidden hover:scale-105 transition-transform duration-300 shadow-xl"
               >
                 {/* 
-                  ANIMATED SILVER SHIMMER
-                  - Radial gradient moves in a cycle (top-left → bottom-right → top-left)
+                  ANIMATED SHIMMER
+                  - Radial gradient moves in a cycle
                   - Creates subtle luxury shimmer effect
-                  - Infinite loop for continuous animation
-                  - pointer-events-none so it doesn't interfere with clicks
                 */}
                 <motion.div
                   animate={{
                     background: [
-                      'radial-gradient(circle at 0% 0%, rgba(192,192,192,0.4) 0%, transparent 50%)',
-                      'radial-gradient(circle at 100% 100%, rgba(192,192,192,0.4) 0%, transparent 50%)',
-                      'radial-gradient(circle at 0% 0%, rgba(192,192,192,0.4) 0%, transparent 50%)',
+                      'radial-gradient(circle at 0% 0%, rgba(184, 149, 106, 0.4) 0%, transparent 50%)',
+                      'radial-gradient(circle at 100% 100%, rgba(184, 149, 106, 0.4) 0%, transparent 50%)',
+                      'radial-gradient(circle at 0% 0%, rgba(184, 149, 106, 0.4) 0%, transparent 50%)',
                     ],
                   }}
                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                   className="absolute inset-0 pointer-events-none"
                 />
-                
+
                 {/* Button text with wide letter spacing for luxury typography */}
-                <span className="relative text-xl font-light tracking-[0.3em] uppercase text-deep-charcoal">
-                  Find
+                <span className="relative text-xl font-light tracking-[0.3em] uppercase font-cormorant">
+                  Find Brands
                 </span>
               </button>
             </div>
@@ -377,24 +385,24 @@ export default function Home() {
       */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ 
-          opacity: 1, 
+        animate={{
+          opacity: 1,
           y: [0, -8, 0], // Gentle floating animation
         }}
-        transition={{ 
+        transition={{
           opacity: { duration: 1, delay: 0.8 },
-          y: { 
-            duration: 3, 
-            repeat: Infinity, 
-            ease: "easeInOut" 
+          y: {
+            duration: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
           }
         }}
         className="fixed bottom-8 right-8 z-50"
       >
         <div className="relative group">
           {/* Blurred background for glass effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-white/10 rounded-2xl blur-xl"></div>
-          
+          <div className="absolute inset-0 bg-white/40 rounded-2xl blur-xl"></div>
+
           {/* Glass container with logo */}
           <div className="relative px-6 py-3 bg-white/30 backdrop-blur-md rounded-2xl border border-white/50 shadow-2xl overflow-hidden">
             {/* Animated gradient overlay */}
@@ -409,14 +417,14 @@ export default function Home() {
               transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
               className="absolute inset-0 pointer-events-none"
             />
-            
+
             {/* QALA Logo - clickable link to homepage */}
             <Link href="/" className="relative block">
               <div className="text-2xl font-light tracking-[0.3em] text-deep-charcoal font-cormorant">
                 QALA
               </div>
             </Link>
-            
+
             {/* 
               SHIMMER SWEEP ANIMATION
               - Diagonal gradient sweeps across logo
