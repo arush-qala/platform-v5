@@ -34,7 +34,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
 import { ChevronDown } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { BackgroundMedia } from '@/components/ui/BackgroundMedia'
+import { BackgroundMedia, MediaItem } from '@/components/ui/BackgroundMedia'
 
 /**
  * PRODUCT CATEGORIES
@@ -51,6 +51,18 @@ const categories = ['Everything', 'Dresses', 'Co-ord Sets', 'Evening Wear', 'Top
  * Used for filtering brands that have collections for specific seasons.
  */
 const seasons = ['Everyone', 'Summer/Spring', 'Fall/Winter', 'Resortwear']
+
+/**
+ * BACKGROUND MEDIA ITEMS
+ * Curated list of high-quality fashion imagery to cycle through.
+ * Inspired by Pentagram's homepage slideshow.
+ */
+const backgroundItems: MediaItem[] = [
+  { type: 'image', src: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop' },
+  { type: 'image', src: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop' },
+  { type: 'image', src: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2076&auto=format&fit=crop' },
+  { type: 'image', src: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1974&auto=format&fit=crop' },
+]
 
 /**
  * Home Component - Main Landing Page
@@ -120,16 +132,16 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen relative overflow-hidden">
+    <main className="min-h-screen relative overflow-hidden bg-white">
       {/* 
         BACKGROUND MEDIA
         - Uses a high-quality fashion image/video
         - Adds a cream overlay to maintain readability and "Old Money" aesthetic
       */}
       <BackgroundMedia
-        type="image"
-        src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop"
-        overlayOpacity={0.85}
+        items={backgroundItems}
+        overlayOpacity={0.7}
+        cycleInterval={5000}
       />
 
       {/* 
@@ -160,7 +172,7 @@ export default function Home() {
           */}
           <div className="flex flex-col items-center gap-8">
             <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant">
-              <span className="text-deep-charcoal">I want to source for</span>
+              <span className="text-black">I want to source for</span>
 
               {/* 
                 CATEGORY DROPDOWN BUTTON
@@ -175,12 +187,12 @@ export default function Home() {
                     setShowCategoryDropdown(!showCategoryDropdown)
                     setShowSeasonDropdown(false)
                   }}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-charcoal/20"
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-black/20"
                 >
-                  <span className="font-normal text-deep-charcoal">
+                  <span className="font-normal text-black">
                     {selectedCategory}
                   </span>
-                  <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-black transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
                 </button>
 
                 {/* 
@@ -204,7 +216,7 @@ export default function Home() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="fixed inset-0 z-50 flex items-center justify-center bg-cream/95 backdrop-blur-md"
+                      className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 backdrop-blur-md"
                       onClick={() => setShowCategoryDropdown(false)}
                     >
                       <motion.div
@@ -227,8 +239,8 @@ export default function Home() {
                               key={cat}
                               onClick={() => handleCategorySelect(cat)}
                               className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedCategory === cat
-                                  ? 'bg-deep-charcoal text-ivory'
-                                  : 'bg-white text-deep-charcoal hover:bg-sand border border-warm-grey'
+                                  ? 'bg-black text-white'
+                                  : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
                                 }`}
                             >
                               {cat}
@@ -241,8 +253,8 @@ export default function Home() {
                 </AnimatePresence>
               </div>
 
-              <span className="text-deep-charcoal">&</span>
-              <span className="text-deep-charcoal">my boutique is</span>
+              <span className="text-black">&</span>
+              <span className="text-black">my boutique is</span>
 
               {/* Season Dropdown - Inline */}
               <div className="relative inline-block">
@@ -251,12 +263,12 @@ export default function Home() {
                     setShowSeasonDropdown(!showSeasonDropdown)
                     setShowCategoryDropdown(false)
                   }}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-charcoal/20"
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-black/20"
                 >
-                  <span className="font-normal text-deep-charcoal">
+                  <span className="font-normal text-black">
                     {selectedSeason}
                   </span>
-                  <ChevronDown className={`w-5 h-5 text-charcoal transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-black transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
                 </button>
 
                 {/* Season Modal Overlay */}
@@ -266,7 +278,7 @@ export default function Home() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="fixed inset-0 z-50 flex items-center justify-center bg-cream/95 backdrop-blur-md"
+                      className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 backdrop-blur-md"
                       onClick={() => setShowSeasonDropdown(false)}
                     >
                       <motion.div
@@ -282,8 +294,8 @@ export default function Home() {
                               key={season}
                               onClick={() => handleSeasonSelect(season)}
                               className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedSeason === season
-                                  ? 'bg-deep-charcoal text-ivory'
-                                  : 'bg-white text-deep-charcoal hover:bg-sand border border-warm-grey'
+                                  ? 'bg-black text-white'
+                                  : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
                                 }`}
                             >
                               {season}
@@ -326,12 +338,12 @@ export default function Home() {
           >
             <div className="relative group inline-block">
               {/* Blurred background layer for depth */}
-              <div className="absolute inset-0 bg-gold-accent/20 rounded-sm blur-xl group-hover:bg-gold-accent/30 transition-colors duration-500"></div>
+              <div className="absolute inset-0 bg-white/20 rounded-sm blur-xl group-hover:bg-white/30 transition-colors duration-500"></div>
 
               {/* Main glass button container */}
               <button
                 onClick={navigateToDiscover}
-                className="relative px-20 py-5 bg-deep-charcoal text-ivory rounded-sm overflow-hidden hover:scale-105 transition-transform duration-300 shadow-xl"
+                className="relative px-20 py-5 bg-white/40 backdrop-blur-md text-black rounded-sm overflow-hidden hover:scale-105 transition-transform duration-300 shadow-xl border border-white/50"
               >
                 {/* 
                   ANIMATED SHIMMER
@@ -341,9 +353,9 @@ export default function Home() {
                 <motion.div
                   animate={{
                     background: [
-                      'radial-gradient(circle at 0% 0%, rgba(184, 149, 106, 0.4) 0%, transparent 50%)',
-                      'radial-gradient(circle at 100% 100%, rgba(184, 149, 106, 0.4) 0%, transparent 50%)',
-                      'radial-gradient(circle at 0% 0%, rgba(184, 149, 106, 0.4) 0%, transparent 50%)',
+                      'radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)',
+                      'radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)',
+                      'radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)',
                     ],
                   }}
                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -351,7 +363,7 @@ export default function Home() {
                 />
 
                 {/* Button text with wide letter spacing for luxury typography */}
-                <span className="relative text-xl font-light tracking-[0.3em] uppercase font-cormorant">
+                <span className="relative text-xl font-light tracking-[0.3em] uppercase font-cormorant text-black">
                   Find Brands
                 </span>
               </button>
@@ -420,7 +432,7 @@ export default function Home() {
 
             {/* QALA Logo - clickable link to homepage */}
             <Link href="/" className="relative block">
-              <div className="text-2xl font-light tracking-[0.3em] text-deep-charcoal font-cormorant">
+              <div className="text-2xl font-light tracking-[0.3em] text-black font-cormorant">
                 QALA
               </div>
             </Link>

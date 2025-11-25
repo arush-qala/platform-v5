@@ -204,7 +204,7 @@ function DiscoverContent() {
   }
 
   return (
-    <main className="min-h-screen bg-cream text-deep-charcoal flex flex-col relative overflow-hidden">
+    <main className="min-h-screen bg-white text-deep-charcoal flex flex-col relative overflow-hidden">
       {/* Background Texture */}
       <div className="absolute inset-0 opacity-[0.4] pointer-events-none mix-blend-multiply"
         style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
@@ -328,8 +328,8 @@ function DiscoverContent() {
                 className="group relative py-2"
               >
                 <span className={`text-sm md:text-base font-light tracking-[0.2em] transition-colors whitespace-nowrap uppercase ${index === activeBrandIndex
-                    ? 'text-deep-charcoal font-medium'
-                    : 'text-taupe group-hover:text-deep-charcoal'
+                  ? 'text-deep-charcoal font-medium'
+                  : 'text-taupe group-hover:text-deep-charcoal'
                   }`}>
                   {brand.name}
                 </span>
