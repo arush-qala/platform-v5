@@ -266,14 +266,14 @@ function DiscoverContent() {
               >
                 <div>
                   {/* Brand Story - First Element */}
-                  <p className="text-charcoal/90 font-light leading-relaxed mb-20 text-xl max-w-xl font-cormorant">
+                  <p className="text-charcoal/90 font-light leading-relaxed mb-32 text-xl max-w-xl font-cormorant">
                     {activeBrand.description.split('.').slice(0, 2).join('.')}.
                     <br />
                     <span className="text-sm text-taupe mt-4 block uppercase tracking-widest font-sans">{activeBrand.location}</span>
                   </p>
 
                   {/* USP Tags (Mocked) */}
-                  <div className="flex flex-wrap gap-4 mb-24">
+                  <div className="flex flex-wrap gap-4 mb-32">
                     {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
                       <span key={i} className="px-5 py-2 rounded-full border border-gray-200 text-xs uppercase tracking-widest text-gray-500 bg-transparent">
                         {tag}
