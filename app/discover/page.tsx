@@ -262,42 +262,41 @@ function DiscoverContent() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="flex flex-col justify-center items-start text-left pl-0 lg:pl-12"
+                className="flex flex-col justify-between items-start text-left pl-0 lg:pl-16 h-full py-4"
               >
-                {/* Brand Story */}
-                <h2 className="text-3xl md:text-4xl font-light text-deep-charcoal mb-6 font-cormorant leading-tight">
-                  {activeBrand.name}
-                </h2>
-                <p className="text-charcoal/80 font-light leading-relaxed mb-8 text-lg max-w-xl">
-                  {activeBrand.description.split('.').slice(0, 2).join('.')}.
-                  <br />
-                  <span className="text-sm text-taupe mt-2 block uppercase tracking-wider">{activeBrand.location}</span>
-                </p>
+                <div>
+                  {/* Brand Story - First Element */}
+                  <p className="text-charcoal/90 font-light leading-relaxed mb-10 text-xl max-w-xl font-cormorant">
+                    {activeBrand.description.split('.').slice(0, 2).join('.')}.
+                    <br />
+                    <span className="text-sm text-taupe mt-4 block uppercase tracking-widest font-sans">{activeBrand.location}</span>
+                  </p>
 
-                {/* USP Tags (Mocked) */}
-                <div className="flex flex-wrap gap-3 mb-10">
-                  {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
-                    <span key={i} className="px-4 py-1.5 rounded-full border border-gray-200 text-xs uppercase tracking-wider text-gray-600 bg-gray-50">
-                      {tag}
-                    </span>
-                  ))}
+                  {/* USP Tags (Mocked) */}
+                  <div className="flex flex-wrap gap-4 mb-16">
+                    {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
+                      <span key={i} className="px-5 py-2 rounded-full border border-gray-200 text-xs uppercase tracking-widest text-gray-500 bg-transparent">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Primary CTA - Text Only */}
+                  <Link
+                    href={`/brands/${activeBrand.slug}`}
+                    className="group inline-flex items-center gap-3 text-black hover:text-gray-600 transition-colors duration-300"
+                  >
+                    <span className="text-lg tracking-[0.2em] uppercase border-b border-black pb-1 group-hover:border-gray-600 transition-colors">Browse Collection</span>
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </Link>
                 </div>
 
-                {/* Primary CTA */}
-                <Link
-                  href={`/brands/${activeBrand.slug}`}
-                  className="group inline-flex items-center gap-3 px-10 py-4 bg-black text-white hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl mb-12"
-                >
-                  <span className="text-sm tracking-[0.2em] uppercase">Browse Collection</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-
-                {/* Secondary CTA - Recommendation */}
-                <div className="mt-auto">
-                  <p className="text-xs text-taupe uppercase tracking-widest mb-2">Not quite right?</p>
+                {/* Secondary CTA - Recommendation - Bottom Aligned */}
+                <div className="mt-20 lg:mt-auto pt-8">
+                  <p className="text-[10px] text-taupe uppercase tracking-[0.3em] mb-3">Not quite right?</p>
                   <button
-                    onClick={() => window.location.reload()} // Placeholder for recommendation logic
-                    className="text-sm font-medium text-black border-b border-black pb-0.5 hover:text-gray-600 hover:border-gray-600 transition-colors"
+                    onClick={() => window.location.reload()}
+                    className="text-sm font-light text-black border-b border-gray-300 pb-0.5 hover:text-gray-600 hover:border-black transition-all tracking-wider"
                   >
                     More brands like this
                   </button>
