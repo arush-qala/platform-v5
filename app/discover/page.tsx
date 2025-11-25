@@ -264,16 +264,16 @@ function DiscoverContent() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="flex flex-col justify-between items-start text-left pl-0 lg:pl-16 h-full py-4"
               >
-                <div>
+                <div className="flex flex-col gap-y-24 w-full">
                   {/* Brand Story - First Element */}
-                  <p className="text-charcoal/90 font-light leading-relaxed mb-32 text-xl max-w-xl font-cormorant">
+                  <p className="text-charcoal/90 font-light leading-relaxed text-xl max-w-xl font-cormorant">
                     {activeBrand.description.split('.').slice(0, 2).join('.')}.
                     <br />
-                    <span className="text-sm text-taupe mt-4 block uppercase tracking-widest font-sans">{activeBrand.location}</span>
+                    <span className="text-sm text-taupe mt-6 block uppercase tracking-widest font-sans">{activeBrand.location}</span>
                   </p>
 
                   {/* USP Tags (Mocked) */}
-                  <div className="flex flex-wrap gap-4 mb-32">
+                  <div className="flex flex-wrap gap-4">
                     {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
                       <span key={i} className="px-5 py-2 rounded-full border border-gray-200 text-xs uppercase tracking-widest text-gray-500 bg-transparent">
                         {tag}
@@ -284,7 +284,7 @@ function DiscoverContent() {
                   {/* Primary CTA - Text Only */}
                   <Link
                     href={`/brands/${activeBrand.slug}`}
-                    className="group inline-flex items-center gap-3 text-black hover:text-gray-600 transition-colors duration-300"
+                    className="group inline-flex items-center gap-3 text-black hover:text-gray-600 transition-colors duration-300 self-start"
                   >
                     <span className="text-lg tracking-[0.2em] uppercase border-b border-black pb-1 group-hover:border-gray-600 transition-colors">Browse Collection</span>
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
