@@ -233,71 +233,77 @@ function DiscoverContent() {
             transition={{ duration: 0.6 }}
             className="w-full max-w-7xl"
           >
-            {/* Editorial Layout: Image - Text - Image */}
-            <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr_1.2fr] gap-8 lg:gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-              {/* Left Image */}
+              {/* LEFT SECTION: 6-Image Grid */}
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="relative aspect-[3/4] w-full shadow-2xl group"
+                className="grid grid-cols-2 md:grid-cols-3 gap-4"
               >
-                <Image
-                  src={brandImages[0]}
-                  alt={`${activeBrand.name} collection`}
-                  fill
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Ensure we have 6 images by repeating if necessary */}
+                {[...brandImages, ...brandImages, ...brandImages].slice(0, 6).map((img, i) => (
+                  <div key={i} className="relative aspect-[3/4] w-full group overflow-hidden">
+                    <Image
+                      src={img}
+                      alt={`${activeBrand.name} detail ${i + 1}`}
+                      fill
+                      className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                      priority={i < 2}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  </div>
+                ))}
               </motion.div>
 
-              {/* Center - Brand Info */}
+              {/* RIGHT SECTION: Story & Details */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-center px-4 py-8"
+                className="flex flex-col justify-center items-start text-left pl-0 lg:pl-12"
               >
-                <p className="text-gold-accent text-sm font-medium tracking-[0.2em] mb-6 uppercase">
-                  Featured Brand
-                </p>
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-light text-deep-charcoal mb-6 font-cormorant leading-tight">
+                {/* Brand Story */}
+                <h2 className="text-3xl md:text-4xl font-light text-deep-charcoal mb-6 font-cormorant leading-tight">
                   {activeBrand.name}
-                </h1>
-                <p className="text-taupe text-sm font-light tracking-wider mb-8 uppercase">
-                  {activeBrand.location}
-                </p>
-                <p className="text-charcoal/80 font-light leading-relaxed mb-10 max-w-md mx-auto line-clamp-4">
-                  {activeBrand.description}
+                </h2>
+                <p className="text-charcoal/80 font-light leading-relaxed mb-8 text-lg max-w-xl">
+                  {activeBrand.description.split('.').slice(0, 2).join('.')}.
+                  <br />
+                  <span className="text-sm text-taupe mt-2 block uppercase tracking-wider">{activeBrand.location}</span>
                 </p>
 
+                {/* USP Tags (Mocked) */}
+                <div className="flex flex-wrap gap-3 mb-10">
+                  {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
+                    <span key={i} className="px-4 py-1.5 rounded-full border border-gray-200 text-xs uppercase tracking-wider text-gray-600 bg-gray-50">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Primary CTA */}
                 <Link
                   href={`/brands/${activeBrand.slug}`}
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black border border-black hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="group inline-flex items-center gap-3 px-10 py-4 bg-black text-white hover:bg-gray-900 transition-all duration-300 shadow-lg hover:shadow-xl mb-12"
                 >
-                  <span className="text-sm tracking-[0.2em] uppercase">Explore Brand</span>
+                  <span className="text-sm tracking-[0.2em] uppercase">Browse Collection</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+
+                {/* Secondary CTA - Recommendation */}
+                <div className="mt-auto">
+                  <p className="text-xs text-taupe uppercase tracking-widest mb-2">Not quite right?</p>
+                  <button
+                    onClick={() => window.location.reload()} // Placeholder for recommendation logic
+                    className="text-sm font-medium text-black border-b border-black pb-0.5 hover:text-gray-600 hover:border-gray-600 transition-colors"
+                  >
+                    More brands like this
+                  </button>
+                </div>
               </motion.div>
 
-              {/* Right Image */}
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="relative aspect-[3/4] w-full shadow-2xl lg:mt-24 group"
-              >
-                <Image
-                  src={brandImages[1]}
-                  alt={`${activeBrand.name} detail`}
-                  fill
-                  className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              </motion.div>
             </div>
           </motion.div>
         </AnimatePresence>
@@ -305,13 +311,7 @@ function DiscoverContent() {
 
       {/* 
         BOTTOM BRAND NAVIGATION
-        
-        UX PATTERN:
-        - Horizontal list of all 5 brand names
-        - Active brand highlighted in dark charcoal
-        - Inactive brands in taupe with hover effect
-        - Clicking a brand name switches the displayed brand
-        - Simple, minimal navigation that doesn't distract from content
+        Updated to use "LABEL 1, LABEL 2..."
       */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -331,7 +331,7 @@ function DiscoverContent() {
                   ? 'text-deep-charcoal font-medium'
                   : 'text-taupe group-hover:text-deep-charcoal'
                   }`}>
-                  {brand.name}
+                  LABEL {index + 1}
                 </span>
                 {index === activeBrandIndex && (
                   <motion.div
