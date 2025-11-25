@@ -273,12 +273,12 @@ function DiscoverContent() {
                   </p>
 
                   {/* USP Tags (Mocked) */}
-                  <div className="flex flex-wrap gap-4">
+                  <div className="flex flex-wrap gap-2">
                     {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
                       <span
                         key={i}
-                        style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
-                        className="rounded-full border border-black/10 text-xs uppercase tracking-[0.25em] text-black/60 hover:border-black hover:text-black transition-all duration-500 cursor-default bg-white hover:bg-black/5"
+                        style={{ paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
+                        className="rounded-full border border-black/10 text-[11px] uppercase tracking-[0.2em] text-black/60 hover:border-black hover:text-black transition-all duration-500 cursor-default bg-white hover:bg-black/5 whitespace-nowrap"
                       >
                         {tag}
                       </span>
