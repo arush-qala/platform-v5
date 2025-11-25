@@ -120,20 +120,20 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#f5f5f5] relative">
-      /**
-       * HERO SECTION
-       * 
-       * DESIGN APPROACH:
-       * - Full viewport height for maximum impact
-       * - Centered content with generous spacing
-       * - Fade-in animation on page load for smooth entry
-       * - Responsive typography scaling (3xl → 4xl → 5xl)
-       * 
-       * UX PATTERN:
-       * - Natural language sentence: "I want to source for [category] & my boutique is [season]"
-       * - Inline dropdowns feel integrated, not like separate UI elements
-       * - Modal overlays for selection provide focus and prevent distraction
-       */
+      {/* 
+        HERO SECTION
+        
+        DESIGN APPROACH:
+        - Full viewport height for maximum impact
+        - Centered content with generous spacing
+        - Fade-in animation on page load for smooth entry
+        - Responsive typography scaling (3xl → 4xl → 5xl)
+        
+        UX PATTERN:
+        - Natural language sentence: "I want to source for [category] & my boutique is [season]"
+        - Inline dropdowns feel integrated, not like separate UI elements
+        - Modal overlays for selection provide focus and prevent distraction
+      */}
       <section className="min-h-screen flex items-center justify-center px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
