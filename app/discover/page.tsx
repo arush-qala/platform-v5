@@ -247,7 +247,7 @@ function DiscoverContent() {
                   src={brandImages[0]}
                   alt={`${activeBrand.name} collection`}
                   fill
-                  className="object-cover"
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
@@ -293,7 +293,7 @@ function DiscoverContent() {
                   src={brandImages[1]}
                   alt={`${activeBrand.name} detail`}
                   fill
-                  className="object-cover"
+                  className="object-cover grayscale hover:grayscale-0 transition-all duration-500"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
