@@ -167,7 +167,7 @@ function DiscoverContent() {
 
   if (brands.length === 0) {
     return (
-      <main className="min-h-screen bg-cream flex items-center justify-center">
+      <main className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
           <p className="text-2xl text-deep-charcoal mb-8 font-light font-cormorant">No brands found matching your criteria</p>
           <Link
@@ -275,7 +275,7 @@ function DiscoverContent() {
 
                 <Link
                   href={`/brands/${activeBrand.slug}`}
-                  className="group inline-flex items-center gap-3 px-8 py-4 bg-deep-charcoal text-ivory hover:bg-charcoal transition-all duration-300 shadow-lg hover:shadow-xl"
+                  className="group inline-flex items-center gap-3 px-8 py-4 bg-white text-black border border-black hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
                   <span className="text-sm tracking-[0.2em] uppercase">Explore Brand</span>
                   <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -317,7 +317,7 @@ function DiscoverContent() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="fixed bottom-0 left-0 right-0 bg-cream/90 backdrop-blur-md border-t border-warm-grey/30 py-6 z-40"
+        className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-warm-grey/30 py-6 z-40"
       >
         <div className="max-w-7xl mx-auto px-6 overflow-x-auto no-scrollbar">
           <div className="flex justify-center items-center gap-8 md:gap-16 min-w-max">
@@ -363,7 +363,7 @@ function DiscoverContent() {
  */
 function LoadingFallback() {
   return (
-    <main className="min-h-screen bg-cream flex items-center justify-center">
+    <main className="min-h-screen bg-white flex items-center justify-center">
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
