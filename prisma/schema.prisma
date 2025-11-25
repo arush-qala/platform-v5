@@ -1,4 +1,29 @@
-// Qala Platform - Luxury B2B Fashion Sourcing Platform Schema
+/**
+ * QALA PLATFORM - LUXURY B2B FASHION SOURCING PLATFORM
+ * 
+ * BUSINESS CONTEXT:
+ * Qala is a B2B (business-to-business) luxury fashion sourcing platform that connects
+ * boutique owners and fashion buyers with independent designer brands. The platform
+ * facilitates the discovery, trust-building, and procurement process for luxury fashion items.
+ * 
+ * USER FLOW OVERVIEW:
+ * 1. Brand Discovery: Buyers use homepage filters to find brands matching their needs
+ * 2. Brand Trust: Buyers explore brand store pages to understand brand story, craftsmanship, values
+ * 3. Product Selection: Buyers browse collections and products within brand stores
+ * 4. Order Sample / Book Appointment: Buyers request samples or schedule meetings
+ * 5. Products Touch and Feel: Physical interaction at tradeshows or appointments
+ * 6. Final Selection and Customization: Buyers finalize orders with customizations
+ * 7. Order Placed: Orders are submitted through the platform
+ * 8. Order Tracking and Delivery: Buyers track order status and delivery
+ * 9. Feedback to Brand: Buyers provide feedback after receiving products
+ * 
+ * TECHNICAL ARCHITECTURE:
+ * - Next.js 16 with App Router for server-side rendering and API routes
+ * - Prisma ORM for type-safe database access
+ * - PostgreSQL database for relational data storage
+ * - Framer Motion for smooth animations and transitions
+ * - Tailwind CSS for styling with custom design system
+ */
 
 generator client {
   provider = "prisma-client-js"
@@ -9,6 +34,36 @@ datasource db {
   url      = env("POSTGRES_PRISMA_URL")
 }
 
+/**
+ * BRAND MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Represents a luxury fashion designer brand on the platform. Brands are the primary
+ * entities that buyers discover and source from. Each brand has a store page where
+ * buyers can learn about the brand's story, craftsmanship, values, and products.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - name: Display name of the brand (e.g., "Mai on Solène")
+ * - slug: URL-friendly identifier used in routes (e.g., "maison-solene")
+ * - description: Brief brand overview shown on discover page and brand store
+ * - story: Detailed brand narrative explaining heritage, craftsmanship, values
+ * - videoUrl: Optional brand video for immersive storytelling
+ * - logoUrl: Brand logo displayed on store page and in listings
+ * - coverImage: Hero image for brand store page and campaign visuals
+ * - founded: Year or date brand was established (builds trust through heritage)
+ * - location: Brand's base location (e.g., "Paris, France") - important for B2B trust
+ * - aesthetic: JSON array of style tags (e.g., ["minimalist", "sustainable", "luxury"])
+ *   Used for filtering brands by category/style preferences
+ * - featured: Boolean flag to prioritize brands in discovery results
+ * 
+ * RELATIONSHIPS:
+ * - collections: One-to-many with Collection (brands have multiple seasonal collections)
+ * - messages: One-to-many with Message (buyers can message brands directly)
+ * - features: One-to-many with BrandFeature (press features, awards, publications)
+ * 
+ * INDEXING:
+ * - slug is indexed for fast lookups in brand store routes
+ */
 model Brand {
   id          String   @id @default(cuid())
   name        String
@@ -20,7 +75,7 @@ model Brand {
   coverImage  String?
   founded     String?
   location    String?
-  aesthetic   String   // JSON stringified array
+  aesthetic   String   // JSON stringified array of style tags for filtering
   featured    Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -32,6 +87,27 @@ model Brand {
   @@index([slug])
 }
 
+/**
+ * BRAND FEATURE MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Stores press features, awards, and publications that showcase the brand.
+ * These are displayed on the brand store page in the "Featured In" section
+ * to build credibility and trust with B2B buyers.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - title: Headline or title of the feature/article
+ * - publication: Name of the publication (e.g., "Vogue", "Elle", "WWD")
+ * - url: Optional link to the full article
+ * - imageUrl: Optional image from the feature
+ * - date: Publication date (string format for flexibility)
+ * 
+ * RELATIONSHIPS:
+ * - brand: Many-to-one with Brand (each feature belongs to one brand)
+ * 
+ * CASCADE DELETION:
+ * If a brand is deleted, all its features are automatically removed
+ */
 model BrandFeature {
   id          String @id @default(cuid())
   brandId     String
@@ -46,6 +122,39 @@ model BrandFeature {
   @@index([brandId])
 }
 
+/**
+ * COLLECTION MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Represents a seasonal collection from a brand. Collections group products
+ * by season (Summer/Spring, Fall/Winter, Resortwear) and are the primary
+ * way buyers browse products. Each collection has a lookbook (visual catalog)
+ * and contains multiple products.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - name: Collection name (e.g., "Spring 2024", "Resort Collection")
+ * - slug: URL-friendly identifier (e.g., "spring-2024")
+ * - description: Collection overview and design inspiration
+ * - season: Seasonal category used for filtering:
+ *   - "Summer/Spring": Warm weather collections
+ *   - "Fall/Winter": Cool weather collections
+ *   - "Resortwear": Vacation/travel collections
+ * - year: Optional year identifier (e.g., "2024")
+ * - coverImage: Hero image for collection page
+ * - lookbookImages: JSON array of lookbook image URLs displayed in horizontal scroll
+ * - featured: Boolean flag to highlight collection on brand store page
+ * 
+ * RELATIONSHIPS:
+ * - brand: Many-to-one with Brand (each collection belongs to one brand)
+ * - products: One-to-many with Product (collections contain multiple products)
+ * 
+ * CONSTRAINTS:
+ * - Unique constraint on (brandId, slug) ensures no duplicate slugs per brand
+ * - Season is indexed for fast filtering in discovery queries
+ * 
+ * CASCADE DELETION:
+ * If a brand is deleted, all its collections (and their products) are removed
+ */
 model Collection {
   id              String   @id @default(cuid())
   brandId         String
@@ -55,7 +164,7 @@ model Collection {
   season          String   // Summer/Spring, Fall/Winter, Resortwear
   year            String?
   coverImage      String?
-  lookbookImages  String   // JSON stringified array
+  lookbookImages  String   // JSON stringified array of image URLs
   featured        Boolean  @default(false)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -68,6 +177,44 @@ model Collection {
   @@index([season])
 }
 
+/**
+ * PRODUCT MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Represents an individual fashion product (e.g., a dress, blazer, co-ord set)
+ * that buyers can view, customize, and order. Products belong to collections
+ * and have multiple images, sizes, and customization options.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - name: Product name (e.g., "Silk Evening Dress", "Linen Co-ord Set")
+ * - slug: URL-friendly identifier (e.g., "silk-evening-dress")
+ * - description: Detailed product description, fit notes, styling suggestions
+ * - category: Product category used for filtering on homepage:
+ *   - "dresses": Dresses of all types
+ *   - "co-ord sets": Matching sets (top + bottom)
+ *   - "evening wear": Formal evening attire
+ *   - "tops": Shirts, blouses, camisoles
+ *   - "shirts": Button-down and structured shirts
+ *   - "pants": Trousers, wide-leg, tailored pants
+ * - price: B2B wholesale price (not retail price)
+ * - fabricDetails: Material composition, fabric origin, sustainability info
+ * - careInstructions: Washing and care guidelines for buyers to share with customers
+ * - colors: JSON array of available color options (e.g., ["Ivory", "Black", "Navy"])
+ * - featured: Boolean flag to highlight product in collection
+ * 
+ * RELATIONSHIPS:
+ * - collection: Many-to-one with Collection (products belong to a collection)
+ * - images: One-to-many with ProductImage (products have multiple photos)
+ * - sizes: One-to-many with ProductSize (products have size variants)
+ * - customization: One-to-many with Customization (buyers can request customizations)
+ * 
+ * CONSTRAINTS:
+ * - Unique constraint on (collectionId, slug) ensures no duplicate slugs per collection
+ * - Category is indexed for fast filtering in discovery queries
+ * 
+ * CASCADE DELETION:
+ * If a collection is deleted, all its products (and related data) are removed
+ */
 model Product {
   id               String   @id @default(cuid())
   collectionId     String
@@ -78,7 +225,7 @@ model Product {
   price            Float
   fabricDetails    String?
   careInstructions String?
-  colors           String   // JSON stringified array
+  colors           String   // JSON stringified array of color names
   featured         Boolean  @default(false)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
@@ -93,6 +240,26 @@ model Product {
   @@index([category])
 }
 
+/**
+ * PRODUCT IMAGE MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Stores multiple images for each product. Products typically have:
+ * - Front view, back view, detail shots, styling images
+ * - Images are ordered and one is marked as primary for thumbnails
+ * 
+ * KEY BUSINESS FIELDS:
+ * - url: Image URL (stored in public/images/brands/[brand-slug]/products/)
+ * - alt: Accessibility alt text for screen readers
+ * - order: Display order (0 = first image, 1 = second, etc.)
+ * - isPrimary: Boolean flag for thumbnail/hero image selection
+ * 
+ * RELATIONSHIPS:
+ * - product: Many-to-one with Product
+ * 
+ * CASCADE DELETION:
+ * If a product is deleted, all its images are removed
+ */
 model ProductImage {
   id        String  @id @default(cuid())
   productId String
@@ -106,6 +273,27 @@ model ProductImage {
   @@index([productId])
 }
 
+/**
+ * PRODUCT SIZE MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Manages size variants and inventory for each product. B2B buyers need
+ * to know which sizes are available and in stock before placing orders.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - size: Size identifier (e.g., "XS", "S", "M", "L", "XL", "2XL")
+ * - inStock: Boolean flag indicating if size is currently available
+ * - quantity: Number of units available (0 = out of stock)
+ * 
+ * RELATIONSHIPS:
+ * - product: Many-to-one with Product
+ * 
+ * CONSTRAINTS:
+ * - Unique constraint on (productId, size) prevents duplicate size entries
+ * 
+ * CASCADE DELETION:
+ * If a product is deleted, all its size variants are removed
+ */
 model ProductSize {
   id        String  @id @default(cuid())
   productId String
@@ -119,6 +307,30 @@ model ProductSize {
   @@index([productId])
 }
 
+/**
+ * CUSTOMIZATION MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Stores customization requests from buyers. B2B buyers often request
+ * customizations like color changes, fabric swaps, or branding additions.
+ * Brands review and approve/decline these requests.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - description: Detailed customization request from buyer
+ * - status: Request status workflow:
+ *   - "pending": Awaiting brand review
+ *   - "approved": Brand approved, customization can proceed
+ *   - "declined": Brand declined the request
+ * 
+ * RELATIONSHIPS:
+ * - product: Many-to-one with Product (customization is for a specific product)
+ * - user: Many-to-one with User (buyer who requested customization)
+ *   - Optional: Customizations can exist without user (guest requests)
+ * 
+ * CASCADE DELETION:
+ * - If product is deleted, customizations are removed
+ * - If user is deleted, customizations remain but userId is set to null
+ */
 model Customization {
   id          String   @id @default(cuid())
   productId   String
@@ -134,6 +346,27 @@ model Customization {
   @@index([userId])
 }
 
+/**
+ * USER MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Represents B2B buyers (boutique owners, fashion buyers) on the platform.
+ * Users can browse brands, request samples, place orders, and communicate with brands.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - email: Unique login identifier and contact email
+ * - name: Buyer's full name
+ * - storeName: Name of the boutique/store they represent
+ * - storeLocation: Location of their boutique (city, country)
+ * - phone: Contact phone number for order coordination
+ * 
+ * RELATIONSHIPS:
+ * - messagesSent: One-to-many with Message (buyers can message brands)
+ * - customization: One-to-many with Customization (buyers can request customizations)
+ * 
+ * INDEXING:
+ * - Email is indexed for fast login and lookup queries
+ */
 model User {
   id            String   @id @default(cuid())
   email         String   @unique
@@ -150,6 +383,32 @@ model User {
   @@index([email])
 }
 
+/**
+ * MESSAGE MODEL
+ * 
+ * BUSINESS PURPOSE:
+ * Stores direct messages between buyers and brands. This enables communication
+ * for sample requests, order inquiries, customization discussions, and general
+ * B2B relationship building.
+ * 
+ * KEY BUSINESS FIELDS:
+ * - content: Message text content
+ * - read: Boolean flag to track if brand has read the message
+ * - createdAt: Timestamp for message ordering and notification timing
+ * 
+ * RELATIONSHIPS:
+ * - brand: Many-to-one with Brand (messages are sent to brands)
+ * - user: Many-to-one with User (messages are sent by buyers)
+ * 
+ * INDEXING:
+ * - brandId indexed for fast retrieval of brand's messages
+ * - userId indexed for fast retrieval of user's messages
+ * - createdAt indexed for chronological sorting
+ * 
+ * CASCADE DELETION:
+ * - If brand is deleted, all messages to that brand are removed
+ * - If user is deleted, all messages from that user are removed
+ */
 model Message {
   id        String   @id @default(cuid())
   brandId   String

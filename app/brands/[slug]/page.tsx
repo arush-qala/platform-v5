@@ -1,3 +1,38 @@
+/**
+ * BRAND STORE PAGE - B2B TRUST BUILDING
+ * 
+ * BUSINESS PURPOSE:
+ * This is step 2 in the Qala buying flow: "Brand Trust"
+ * After discovering brands, buyers visit brand store pages to:
+ * - Learn about brand heritage and craftsmanship
+ * - View collections and lookbooks
+ * - Understand brand values and commitments
+ * - Build trust before making purchasing decisions
+ * 
+ * USER FLOW:
+ * 1. Buyer clicks on brand from discover page
+ * 2. Arrives at brand store page (/brands/[slug])
+ * 3. Views brand story, collections, process, commitments
+ * 4. Can contact brand via chat panel
+ * 5. Can navigate to collections to view products
+ * 
+ * PAGE SECTIONS:
+ * 1. Hero: Full-screen campaign image with video play button
+ * 2. Introduction: Brand name, location, description, press features
+ * 3. Lookbook: Horizontal scroll of collection images
+ * 4. Process: Craftsmanship story with images
+ * 5. Behind The Scenes: Visual content gallery
+ * 6. Commitments: Sustainability and ethical values
+ * 7. Other Collections: Grid of additional collections
+ * 8. Similar Brands: Recommendations for discovery
+ * 
+ * TECHNICAL DETAILS:
+ * - Dynamic route using [slug] parameter
+ * - Fetches brand data from /api/brands/[slug]
+ * - Includes chat panel for buyer-brand communication
+ * - Fetches 3 random brand recommendations
+ */
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -8,6 +43,17 @@ import Link from 'next/link'
 import { MessageCircle, ArrowRight, MapPin, Leaf, Recycle, Users, Award, Play } from 'lucide-react'
 import { ChatPanel } from '@/components/chat/ChatPanel'
 
+/**
+ * TypeScript Interfaces
+ * 
+ * These match the data structure returned from the API
+ * and the Prisma schema models
+ */
+
+/**
+ * Brand Data Interface
+ * Complete brand information including collections and features
+ */
 interface BrandData {
   id: string
   name: string
@@ -24,6 +70,10 @@ interface BrandData {
   features: BrandFeature[]
 }
 
+/**
+ * Collection Interface
+ * Collection data with lookbook images and products
+ */
 interface Collection {
   id: string
   name: string
@@ -31,11 +81,15 @@ interface Collection {
   description: string
   season: string
   coverImage: string
-  lookbookImages: string
+  lookbookImages: string // JSON stringified array
   featured: boolean
   products: Product[]
 }
 
+/**
+ * Product Interface
+ * Simplified product data for collection display
+ */
 interface Product {
   id: string
   name: string
@@ -43,10 +97,18 @@ interface Product {
   images: ProductImage[]
 }
 
+/**
+ * Product Image Interface
+ * Product image URL for display
+ */
 interface ProductImage {
   url: string
 }
 
+/**
+ * Brand Feature Interface
+ * Press features and publications for credibility
+ */
 interface BrandFeature {
   title: string
   publication: string
@@ -54,22 +116,63 @@ interface BrandFeature {
   date: string
 }
 
+/**
+ * Brand Page Component
+ * 
+ * STATE MANAGEMENT:
+ * - brand: Complete brand data from API
+ * - recommendedBrands: 3 random brand recommendations
+ * - loading: Loading state during data fetch
+ * - showChat: Controls chat panel visibility
+ * 
+ * DATA FETCHING:
+ * - Fetches brand by slug from URL parameter
+ * - Fetches 3 random brand recommendations
+ * - Re-fetches when slug changes
+ */
 export default function BrandPage() {
   const params = useParams()
-  const slug = params.slug as string
+  const slug = params.slug as string // Brand slug from URL (e.g., "maison-solene")
   const [brand, setBrand] = useState<BrandData | null>(null)
   const [recommendedBrands, setRecommendedBrands] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [showChat, setShowChat] = useState(false)
+  const [showChat, setShowChat] = useState(false) // Controls chat panel visibility
 
+  /**
+   * Fetch Brand Data
+   * 
+   * BUSINESS LOGIC:
+   * 1. Fetches complete brand data including collections and features
+   * 2. Fetches 3 random brand recommendations for "Similar Brands" section
+   * 3. Filters out current brand from recommendations
+   * 
+   * RECOMMENDATION ALGORITHM:
+   * - Fetches all brands from API
+   * - Filters out current brand
+   * - Randomly sorts and takes first 3
+   * - Simple algorithm; could be enhanced with similarity matching
+   */
   useEffect(() => {
     const fetchBrand = async () => {
       try {
+        // Fetch brand data by slug
         const response = await fetch(`/api/brands/${slug}`)
         const data = await response.json()
         setBrand(data)
         
-        // Fetch 3 recommended brands based on current brand
+        /**
+         * Fetch Brand Recommendations
+         * 
+         * PURPOSE:
+         * Shows 3 similar brands to encourage discovery and browsing
+         * Helps buyers find alternative options if current brand doesn't fit
+         * 
+         * ALGORITHM:
+         * - Fetch all brands
+         * - Filter out current brand
+         * - Random shuffle (sort with Math.random())
+         * - Take first 3 brands
+         */
         const brandsResponse = await fetch('/api/brands')
         const allBrands = await brandsResponse.json()
         // Filter out current brand and get 3 random recommendations
@@ -86,6 +189,10 @@ export default function BrandPage() {
     fetchBrand()
   }, [slug])
 
+  /**
+   * Loading State
+   * Shows spinner while brand data is being fetched
+   */
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -98,6 +205,10 @@ export default function BrandPage() {
     )
   }
 
+  /**
+   * Error State
+   * Shows message if brand not found (invalid slug)
+   */
   if (!brand) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -106,18 +217,56 @@ export default function BrandPage() {
     )
   }
 
+  /**
+   * Get Featured Collection for Lookbook Section
+   * 
+   * LOGIC:
+   * - Prefers featured collection (marked as featured in database)
+   * - Falls back to first collection if no featured collection
+   * - Parses lookbookImages JSON string to array
+   */
   const featuredCollection = brand.collections.find(c => c.featured) || brand.collections[0]
   const lookbookImages = featuredCollection ? JSON.parse(featuredCollection.lookbookImages || '[]') : []
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Minimal Header */}
+      {/* 
+        FIXED HEADER - MINIMAL NAVIGATION
+        
+        DESIGN PURPOSE:
+        - Always visible for easy navigation
+        - Minimal design doesn't distract from content
+        - Back button for easy return to discovery
+        - Contact button opens chat panel for buyer-brand communication
+        
+        FEATURES:
+        - Fixed position stays at top during scroll
+        - Semi-transparent background with blur (glass effect)
+        - Brand name in center for context
+        - Contact button for initiating conversations
+      */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
         <div className="max-w-[1920px] mx-auto px-8 md:px-16 py-6 flex items-center justify-between">
+          {/* Back to Homepage Link */}
           <Link href="/" className="text-[11px] text-black hover:text-gray-600 transition-colors tracking-[0.15em] uppercase font-light">
             ← Back
           </Link>
+          
+          {/* Brand Name - Centered */}
           <h1 className="text-[15px] font-light tracking-[0.3em] text-black uppercase">{brand.name}</h1>
+          
+          {/* 
+            Contact Button - Opens Chat Panel
+            
+            BUSINESS PURPOSE:
+            Enables direct communication between buyer and brand
+            Buyers can ask questions about:
+            - Product details and customization options
+            - Minimum order quantities (MOQ)
+            - Pricing and payment terms
+            - Sample requests
+            - Appointment scheduling
+          */}
           <button
             onClick={() => setShowChat(!showChat)}
             className="flex items-center gap-2 px-6 py-2 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
