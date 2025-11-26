@@ -49,15 +49,38 @@ export function HeroCarousel({ slides, currentIndex, onChange }: HeroCarouselPro
                         className="object-cover w-full h-full"
                         quality={90}
                     />
-                    onClick={() => onChange(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                        ? 'bg-white scale-110'
-                        : 'bg-white/50 hover:bg-white/80'
-                        }`}
-                    aria-label={`Go to slide ${index + 1}`}
+                    {/* Dark overlay for text readability */}
+                    <div className="absolute inset-0 bg-black/20" />
+                </motion.div>
+            </AnimatePresence>
+
+            {/* Slide Info Overlay (Bottom Left) - Description Only */}
+            <div className="absolute bottom-6 left-6 z-10 text-white max-w-[60%] md:max-w-md pointer-events-none">
+                <motion.p
+                    key={`desc-${currentIndex}`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                    className="text-sm font-normal opacity-90 drop-shadow-md leading-relaxed"
+                >
+                    {slides[currentIndex].description}
+                </motion.p>
+            </div>
+
+            {/* Pagination Dots (Bottom Right) */}
+            <div className="absolute bottom-6 right-6 z-10 flex gap-2">
+                {slides.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => onChange(index)}
+                        className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
+                                ? 'bg-white scale-110'
+                                : 'bg-white/50 hover:bg-white/80'
+                            }`}
+                        aria-label={`Go to slide ${index + 1}`}
                     />
                 ))}
-                </div>
+            </div>
         </div>
     )
 }
