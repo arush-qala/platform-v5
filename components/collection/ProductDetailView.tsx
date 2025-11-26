@@ -31,16 +31,15 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
     })
 
     // Animation: Shift images to the left as user scrolls down
-    // 0 to 0.1 progress (first 10% of scroll) triggers the shift
-    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-10vw"])
+    // Shift reduced to -5vw to ensure it stays within the central lane
+    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-5vw"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
 
-    // Mock multiple images for the vertical stack
     const productImages = [product.image, product.image, product.image]
 
     return (
-        <div ref={containerRef} className="relative min-h-[200vh] bg-white z-50">
+        <div ref={containerRef} className="relative min-h-[200vh] bg-white z-50 overflow-x-hidden">
 
             {/* Close Button */}
             <button
@@ -50,14 +49,15 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
                 <X size={24} />
             </button>
 
-            {/* Navigation Sidebars */}
+            {/* Navigation Sidebars - Fixed Width & Overflow Hidden to prevent bleed */}
             {prevProduct && (
                 <div
                     onClick={() => onNavigate(prevProduct)}
-                    className="fixed left-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-start pl-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors"
+                    className="fixed left-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-start pl-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors overflow-hidden"
                 >
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-30 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
-                        <div className="relative w-full h-full -ml-[75%]">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
+                        {/* -ml-[50%] ensures 50% is off-screen, 50% is visible */}
+                        <div className="relative w-full h-full -ml-[50%]">
                             <Image src={prevProduct.image} alt="Prev" fill className="object-cover" />
                         </div>
                     </div>
@@ -70,10 +70,11 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             {nextProduct && (
                 <div
                     onClick={() => onNavigate(nextProduct)}
-                    className="fixed right-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-end pr-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors"
+                    className="fixed right-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-end pr-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors overflow-hidden"
                 >
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-30 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
-                        <div className="relative w-full h-full -mr-[75%]">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
+                        {/* -mr-[50%] ensures 50% is off-screen, 50% is visible */}
+                        <div className="relative w-full h-full -mr-[50%]">
                             <Image src={nextProduct.image} alt="Next" fill className="object-cover" />
                         </div>
                     </div>
@@ -84,7 +85,8 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             )}
 
             {/* Main Content Area */}
-            <div className="w-full max-w-[1800px] mx-auto flex pt-24 px-[5vw] md:px-[20vw] relative">
+            {/* px-[20vw] creates the negative space margins (15vw sidebar + 5vw gap) */}
+            <div className="w-full max-w-[1800px] mx-auto flex pt-24 px-[20vw] relative">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
@@ -92,7 +94,8 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
                     className="w-full md:w-[60%] flex flex-col gap-4 items-center"
                 >
                     {productImages.map((img, idx) => (
-                        <div key={idx} className="relative w-full max-w-[40vw] aspect-[3/4] bg-gray-100">
+                        // Max width constrained to 35vw to stay well clear of margins
+                        <div key={idx} className="relative w-full max-w-[35vw] aspect-[3/4] bg-gray-100">
                             <Image
                                 src={img}
                                 alt={`${product.name} - View ${idx + 1}`}
