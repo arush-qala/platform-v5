@@ -29,7 +29,7 @@ export function LookbookViewer({ images, collectionName }: LookbookViewerProps) 
     return (
         <section ref={targetRef} className="relative h-[400vh] bg-white">
             {/* Sticky Container */}
-            <div className="sticky top-0 h-screen flex flex-col justify-center overflow-hidden">
+            <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-[180px]">
 
                 {/* Section Header */}
                 <div className="absolute top-12 left-0 right-0 z-10 px-12 flex justify-between items-end">
@@ -45,7 +45,7 @@ export function LookbookViewer({ images, collectionName }: LookbookViewerProps) 
                 {/* Horizontal Scroll Track */}
                 <motion.div
                     style={{ x: smoothX }}
-                    className="flex gap-12 pl-[10vw] pr-[10vw] items-center h-[70vh] mt-64"
+                    className="flex gap-12 pl-[10vw] pr-[10vw] items-center h-[70vh]"
                 >
                     {images.map((src, index) => (
                         <div
