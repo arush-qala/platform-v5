@@ -1,4 +1,3 @@
-// Collection Exploration Page - Luxury B2B Experience
 'use client'
 
 import { useParams } from 'next/navigation'
