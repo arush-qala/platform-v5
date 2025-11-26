@@ -85,8 +85,9 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             )}
 
             {/* Main Content Area */}
-            {/* px-[20vw] creates the negative space margins (15vw sidebar + 5vw gap) */}
-            <div className="w-full max-w-[1800px] mx-auto flex pt-24 px-[20vw] relative">
+            {/* px-[25vw] creates a larger buffer: 15vw sidebar + 10vw initial gap */}
+            {/* Shift of -5vw will reduce gap to 5vw, preventing overlap */}
+            <div className="w-full mx-auto flex pt-24 px-[25vw] relative">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
@@ -94,8 +95,8 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
                     className="w-full md:w-[60%] flex flex-col gap-4 items-center"
                 >
                     {productImages.map((img, idx) => (
-                        // Max width constrained to 35vw to stay well clear of margins
-                        <div key={idx} className="relative w-full max-w-[35vw] aspect-[3/4] bg-gray-100">
+                        // Max width constrained to 30vw to fit within the column
+                        <div key={idx} className="relative w-full max-w-[30vw] aspect-[3/4] bg-gray-100">
                             <Image
                                 src={img}
                                 alt={`${product.name} - View ${idx + 1}`}
