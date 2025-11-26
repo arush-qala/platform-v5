@@ -30,10 +30,13 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
         offset: ["start start", "end end"]
     })
 
+    // Animation: Shift images to the left as user scrolls down
+    // 0 to 0.1 progress (first 10% of scroll) triggers the shift
     const imageX = useTransform(scrollYProgress, [0, 0.1], ["0%", "-25%"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
 
+    // Mock multiple images for the vertical stack
     const productImages = [product.image, product.image, product.image]
 
     return (
