@@ -85,17 +85,18 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             )}
 
             {/* Main Content Area */}
-            {/* px-[30vw] creates a massive buffer: 15vw sidebar + 15vw initial gap */}
-            {/* Shift of -5vw will reduce gap to 10vw, absolutely preventing overlap */}
-            <div className="w-full mx-auto flex pt-24 px-[30vw] relative z-40">
+            {/* Grid layout enforces strict columns: 30vw empty | Content | 30vw empty */}
+            {/* This guarantees the content starts at 30vw. With -5vw shift, it goes to 25vw. */}
+            {/* Sidebar is 15vw. Gap is 10vw. */}
+            <div className="w-full grid grid-cols-[30vw_1fr_30vw] pt-24 relative z-40">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
                     style={{ x: imageX }}
-                    className="w-full md:w-[60%] flex flex-col gap-4 items-center"
+                    className="col-start-2 w-full flex flex-col gap-4 items-center"
                 >
                     {productImages.map((img, idx) => (
-                        // Max width constrained to 25vw to fit within the column
+                        // Max width constrained to 25vw
                         <div key={idx} className="relative w-full max-w-[25vw] aspect-[3/4] bg-gray-100">
                             <Image
                                 src={img}
