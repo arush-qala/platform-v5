@@ -85,10 +85,10 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             )}
 
             {/* Main Content Area */}
-            {/* Grid layout enforces strict columns: 30vw empty | Content | 30vw empty */}
-            {/* This guarantees the content starts at 30vw. With -5vw shift, it goes to 25vw. */}
-            {/* Sidebar is 15vw. Gap is 10vw. */}
-            <div className="w-full grid grid-cols-[30vw_1fr_30vw] pt-24 relative z-40">
+            {/* Grid layout enforces strict columns: 20vw empty | Content | 20vw empty */}
+            {/* This guarantees the content starts at 20vw. With -5vw shift, it goes to 15vw. */}
+            {/* Sidebar is 15vw. Gap is 0vw (touching). */}
+            <div className="w-full grid grid-cols-[20vw_1fr_20vw] pt-24 relative z-40">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
