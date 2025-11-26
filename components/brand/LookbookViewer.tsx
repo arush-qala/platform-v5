@@ -32,7 +32,7 @@ export function LookbookViewer({ images, collectionName }: LookbookViewerProps) 
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
                 {/* Section Header - Now in normal flow to prevent overlap */}
-                <div className="w-full px-12 pt-32 pb-24 flex justify-between items-end shrink-0 z-20 bg-white">
+                <div className="w-full px-12 pt-12 pb-40 flex justify-between items-end shrink-0 z-20 bg-white">
                     <div>
                         <h2 className="text-4xl font-serif text-black mb-2">Featured Lookbook</h2>
                         <p className="text-sm uppercase tracking-widest text-gray-500">{collectionName}</p>
