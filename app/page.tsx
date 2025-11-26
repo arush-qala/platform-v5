@@ -1,453 +1,125 @@
-/**
- * HOMEPAGE COMPONENT - BRAND DISCOVERY ENTRY POINT
- * 
- * BUSINESS PURPOSE:
- * This is the landing page where B2B buyers begin their sourcing journey.
- * Buyers select product categories and seasons to filter brands that match
- * their boutique's needs. The page uses a minimalist, Pentagram-inspired
- * design with inline dropdowns for an elegant, luxury feel.
- * 
- * USER FLOW:
- * 1. Buyer arrives at homepage
- * 2. Buyer selects product category (e.g., "Dresses", "Co-ord Sets")
- * 3. Buyer selects season/occasion (e.g., "Summer/Spring", "Resortwear")
- * 4. Buyer clicks "Find" button
- * 5. Buyer is redirected to /discover page with filtered brand results
- * 
- * TECHNICAL DETAILS:
- * - Client-side component using React hooks for state management
- * - Framer Motion for smooth animations and transitions
- * - Next.js App Router for navigation
- * - URL parameters passed to discover page for server-side filtering
- * 
- * DESIGN PHILOSOPHY:
- * - Minimalist, luxury aesthetic inspired by Pentagram design agency
- * - Large, readable typography with Cormorant Garamond font
- * - Subtle animations that don't distract from content
- * - Liquid glass effect on buttons for premium feel
- */
-
 'use client'
 
 import { useState, useEffect } from 'react'
 import { HeroCarousel, type Slide } from '@/components/home/HeroCarousel'
 import { StatementOverlay } from '@/components/home/StatementOverlay'
 import { useRouter } from 'next/navigation'
+import { motion } from 'framer-motion'
 
-/**
- * SEASON FILTERS
- * These match the Collection.season field in the database.
- * "Everyone" is a special value that means "no filter" - show all seasons.
- * Used for filtering brands that have collections for specific seasons.
- */
-const seasons = ['Everyone', 'Summer/Spring', 'Fall/Winter', 'Resortwear']
-
-/**
- * BACKGROUND MEDIA ITEMS
- * Curated list of high-quality fashion imagery to cycle through.
- * Inspired by Pentagram's homepage slideshow.
- */
-const backgroundItems: MediaItem[] = [
-  { type: 'image', src: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop' },
-  { type: 'image', src: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop' },
-  { type: 'image', src: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2076&auto=format&fit=crop' },
-  { type: 'image', src: 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1974&auto=format&fit=crop' },
+// Sample Data - In a real app, this might come from a CMS or API
+const HERO_SLIDES: Slide[] = [
+  {
+    id: 1,
+    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop',
+    title: 'Maison Solène',
+    description: 'Contemporary elegance meets timeless Parisian craftsmanship.',
+    category: 'Dresses',
+    season: 'Summer/Spring'
+  },
+  {
+    id: 2,
+    image: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=2070&auto=format&fit=crop',
+    title: 'L\'Art de la Soie',
+    description: 'Hand-painted silk collections for the modern resort lifestyle.',
+    category: 'Resortwear',
+    season: 'Resortwear'
+  },
+  {
+    id: 3,
+    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2070&auto=format&fit=crop',
+    title: 'Nordic Minimalist',
+    description: 'Sustainable outerwear designed for the urban explorer.',
+    category: 'Outerwear',
+    season: 'Fall/Winter'
+  },
+  {
+    id: 4,
+    image: 'https://images.unsplash.com/photo-1550614000-4b9519e02d48?q=80&w=2070&auto=format&fit=crop',
+    title: 'Evening Allure',
+    description: 'Sophisticated evening wear for special occasions.',
+    category: 'Evening wear',
+    season: 'Pre-Fall'
+  }
 ]
 
-/**
- * Home Component - Main Landing Page
- * 
- * STATE MANAGEMENT:
- * - selectedCategory: Currently selected product category filter
- * - selectedSeason: Currently selected season filter
- * - showCategoryDropdown: Controls visibility of category selection modal
- * - showSeasonDropdown: Controls visibility of season selection modal
- * 
- * NAVIGATION:
- * When "Find" is clicked, navigates to /discover with query parameters:
- * - ?category=Dresses&season=Summer/Spring (if filters selected)
- * - ? (empty if "Everything" and "Everyone" selected)
- */
 export default function Home() {
   const router = useRouter()
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0)
 
-  // State for selected filters - defaults to "no filter" values
-  const [selectedCategory, setSelectedCategory] = useState('Everything')
-  const [selectedSeason, setSelectedSeason] = useState('Everyone')
+  // State for the statement overlay
+  // We initialize with the first slide's values
+  const [selectedCategory, setSelectedCategory] = useState(HERO_SLIDES[0].category)
+  const [selectedSeason, setSelectedSeason] = useState(HERO_SLIDES[0].season)
 
-  // State for modal visibility - only one modal open at a time
-  const [showCategoryDropdown, setShowCategoryDropdown] = useState(false)
-  const [showSeasonDropdown, setShowSeasonDropdown] = useState(false)
+  // Track if user has manually interacted with the dropdowns
+  // If true, we stop auto-syncing with the carousel
+  const [hasUserInteracted, setHasUserInteracted] = useState(false)
 
-  /**
-   * Navigate to Discover Page with Filters
-   * 
-   * BUSINESS LOGIC:
-   * - Only adds query parameters if user selected specific filters
-   * - "Everything" and "Everyone" are treated as "no filter" and omitted
-   * - Discover page will fetch all brands if no parameters provided
-   * 
-   * EXAMPLE URLS:
-   * - /discover (no filters)
-   * - /discover?category=Dresses
-   * - /discover?season=Summer/Spring
-   * - /discover?category=Co-ord%20Sets&season=Resortwear
-   */
-  const navigateToDiscover = () => {
+  // Sync statement with carousel slide changes
+  useEffect(() => {
+    if (!hasUserInteracted) {
+      setSelectedCategory(HERO_SLIDES[currentSlideIndex].category)
+      setSelectedSeason(HERO_SLIDES[currentSlideIndex].season)
+    }
+  }, [currentSlideIndex, hasUserInteracted])
+
+  const handleManualCategoryChange = (category: string) => {
+    setSelectedCategory(category)
+    setHasUserInteracted(true)
+  }
+
+  const handleManualSeasonChange = (season: string) => {
+    setSelectedSeason(season)
+    setHasUserInteracted(true)
+  }
+
+  const handleFindBrands = () => {
     const params = new URLSearchParams()
-    // Only add category param if not "Everything" (which means "all categories")
-    if (selectedCategory !== 'Everything') params.append('category', selectedCategory)
-    // Only add season param if not "Everyone" (which means "all seasons")
-    if (selectedSeason !== 'Everyone') params.append('season', selectedSeason)
-
+    params.set('category', selectedCategory)
+    params.set('season', selectedSeason)
     router.push(`/discover?${params.toString()}`)
   }
 
-  /**
-   * Handle Category Selection
-   * Closes the dropdown modal after selection and updates state
-   */
-  const handleCategorySelect = (category: string) => {
-    setSelectedCategory(category)
-    setShowCategoryDropdown(false)
-  }
-
-  /**
-   * Handle Season Selection
-   * Closes the dropdown modal after selection and updates state
-   */
-  const handleSeasonSelect = (season: string) => {
-    setSelectedSeason(season)
-    setShowSeasonDropdown(false)
-  }
-
   return (
-    <main className="min-h-screen relative overflow-hidden bg-white">
-      {/* 
-        BACKGROUND MEDIA
-        - Uses a high-quality fashion image/video
-        - Adds a cream overlay to maintain readability and "Old Money" aesthetic
-      */}
-      <BackgroundMedia
-        items={backgroundItems}
-        overlayOpacity={0.7}
-        cycleInterval={5000}
-      />
+    <main className="relative min-h-screen bg-white overflow-hidden">
+      {/* HERO SECTION */}
+      <section className="relative h-screen w-full">
+        <HeroCarousel
+          slides={HERO_SLIDES}
+          currentIndex={currentSlideIndex}
+          onChange={setCurrentSlideIndex}
+        />
 
-      {/* 
-        HERO SECTION
-        
-        DESIGN APPROACH:
-        - Full viewport height for maximum impact
-        - Centered content with generous spacing
-        - Fade-in animation on page load for smooth entry
-        - Responsive typography scaling (3xl → 4xl → 5xl)
-        
-        UX PATTERN:
-        - Natural language sentence: "I want to source for [category] & my boutique is [season]"
-        - Inline dropdowns feel integrated, not like separate UI elements
-        - Modal overlays for selection provide focus and prevent distraction
-      */}
-      <section className="min-h-screen flex items-center justify-center px-6 relative z-10">
+        <StatementOverlay
+          category={selectedCategory}
+          season={selectedSeason}
+          onCategoryChange={handleManualCategoryChange}
+          onSeasonChange={handleManualSeasonChange}
+        />
+
+        {/* Find Brands Button - Floating Bottom Center */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center max-w-5xl mx-auto"
+          transition={{ delay: 1, duration: 0.8 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20"
         >
-          {/* 
-            NATURAL LANGUAGE SENTENCE WITH INLINE DROPDOWNS
-            The sentence reads naturally: "I want to source for [dropdown] & my boutique is [dropdown]"
-            This creates an intuitive, conversational interface rather than traditional form fields
-          */}
-          <div className="flex flex-col items-center gap-8">
-            <div className="inline-flex flex-wrap items-center justify-center gap-3 text-3xl md:text-4xl lg:text-5xl font-light leading-relaxed font-cormorant">
-              <span className="text-black">I want to source for</span>
-
-              {/* 
-                CATEGORY DROPDOWN BUTTON
-                - Inline button that opens full-screen modal
-                - Shows currently selected category
-                - Chevron icon rotates when dropdown is open
-                - Clicking closes other dropdown if open (mutual exclusivity)
-              */}
-              <div className="relative inline-block">
-                <button
-                  onClick={() => {
-                    setShowCategoryDropdown(!showCategoryDropdown)
-                    setShowSeasonDropdown(false)
-                  }}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-black/20"
-                >
-                  <span className="font-normal text-black">
-                    {selectedCategory}
-                  </span>
-                  <ChevronDown className={`w-5 h-5 text-black transition-transform ${showCategoryDropdown ? 'rotate-180' : ''}`} />
-                </button>
-
-                {/* 
-                  CATEGORY SELECTION MODAL
-                  
-                  UX PATTERN:
-                  - Full-screen overlay with backdrop blur for focus
-                  - Click outside to close (backdrop click)
-                  - Smooth fade-in/fade-out animations
-                  - Selected category highlighted with inverted colors
-                  - All categories displayed as large, tappable buttons
-                  
-                  ANIMATION DETAILS:
-                  - Overlay fades in/out (opacity transition)
-                  - Content slides up slightly on enter (y: 20 → 0)
-                  - AnimatePresence handles exit animations smoothly
-                */}
-                <AnimatePresence>
-                  {showCategoryDropdown && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 backdrop-blur-md"
-                      onClick={() => setShowCategoryDropdown(false)}
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="relative max-w-4xl w-full px-6"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        {/* 
-                          CATEGORY BUTTONS GRID
-                          - Responsive flex-wrap layout
-                          - Selected category has dark background (bg-deep-charcoal)
-                          - Unselected categories have light background with hover effect
-                          - Large touch targets (px-8 py-4) for mobile usability
-                        */}
-                        <div className="flex flex-wrap justify-center gap-3">
-                          {categories.map((cat) => (
-                            <button
-                              key={cat}
-                              onClick={() => handleCategorySelect(cat)}
-                              className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedCategory === cat
-                                ? 'bg-black text-white'
-                                : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
-                                }`}
-                            >
-                              {cat}
-                            </button>
-                          ))}
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              <span className="text-black">&</span>
-              <span className="text-black">my boutique is</span>
-
-              {/* Season Dropdown - Inline */}
-              <div className="relative inline-block">
-                <button
-                  onClick={() => {
-                    setShowSeasonDropdown(!showSeasonDropdown)
-                    setShowCategoryDropdown(false)
-                  }}
-                  className="group inline-flex items-center gap-2 px-6 py-3 bg-white/50 backdrop-blur-sm hover:bg-white/80 transition-all duration-300 rounded-sm border-b border-black/20"
-                >
-                  <span className="font-normal text-black">
-                    {selectedSeason}
-                  </span>
-                  <ChevronDown className={`w-5 h-5 text-black transition-transform ${showSeasonDropdown ? 'rotate-180' : ''}`} />
-                </button>
-
-                {/* Season Modal Overlay */}
-                <AnimatePresence>
-                  {showSeasonDropdown && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="fixed inset-0 z-50 flex items-center justify-center bg-white/95 backdrop-blur-md"
-                      onClick={() => setShowSeasonDropdown(false)}
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        className="relative max-w-4xl w-full px-6"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="flex flex-wrap justify-center gap-3">
-                          {seasons.map((season) => (
-                            <button
-                              key={season}
-                              onClick={() => handleSeasonSelect(season)}
-                              className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedSeason === season
-                                ? 'bg-black text-white'
-                                : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
-                                }`}
-                            >
-                              {season}
-                            </button>
-                          ))}
-                        </div>
-                      </motion.div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-          </div>
-
-          {/* 
-            FIND BUTTON - LIQUID GLASS EFFECT
-            
-            DESIGN INSPIRATION:
-            - "Liquid glass" aesthetic with frosted glass effect
-            - Backdrop blur creates depth and premium feel
-            - Animated silver shimmer gradient for luxury touch
-            - Subtle scale-up on hover for interactivity feedback
-            
-            TECHNICAL IMPLEMENTATION:
-            - Multiple layers: blur background, glass container, animated gradient
-            - backdrop-blur-md creates the frosted glass effect
-            - Radial gradient animation creates moving shimmer
-            - hover:scale-105 provides tactile feedback
-            
-            BUSINESS PURPOSE:
-            - Primary CTA that navigates to filtered brand discovery
-            - "Find" is concise and action-oriented
-            - Luxury aesthetic matches platform positioning
-          */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="mt-12"
+          <button
+            onClick={handleFindBrands}
+            className="group relative px-12 py-4 bg-white/90 backdrop-blur-md text-black overflow-hidden rounded-sm shadow-2xl transition-transform hover:scale-105 duration-300"
           >
-            <div className="relative group inline-block">
-              {/* Blurred background layer for depth */}
-              <div className="absolute inset-0 bg-white/20 rounded-sm blur-xl group-hover:bg-white/30 transition-colors duration-500"></div>
-
-              {/* Main glass button container */}
-              <button
-                onClick={navigateToDiscover}
-                className="relative px-20 py-5 bg-white/40 backdrop-blur-md text-black rounded-sm overflow-hidden hover:scale-105 transition-transform duration-300 shadow-xl border border-white/50"
-              >
-                {/* 
-                  ANIMATED SHIMMER
-                  - Radial gradient moves in a cycle
-                  - Creates subtle luxury shimmer effect
-                */}
-                <motion.div
-                  animate={{
-                    background: [
-                      'radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)',
-                      'radial-gradient(circle at 100% 100%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)',
-                      'radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.8) 0%, transparent 50%)',
-                    ],
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                  className="absolute inset-0 pointer-events-none"
-                />
-
-                {/* Button text with wide letter spacing for luxury typography */}
-                <span className="relative text-xl font-light tracking-[0.3em] uppercase font-cormorant text-black">
-                  Find Brands
-                </span>
-              </button>
-            </div>
-          </motion.div>
-
+            <span className="relative z-10 text-sm font-medium tracking-[0.3em] uppercase font-cormorant">
+              Find Brands
+            </span>
+            <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </button>
         </motion.div>
       </section>
 
-
-
-      {/* 
-        FLOATING QALA LOGO - BOTTOM RIGHT CORNER
-        
-        DESIGN PURPOSE:
-        - Brand identity always visible
-        - Clickable link back to homepage
-        - Floating animation creates subtle movement
-        - Liquid glass effect matches main button aesthetic
-        
-        ANIMATION DETAILS:
-        - Fades in after page load (delay: 0.8s)
-        - Continuous gentle float animation (y: 0 → -8px → 0)
-        - Shimmer sweep animation across logo
-        - All animations loop infinitely for continuous motion
-        
-        POSITIONING:
-        - Fixed position keeps it visible during scroll
-        - Bottom-right corner is standard logo placement
-        - z-50 ensures it's above all other content
-      */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{
-          opacity: 1,
-          y: [0, -8, 0], // Gentle floating animation
-        }}
-        transition={{
-          opacity: { duration: 1, delay: 0.8 },
-          y: {
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }
-        }}
-        className="fixed bottom-8 right-8 z-50"
-      >
-        <div className="relative group">
-          {/* Blurred background for glass effect */}
-          <div className="absolute inset-0 bg-white/40 rounded-2xl blur-xl"></div>
-
-          {/* Glass container with logo */}
-          <div className="relative px-6 py-3 bg-white/30 backdrop-blur-md rounded-2xl border border-white/50 shadow-2xl overflow-hidden">
-            {/* Animated gradient overlay */}
-            <motion.div
-              animate={{
-                background: [
-                  'radial-gradient(circle at 0% 0%, rgba(255,255,255,0.3) 0%, transparent 50%)',
-                  'radial-gradient(circle at 100% 100%, rgba(255,255,255,0.3) 0%, transparent 50%)',
-                  'radial-gradient(circle at 0% 0%, rgba(255,255,255,0.3) 0%, transparent 50%)',
-                ],
-              }}
-              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-              className="absolute inset-0 pointer-events-none"
-            />
-
-            {/* QALA Logo - clickable link to homepage */}
-            <Link href="/" className="relative block">
-              <div className="text-2xl font-light tracking-[0.3em] text-black font-cormorant">
-                QALA
-              </div>
-            </Link>
-
-            {/* 
-              SHIMMER SWEEP ANIMATION
-              - Diagonal gradient sweeps across logo
-              - Creates subtle luxury shimmer effect
-              - Repeats every 5 seconds (3s animation + 2s delay)
-            */}
-            <motion.div
-              animate={{
-                x: ['-100%', '200%'],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                repeatDelay: 2,
-                ease: "easeInOut"
-              }}
-              className="absolute inset-0 w-1/3 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"
-            />
-          </div>
-        </div>
-      </motion.div>
+      {/* QALA Logo - Fixed Bottom Right */}
+      <div className="fixed bottom-8 right-8 z-50 mix-blend-difference text-white pointer-events-none hidden md:block">
+        <h1 className="text-4xl font-cormorant font-light tracking-[0.2em]">QALA</h1>
+      </div>
     </main>
   )
 }
