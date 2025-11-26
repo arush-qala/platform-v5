@@ -12,7 +12,7 @@ const MOCK_COLLECTION = {
     name: 'Architecte',
     season: 'Fall/Winter 2024',
     description: "A study in structure and fluidity. The Architecte collection explores the intersection of brutalist forms and organic materials, creating a silhouette that is both commanding and deeply personal.",
-    coverImage: 'https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
+    coverImage: '/images/collection/product-3.jpg',
     products: Array.from({ length: 12 }).map((_, i) => ({
         id: `p${i + 1}`,
         name: `Look ${i + 1} - The ${['Structure', 'Fluid', 'Drape', 'Form', 'Line', 'Curve'][i % 6]} ${['Coat', 'Dress', 'Suit', 'Gown', 'Blazer'][i % 5]}`,

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface LookbookViewerProps {
     images: string[]
@@ -66,14 +67,4 @@ export function LookbookViewer({ images, collectionName }: LookbookViewerProps) 
                     ))}
 
                     {/* CTA at the end of scroll */}
-                    <div className="h-full aspect-[1/2] shrink-0 flex items-center justify-center ml-12">
-                        <button className="px-10 py-4 border border-black text-black text-sm uppercase tracking-[0.2em] hover:bg-black hover:text-white transition-all duration-300">
-                            Open Collection
-                        </button>
-                    </div>
-
-                </motion.div>
-            </div>
-        </section>
-    )
 }
