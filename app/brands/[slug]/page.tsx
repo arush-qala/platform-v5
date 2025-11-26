@@ -110,6 +110,19 @@ export default function BrandPage() {
         featuredIn={brand.features.map((f: any) => f.publication).slice(0, 4)}
       />
 
+      {/* Brand Video Section */}
+      <section className="py-24 px-6 md:px-12 bg-white flex justify-center">
+        <div className="w-full max-w-[1600px] aspect-video relative overflow-hidden bg-gray-100">
+          <video
+            controls
+            className="w-full h-full object-cover"
+            poster={brand.coverImage}
+          >
+            <source src={brand.videoUrl || 'https://videos.pexels.com/video-files/3753648/3753648-hd_1920_1080_25fps.mp4'} type="video/mp4" />
+          </video>
+        </div>
+      </section>
+
       {/* 2. Featured Lookbook (Horizontal Scroll) */}
       {lookbookImages.length > 0 && (
         <LookbookViewer

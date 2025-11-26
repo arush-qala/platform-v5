@@ -45,7 +45,7 @@ export function LookbookViewer({ images, collectionName }: LookbookViewerProps) 
                 {/* Horizontal Scroll Track */}
                 <motion.div
                     style={{ x: smoothX }}
-                    className="flex gap-12 pl-[10vw] pr-[10vw] items-center h-[70vh] mt-24"
+                    className="flex gap-12 pl-[10vw] pr-[10vw] items-center h-[70vh] mt-64"
                 >
                     {images.map((src, index) => (
                         <div
