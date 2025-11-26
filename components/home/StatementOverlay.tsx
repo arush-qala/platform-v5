@@ -27,7 +27,51 @@ export function StatementOverlay({
     onSeasonChange,
     onFind
 }: StatementOverlayProps) {
-    {/* Full Screen Modals */ }
+    const [activeModal, setActiveModal] = useState<'category' | 'season' | null>(null)
+
+    return (
+        <>
+            {/* Centered Statement Container */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full max-w-[90%] md:max-w-none flex justify-center pointer-events-none">
+                <div
+                    className="bg-[#F5F3F0]/90 backdrop-blur-md rounded-sm shadow-sm flex flex-wrap items-center justify-center gap-x-3 gap-y-4 text-[18px] md:text-[22px] leading-relaxed pointer-events-auto transition-all duration-300 hover:bg-[#F5F3F0]/95"
+                    style={{ padding: '2rem 3rem' }}
+                >
+                    <span className="text-[#6b6b6b] font-normal whitespace-nowrap">
+                        I want to source for
+                    </span>
+
+                    <button
+                        onClick={() => setActiveModal('category')}
+                        className="inline-flex items-center gap-1 font-medium text-[#1a1a1a] hover:text-black border-b border-black/20 hover:border-black transition-all pb-0.5"
+                    >
+                        {category}
+                        <ChevronDown size={16} className={`transition-transform duration-200 ${activeModal === 'category' ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    <span className="text-[#6b6b6b] font-normal whitespace-nowrap">
+                        & my boutique is
+                    </span>
+
+                    <button
+                        onClick={() => setActiveModal('season')}
+                        className="inline-flex items-center gap-1 font-medium text-[#1a1a1a] hover:text-black border-b border-black/20 hover:border-black transition-all pb-0.5"
+                    >
+                        {season}
+                        <ChevronDown size={16} className={`transition-transform duration-200 ${activeModal === 'season' ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {/* Find Button */}
+                    <button
+                        onClick={onFind}
+                        className="ml-5 px-8 py-3 bg-black text-white text-sm font-semibold uppercase tracking-widest rounded-sm hover:bg-gray-900 transition-all shadow-md hover:shadow-lg active:scale-95"
+                    >
+                        Find
+                    </button>
+                </div>
+            </div>
+
+            {/* Full Screen Modals */}
             <DropdownModal
                 isOpen={activeModal === 'category'}
                 onClose={() => setActiveModal(null)}
