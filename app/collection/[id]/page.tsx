@@ -10,49 +10,28 @@ import { ProductCarousel } from '@/components/collection/ProductCarousel'
 const MOCK_COLLECTION = {
     id: 'c1',
     name: 'Architecte',
-    season: 'Fall/Winter 2024',
-    description: "A study in structure and fluidity. The Architecte collection explores the intersection of brutalist forms and organic materials, creating a silhouette that is both commanding and deeply personal.",
-    coverImage: 'https://images.pexels.com/photos/2036646/pexels-photo-2036646.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2',
-    products: Array.from({ length: 12 }).map((_, i) => ({
-        id: `p${i + 1}`,
-        name: `Look ${i + 1} - The ${['Structure', 'Fluid', 'Drape', 'Form', 'Line', 'Curve'][i % 6]} ${['Coat', 'Dress', 'Suit', 'Gown', 'Blazer'][i % 5]}`,
-        image: `https://images.pexels.com/photos/${[
-            '1926769', '1536619', '2036646', '1805412', '2916814',
-            '157675', '1183266', '837140', '991509', '1043474',
-            '1926769', '1536619'
-        ][i % 12]}/pexels-photo-${[
-            '1926769', '1536619', '2036646', '1805412', '2916814',
-            '157675', '1183266', '837140', '991509', '1043474',
-            '1926769', '1536619'
-        ][i % 12]}.jpeg?auto=compress&cs=tinysrgb&w=800`,
-        price: 'Wholesale: $450'
-    }))
-}
 
-export default function CollectionPage() {
-    const params = useParams()
-
-    return (
-        <main className="bg-white min-h-screen">
-            {/* Back Button */}
-            <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
+    return(
+        <main className = "bg-white min-h-screen" >
+            {/* Back Button */ }
+            < div className = "fixed top-6 left-6 z-50 mix-blend-difference text-white" >
                 <Link href="/brands/maison-solene" className="flex items-center gap-2 text-xs uppercase tracking-widest hover:underline underline-offset-4">
                     <ArrowLeft size={16} />
                     <span>Back to Brand</span>
                 </Link>
-            </div>
+            </div >
 
-            {/* Hero Section - First Slide */}
-            <CollectionHero
-                collectionName={MOCK_COLLECTION.name}
-                season={MOCK_COLLECTION.season}
-                description={MOCK_COLLECTION.description}
-                coverImage={MOCK_COLLECTION.coverImage}
-            />
+    {/* Hero Section - First Slide */ }
+    < CollectionHero
+collectionName = { MOCK_COLLECTION.name }
+season = { MOCK_COLLECTION.season }
+description = { MOCK_COLLECTION.description }
+coverImage = { MOCK_COLLECTION.coverImage }
+    />
 
-            {/* Product Rail - Horizontal Scroll */}
-            <ProductCarousel products={MOCK_COLLECTION.products} />
+    {/* Product Rail - Horizontal Scroll */ }
+    < ProductCarousel products = { MOCK_COLLECTION.products } />
 
-        </main>
+        </main >
     )
 }
