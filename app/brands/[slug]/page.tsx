@@ -1,59 +1,15 @@
-/**
- * BRAND STORE PAGE - B2B TRUST BUILDING
- * 
- * BUSINESS PURPOSE:
- * This is step 2 in the Qala buying flow: "Brand Trust"
- * After discovering brands, buyers visit brand store pages to:
- * - Learn about brand heritage and craftsmanship
- * - View collections and lookbooks
- * - Understand brand values and commitments
- * - Build trust before making purchasing decisions
- * 
- * USER FLOW:
- * 1. Buyer clicks on brand from discover page
- * 2. Arrives at brand store page (/brands/[slug])
- * 3. Views brand story, collections, process, commitments
- * 4. Can contact brand via chat panel
- * 5. Can navigate to collections to view products
- * 
- * PAGE SECTIONS:
- * 1. Hero: Full-screen campaign image with video play button
- * 2. Introduction: Brand name, location, description, press features
- * 3. Lookbook: Horizontal scroll of collection images
- * 4. Process: Craftsmanship story with images
- * 5. Behind The Scenes: Visual content gallery
- * 6. Commitments: Sustainability and ethical values
- * 7. Other Collections: Grid of additional collections
- * 8. Similar Brands: Recommendations for discovery
- * 
- * TECHNICAL DETAILS:
- * - Dynamic route using [slug] parameter
- * - Fetches brand data from /api/brands/[slug]
- * - Includes chat panel for buyer-brand communication
- * - Fetches 3 random brand recommendations
- */
-
 'use client'
 
 import { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+import { ArrowLeft, Instagram, Facebook, Globe } from 'lucide-react'
 import Link from 'next/link'
-import { MessageCircle, ArrowRight, MapPin, Leaf, Recycle, Users, Award, Play } from 'lucide-react'
-import { ChatPanel } from '@/components/chat/ChatPanel'
+import { BrandHero } from '@/components/brand/BrandHero'
+import { LookbookViewer } from '@/components/brand/LookbookViewer'
+import { VisualStory } from '@/components/brand/VisualStory'
+import { SustainabilityTags } from '@/components/brand/SustainabilityTags'
+import { CollectionGrid } from '@/components/brand/CollectionGrid'
 
-/**
- * TypeScript Interfaces
- * 
- * These match the data structure returned from the API
- * and the Prisma schema models
- */
-
-/**
- * Brand Data Interface
- * Complete brand information including collections and features
- */
 interface BrandData {
   id: string
   name: string
@@ -65,120 +21,22 @@ interface BrandData {
   logoUrl: string
   founded: string
   location: string
-  aesthetic: string
-  collections: Collection[]
-  features: BrandFeature[]
+  collections: any[]
+  features: any[]
 }
 
-/**
- * Collection Interface
- * Collection data with lookbook images and products
- */
-interface Collection {
-  id: string
-  name: string
-  slug: string
-  description: string
-  season: string
-  coverImage: string
-  lookbookImages: string // JSON stringified array
-  featured: boolean
-  products: Product[]
-}
-
-/**
- * Product Interface
- * Simplified product data for collection display
- */
-interface Product {
-  id: string
-  name: string
-  category: string
-  images: ProductImage[]
-}
-
-/**
- * Product Image Interface
- * Product image URL for display
- */
-interface ProductImage {
-  url: string
-}
-
-/**
- * Brand Feature Interface
- * Press features and publications for credibility
- */
-interface BrandFeature {
-  title: string
-  publication: string
-  imageUrl: string
-  date: string
-}
-
-/**
- * Brand Page Component
- * 
- * STATE MANAGEMENT:
- * - brand: Complete brand data from API
- * - recommendedBrands: 3 random brand recommendations
- * - loading: Loading state during data fetch
- * - showChat: Controls chat panel visibility
- * 
- * DATA FETCHING:
- * - Fetches brand by slug from URL parameter
- * - Fetches 3 random brand recommendations
- * - Re-fetches when slug changes
- */
 export default function BrandPage() {
   const params = useParams()
-  const slug = params.slug as string // Brand slug from URL (e.g., "maison-solene")
+  const slug = params.slug as string
   const [brand, setBrand] = useState<BrandData | null>(null)
-  const [recommendedBrands, setRecommendedBrands] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [showChat, setShowChat] = useState(false) // Controls chat panel visibility
 
-  /**
-   * Fetch Brand Data
-   * 
-   * BUSINESS LOGIC:
-   * 1. Fetches complete brand data including collections and features
-   * 2. Fetches 3 random brand recommendations for "Similar Brands" section
-   * 3. Filters out current brand from recommendations
-   * 
-   * RECOMMENDATION ALGORITHM:
-   * - Fetches all brands from API
-   * - Filters out current brand
-   * - Randomly sorts and takes first 3
-   * - Simple algorithm; could be enhanced with similarity matching
-   */
   useEffect(() => {
     const fetchBrand = async () => {
       try {
-        // Fetch brand data by slug
         const response = await fetch(`/api/brands/${slug}`)
         const data = await response.json()
         setBrand(data)
-        
-        /**
-         * Fetch Brand Recommendations
-         * 
-         * PURPOSE:
-         * Shows 3 similar brands to encourage discovery and browsing
-         * Helps buyers find alternative options if current brand doesn't fit
-         * 
-         * ALGORITHM:
-         * - Fetch all brands
-         * - Filter out current brand
-         * - Random shuffle (sort with Math.random())
-         * - Take first 3 brands
-         */
-        const brandsResponse = await fetch('/api/brands')
-        const allBrands = await brandsResponse.json()
-        // Filter out current brand and get 3 random recommendations
-        const filtered = allBrands.filter((b: any) => b.slug !== slug)
-        const recommendations = filtered.sort(() => 0.5 - Math.random()).slice(0, 3)
-        setRecommendedBrands(recommendations)
       } catch (error) {
         console.error('Error fetching brand:', error)
       } finally {
@@ -189,26 +47,14 @@ export default function BrandPage() {
     fetchBrand()
   }, [slug])
 
-  /**
-   * Loading State
-   * Shows spinner while brand data is being fetched
-   */
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-          className="w-16 h-16 border-2 border-black border-t-transparent rounded-full"
-        />
+        <div className="w-16 h-16 border-2 border-black border-t-transparent rounded-full animate-spin" />
       </div>
     )
   }
 
-  /**
-   * Error State
-   * Shows message if brand not found (invalid slug)
-   */
   if (!brand) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
@@ -217,517 +63,88 @@ export default function BrandPage() {
     )
   }
 
-  /**
-   * Get Featured Collection for Lookbook Section
-   * 
-   * LOGIC:
-   * - Prefers featured collection (marked as featured in database)
-   * - Falls back to first collection if no featured collection
-   * - Parses lookbookImages JSON string to array
-   */
-  const featuredCollection = brand.collections.find(c => c.featured) || brand.collections[0]
+  // Get featured collection for lookbook
+  const featuredCollection = brand.collections.find((c: any) => c.featured) || brand.collections[0]
   const lookbookImages = featuredCollection ? JSON.parse(featuredCollection.lookbookImages || '[]') : []
 
+  // Mock data for new components (will be replaced with real data)
+  const storyMedia = [
+    { type: 'image' as const, src: brand.coverImage, alt: 'Atelier Process' },
+    { type: 'image' as const, src: brand.coverImage, alt: 'Campaign Film' },
+    { type: 'image' as const, src: brand.coverImage, alt: 'Fabric Detail' },
+    { type: 'image' as const, src: brand.coverImage, alt: 'Backstage' },
+  ]
+
+  const sustainabilityTags = [
+    { name: 'Ethical Sourcing', icon: 'heart' as const },
+    { name: 'Recycled Materials', icon: 'recycle' as const },
+    { name: 'Water Conscious', icon: 'water' as const },
+    { name: 'Organic Cotton', icon: 'leaf' as const },
+  ]
+
+  const otherCollections = brand.collections.slice(0, 3).map((c: any) => ({
+    id: c.id,
+    name: c.name,
+    season: c.season,
+    thumbnail: c.coverImage
+  }))
+
   return (
-    <main className="min-h-screen bg-white">
-      {/* 
-        FIXED HEADER - MINIMAL NAVIGATION
-        
-        DESIGN PURPOSE:
-        - Always visible for easy navigation
-        - Minimal design doesn't distract from content
-        - Back button for easy return to discovery
-        - Contact button opens chat panel for buyer-brand communication
-        
-        FEATURES:
-        - Fixed position stays at top during scroll
-        - Semi-transparent background with blur (glass effect)
-        - Brand name in center for context
-        - Contact button for initiating conversations
-      */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200">
-        <div className="max-w-[1920px] mx-auto px-8 md:px-16 py-6 flex items-center justify-between">
-          {/* Back to Homepage Link */}
-          <Link href="/" className="text-[11px] text-black hover:text-gray-600 transition-colors tracking-[0.15em] uppercase font-light">
-            ← Back
-          </Link>
-          
-          {/* Brand Name - Centered */}
-          <h1 className="text-[15px] font-light tracking-[0.3em] text-black uppercase">{brand.name}</h1>
-          
-          {/* 
-            Contact Button - Opens Chat Panel
-            
-            BUSINESS PURPOSE:
-            Enables direct communication between buyer and brand
-            Buyers can ask questions about:
-            - Product details and customization options
-            - Minimum order quantities (MOQ)
-            - Pricing and payment terms
-            - Sample requests
-            - Appointment scheduling
-          */}
-          <button
-            onClick={() => setShowChat(!showChat)}
-            className="flex items-center gap-2 px-6 py-2 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
-          >
-            <MessageCircle className="w-4 h-4" />
-            <span>Contact</span>
-          </button>
-        </div>
-      </header>
+    <main className="bg-white min-h-screen">
 
-      {/* Hero Section - Brand Campaign */}
-      <section className="relative w-full h-screen mt-20 bg-black">
-        <div className="absolute inset-0">
-          <Image
-            src={brand.coverImage}
-            alt={`${brand.name} campaign`}
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/20" />
-        </div>
-        
-        {/* Video Play Button Overlay */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-20 h-20 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white transition-all"
-          >
-            <Play className="w-8 h-8 text-black ml-1" fill="currentColor" />
-          </motion.button>
-        </div>
+      {/* Go Back Button - Fixed */}
+      <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
+        <Link href="/discover" className="flex items-center gap-2 text-xs uppercase tracking-widest hover:underline underline-offset-4">
+          <ArrowLeft size={16} />
+          <span>Back</span>
+        </Link>
+      </div>
 
-        {/* Brand Logo Overlay */}
-        {brand.logoUrl && (
-          <div className="absolute bottom-12 left-8 md:left-16">
-            <div className="relative w-32 h-32 bg-white/10 backdrop-blur-sm p-6">
-              <Image
-                src={brand.logoUrl}
-                alt={`${brand.name} logo`}
-                fill
-                className="object-contain p-2"
-              />
-            </div>
-          </div>
-        )}
-      </section>
+      {/* 1. Brand Hero (Video + Info) */}
+      <BrandHero
+        brandName={brand.name}
+        location={brand.location}
+        intro={brand.description}
+        videoSrc={brand.videoUrl || 'https://videos.pexels.com/video-files/7653336/7653336-hd_1920_1080_25fps.mp4'}
+        logoSrc={brand.logoUrl}
+        featuredIn={brand.features.map((f: any) => f.publication).slice(0, 4)}
+      />
 
-      {/* Brand Introduction Section */}
-      <section className="py-24 md:py-32 px-8 md:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid md:grid-cols-12 gap-16"
-          >
-            {/* Left: Brand Name and Location */}
-            <div className="md:col-span-5 space-y-6">
-              <h2 className="text-5xl md:text-7xl font-light text-black leading-tight tracking-tight font-cormorant">
-                {brand.name}
-              </h2>
-              
-              <div className="flex items-center gap-3 text-gray-600 pt-4">
-                <MapPin className="w-5 h-5" />
-                <p className="text-[14px] tracking-[0.1em] font-light">{brand.location}</p>
-              </div>
-
-              <div className="pt-6 border-t border-gray-200">
-                <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-2 font-light">Established</p>
-                <p className="text-3xl text-black font-light font-cormorant">{brand.founded}</p>
-              </div>
-            </div>
-
-            {/* Right: Description */}
-            <div className="md:col-span-7 space-y-6">
-              <div className="bg-gray-50 p-8 md:p-12">
-                <p className="text-[16px] md:text-[18px] text-gray-800 leading-[1.7] font-light">
-                  {brand.description}
-                </p>
-              </div>
-
-              {/* Featured In Tags */}
-              <div className="pt-8">
-                <h3 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-6 font-light">Featured In</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  {brand.features.length > 0 ? (
-                    brand.features.slice(0, 4).map((feature, idx) => (
-                      <div
-                        key={idx}
-                        className="flex flex-col items-center justify-center p-6 border border-gray-200 hover:border-black transition-colors"
-                      >
-                        <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-[10px] text-black tracking-[0.15em] text-center uppercase font-light">{feature.publication}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <>
-                      <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
-                        <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">Vogue</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
-                        <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">Elle</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
-                        <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">Bazaar</p>
-                      </div>
-                      <div className="flex flex-col items-center justify-center p-6 border border-gray-200">
-                        <Award className="w-8 h-8 text-black mb-2" />
-                        <p className="text-[10px] text-black tracking-[0.15em] uppercase font-light">WWD</p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Lookbook Section - Contained Horizontal Scroll */}
+      {/* 2. Featured Lookbook (Horizontal Scroll) */}
       {lookbookImages.length > 0 && (
-        <section className="py-16 px-8 md:px-16 bg-gray-50">
-          <div className="max-w-[1920px] mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-            >
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <h2 className="text-3xl md:text-4xl font-light text-black mb-2 font-cormorant">{featuredCollection.name}</h2>
-                  <p className="text-[11px] text-gray-500 uppercase tracking-[0.2em] font-light">{featuredCollection.season}</p>
-                </div>
-                <Link
-                  href={`/brands/${brand.slug}/collections/${featuredCollection.slug}`}
-                  className="px-8 py-3 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
-                >
-                  View Collection
-                </Link>
-              </div>
-
-              {/* Contained Lookbook Viewer */}
-              <div className="relative bg-white border border-gray-200 p-4">
-                <div 
-                  className="overflow-x-auto overflow-y-hidden scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100"
-                  style={{ 
-                    height: '75vh',
-                    scrollBehavior: 'smooth'
-                  }}
-                >
-                  <div className="flex gap-6" style={{ width: 'max-content' }}>
-                    {lookbookImages.map((img: string, idx: number) => (
-                      <div
-                        key={idx}
-                        className="relative flex-shrink-0 bg-gray-100"
-                        style={{ width: '55vw', height: '70vh' }}
-                      >
-                        <Image
-                          src={img}
-                          alt={`${featuredCollection.name} look ${idx + 1}`}
-                          fill
-                          className="object-cover"
-                          sizes="55vw"
-                        />
-                        
-                        {/* Look Number Overlay */}
-                        <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2">
-                          <span className="text-3xl font-light text-black">
-                            {String(idx + 1).padStart(2, '0')}
-                          </span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                {/* Scroll Hint */}
-                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[10px] text-gray-400 uppercase tracking-[0.2em] pointer-events-none font-light">
-                  Scroll to explore →
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
+        <LookbookViewer
+          images={lookbookImages}
+          collectionName={featuredCollection.name + ' - ' + featuredCollection.season}
+        />
       )}
 
-      {/* Process Section - Three Columns */}
-      <section className="py-24 md:py-32 px-8 md:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-12 items-start"
-          >
-            {/* Left Image */}
-            <div className="relative aspect-[3/4] overflow-hidden">
-              <Image
-                src={brand.coverImage}
-                alt="Atelier process"
-                fill
-                className="object-cover"
-              />
-            </div>
-
-            {/* Center: Process Write-up */}
-            <div className="space-y-8 md:pt-12">
-              <div>
-                <h3 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-4 font-light">Our Process</h3>
-                <h2 className="text-3xl md:text-4xl font-light text-black mb-6 font-cormorant">
-                  Craftsmanship & Heritage
-                </h2>
-              </div>
-              
-              <div className="space-y-4 text-gray-700 leading-[1.7]">
-                <p className="text-[15px] font-light">
-                  {brand.story}
-                </p>
-                <p className="text-[14px] text-gray-600 font-light">
-                  Each piece is crafted with meticulous attention to detail, honoring traditional techniques while embracing contemporary design sensibilities.
-                </p>
-              </div>
-            </div>
-
-            {/* Right Image */}
-            <div className="relative aspect-[3/4] overflow-hidden">
-              <Image
-                src={brand.coverImage}
-                alt="Studio process"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Visual Content - Behind The Scenes */}
-      <section className="py-16 px-8 md:px-16 bg-gray-50">
-        <div className="max-w-[1920px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-12 text-center font-light">
-              Behind The Scenes
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Large feature image/video */}
-              <div className="md:col-span-2 relative aspect-[21/9] overflow-hidden bg-gray-100">
-                <Image
-                  src={brand.coverImage}
-                  alt="Studio atelier"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-
-              {/* Smaller images */}
-              <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                <Image
-                  src={brand.coverImage}
-                  alt="Campaign shoot"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-
-              <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                <Image
-                  src={brand.coverImage}
-                  alt="Detail work"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Socio-Environmental Commitments */}
-      <section className="py-24 md:py-32 px-8 md:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h3 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-16 text-center font-light">
-              Our Commitments
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto border border-gray-300 flex items-center justify-center">
-                  <Leaf className="w-8 h-8 text-black" />
-                </div>
-                <h4 className="text-[16px] font-light text-black tracking-[0.1em]">Organic Materials</h4>
-                <p className="text-[14px] text-gray-600 font-light leading-[1.7]">
-                  100% organic and sustainably sourced fabrics
-                </p>
-              </div>
-
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto border border-gray-300 flex items-center justify-center">
-                  <Recycle className="w-8 h-8 text-black" />
-                </div>
-                <h4 className="text-[16px] font-light text-black tracking-[0.1em]">Zero Waste</h4>
-                <p className="text-[14px] text-gray-600 font-light leading-[1.7]">
-                  Circular production with minimal environmental impact
-                </p>
-              </div>
-
-              <div className="text-center space-y-4">
-                <div className="w-16 h-16 mx-auto border border-gray-300 flex items-center justify-center">
-                  <Users className="w-8 h-8 text-black" />
-                </div>
-                <h4 className="text-[16px] font-light text-black tracking-[0.1em]">Fair Trade</h4>
-                <p className="text-[14px] text-gray-600 font-light leading-[1.7]">
-                  Ethical production supporting artisan communities
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Other Collections */}
-      <section className="py-24 md:py-32 px-8 md:px-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3 text-center font-light">
-              Explore More
-            </h2>
-            <p className="text-3xl md:text-4xl font-light text-black text-center mb-16 font-cormorant">Other Collections</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {brand.collections.slice(0, 3).map((collection, index) => (
-                <motion.div
-                  key={collection.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={`/brands/${brand.slug}/collections/${collection.slug}`}
-                    className="group block"
-                  >
-                    <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-gray-100">
-                      <Image
-                        src={collection.coverImage}
-                        alt={collection.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                    </div>
-                    <h3 className="text-2xl font-light text-black group-hover:text-gray-600 transition-colors mb-2 font-cormorant">
-                      {collection.name}
-                    </h3>
-                    <p className="text-[10px] text-gray-500 uppercase tracking-[0.2em] font-light">{collection.season}</p>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Discover Similar Brands */}
-      <section className="py-24 md:py-32 px-8 md:px-16 bg-white border-t border-gray-200">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="text-[10px] text-gray-500 uppercase tracking-[0.2em] mb-3 text-center font-light">
-              You May Also Like
-            </h2>
-            <p className="text-3xl md:text-4xl font-light text-black text-center mb-16 font-cormorant">
-              Discover Similar Brands
-            </p>
-            
-            {/* 3 Brand Recommendations */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              {recommendedBrands.map((recBrand, index) => (
-                <motion.div
-                  key={recBrand.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Link
-                    href={`/brands/${recBrand.slug}`}
-                    className="group block"
-                  >
-                    <div className="relative aspect-[4/5] overflow-hidden mb-6 bg-gray-100">
-                      <Image
-                        src={recBrand.coverImage}
-                        alt={recBrand.name}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                      />
-                    </div>
-                    <h3 className="text-2xl font-light text-black group-hover:text-gray-600 transition-colors mb-2 font-cormorant">
-                      {recBrand.name}
-                    </h3>
-                    <p className="text-[11px] text-gray-500 mb-2 tracking-[0.1em] font-light">{recBrand.location}</p>
-                    <p className="text-[14px] text-gray-700 line-clamp-2 font-light">{recBrand.description}</p>
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href="/"
-                className="inline-flex items-center gap-3 px-12 py-4 bg-black text-white hover:bg-gray-800 transition-all text-[11px] tracking-[0.15em] uppercase font-light"
-              >
-                <span>Back To Discovery</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              
-              <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="px-12 py-4 border border-gray-300 text-black hover:border-black transition-all text-[11px] tracking-[0.15em] uppercase font-light"
-              >
-                Back To Top
-              </button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Chat Panel */}
-      <ChatPanel
-        brandName={brand.name}
-        isOpen={showChat}
-        onClose={() => setShowChat(false)}
+      {/* 3. Visual Story (Process + Mixed Media) */}
+      <VisualStory
+        mediaItems={storyMedia}
+        processText={brand.story || "Our design process begins with a single thread. We source the finest materials, ensuring that every garment not only looks exquisite but feels transformative."}
       />
+
+      {/* 4. Sustainability Tags */}
+      <SustainabilityTags tags={sustainabilityTags} />
+
+      {/* 5. More Collections */}
+      {otherCollections.length > 0 && (
+        <CollectionGrid collections={otherCollections} />
+      )}
+
+      {/* 6. Footer / Social CTA */}
+      <section className="py-24 bg-black text-white text-center">
+        <h3 className="text-2xl font-serif mb-8">Follow {brand.name}</h3>
+        <div className="flex justify-center gap-8 mb-12">
+          <a href="#" className="hover:text-gray-300 transition-colors"><Instagram size={24} /></a>
+          <a href="#" className="hover:text-gray-300 transition-colors"><Facebook size={24} /></a>
+          <a href="#" className="hover:text-gray-300 transition-colors"><Globe size={24} /></a>
+        </div>
+        <div className="text-xs uppercase tracking-widest text-gray-500">
+          © 2025 Qala Platform
+        </div>
+      </section>
+
     </main>
   )
 }
