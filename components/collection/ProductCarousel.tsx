@@ -13,9 +13,10 @@ interface Product {
 
 interface ProductCarouselProps {
     products: Product[]
+    onSelect: (product: Product) => void
 }
 
-export function ProductCarousel({ products }: ProductCarouselProps) {
+export function ProductCarousel({ products, onSelect }: ProductCarouselProps) {
     const targetRef = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
         target: targetRef,
@@ -32,7 +33,12 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
                     className="flex items-center h-[80vh] pl-[50vw]"
                 >
                     {products.map((product, index) => (
-                        <ProductTile key={product.id} product={product} index={index} />
+                        <ProductTile
+                            key={product.id}
+                            product={product}
+                            index={index}
+                            onClick={() => onSelect(product)}
+                        />
                     ))}
                 </motion.div>
             </div>
@@ -40,9 +46,9 @@ export function ProductCarousel({ products }: ProductCarouselProps) {
     )
 }
 
-function ProductTile({ product, index }: { product: Product; index: number }) {
+function ProductTile({ product, index, onClick }: { product: Product; index: number; onClick: () => void }) {
     return (
-        <div className="relative h-full aspect-[2/3] flex-shrink-0 group transition-all duration-500 border-r border-white/10">
+        <div onClick={onClick} className="relative h-full aspect-[2/3] flex-shrink-0 group transition-all duration-500 border-r border-white/10 cursor-pointer">
             <div className="relative w-full h-full overflow-hidden bg-gray-100">
                 <Image
                     src={product.image}
