@@ -64,7 +64,7 @@ export function StatementOverlay({
                     {/* Find Button */}
                     <button
                         onClick={onFind}
-                        className="ml-4 px-8 py-3 bg-black text-white text-xs uppercase tracking-[0.2em] font-bold rounded-sm hover:bg-gray-900 transition-all shadow-md border border-black"
+                        className="ml-6 px-8 py-2 border border-[#1a1a1a] text-[#1a1a1a] text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
                     >
                         Find
                     </button>
