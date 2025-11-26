@@ -18,7 +18,7 @@ const ICON_MAP = {
 
 export function SustainabilityTags({ tags }: SustainabilityTagsProps) {
     return (
-        <section className="py-[200px] bg-white border-t border-gray-100">
+        <section className="bg-white border-t border-gray-100" style={{ padding: '200px 0' }}>
             <div className="max-w-6xl mx-auto px-6">
                 <div className="flex flex-wrap justify-center gap-16 md:gap-32">
                     {tags.map((tag, index) => {

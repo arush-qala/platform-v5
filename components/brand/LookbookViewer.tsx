@@ -29,10 +29,10 @@ export function LookbookViewer({ images, collectionName }: LookbookViewerProps) 
     return (
         <section ref={targetRef} className="relative h-[400vh] bg-white">
             {/* Sticky Container */}
-            <div className="sticky top-0 h-screen flex flex-col overflow-hidden pt-[180px]">
+            <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
-                {/* Section Header */}
-                <div className="absolute top-12 left-0 right-0 z-10 px-12 flex justify-between items-end">
+                {/* Section Header - Now in normal flow to prevent overlap */}
+                <div className="w-full px-12 pt-12 pb-24 flex justify-between items-end shrink-0 z-20 bg-white">
                     <div>
                         <h2 className="text-4xl font-serif text-black mb-2">Featured Lookbook</h2>
                         <p className="text-sm uppercase tracking-widest text-gray-500">{collectionName}</p>
