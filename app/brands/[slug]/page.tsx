@@ -111,7 +111,7 @@ export default function BrandPage() {
       />
 
       {/* Brand Video Section */}
-      <section className="py-32 pb-48 bg-white flex justify-center">
+      <section className="py-32 bg-white flex justify-center" style={{ marginBottom: '200px' }}>
         <div className="w-[90%] max-w-5xl aspect-video relative overflow-hidden bg-gray-100 shadow-sm mx-auto">
           <video
             controls
