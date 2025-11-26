@@ -49,25 +49,7 @@ export function DropdownModal({
 
                         <div className="flex flex-wrap justify-center gap-3">
                             {options.map((option) => (
-                                <button
-                                    key={option}
-                                    onClick={() => {
-                                        onSelect(option)
-                                        onClose()
-                                    }}
-                                    className={`px-6 py-3 rounded-full text-[15px] transition-all duration-200 border flex items-center gap-2 ${option === currentValue
-                                        ? 'bg-black text-white border-black hover:bg-gray-800 shadow-md'
-                                        : 'bg-[#f0f0f0] text-[#1a1a1a] border-[#e0e0e0] hover:bg-[#e5e5e5]'
-                                        }`}
-                                >
-                                    {option === currentValue && <Check size={16} strokeWidth={2.5} />}
-                                    {option}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </motion.div>
             )}
-        </AnimatePresence>
-    )
+                        </AnimatePresence>
+                        )
 }
