@@ -31,11 +31,12 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
     })
 
     // Animation: Shift images to the left as user scrolls down
-    // Shift reduced to -5vw to ensure it stays within the central lane
-    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-5vw"])
+    // Shift of -8vw moves image from 18vw to 10vw (touching the 10vw sidebar)
+    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-8vw"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
 
+    // Mock multiple images for the vertical stack
     const productImages = [product.image, product.image, product.image]
 
     return (
@@ -53,7 +54,7 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             {prevProduct && (
                 <div
                     onClick={() => onNavigate(prevProduct)}
-                    className="fixed left-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-start pl-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors overflow-hidden"
+                    className="fixed left-0 top-0 h-screen w-[10vw] hidden md:flex items-center justify-start pl-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors overflow-hidden"
                 >
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
                         {/* -ml-[75%] ensures 75% is off-screen, 25% is visible */}
@@ -70,7 +71,7 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             {nextProduct && (
                 <div
                     onClick={() => onNavigate(nextProduct)}
-                    className="fixed right-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-end pr-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors overflow-hidden"
+                    className="fixed right-0 top-0 h-screen w-[10vw] hidden md:flex items-center justify-end pr-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors overflow-hidden"
                 >
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
                         {/* -mr-[75%] ensures 75% is off-screen, 25% is visible */}
@@ -85,10 +86,10 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             )}
 
             {/* Main Content Area */}
-            {/* Grid layout enforces strict columns: 20vw empty | Content | 20vw empty */}
-            {/* This guarantees the content starts at 20vw. With -5vw shift, it goes to 15vw. */}
-            {/* Sidebar is 15vw. Gap is 0vw (touching). */}
-            <div className="w-full grid grid-cols-[20vw_1fr_20vw] pt-24 relative z-40">
+            {/* Grid layout enforces strict columns: 18vw empty | Content | 18vw empty */}
+            {/* This guarantees the content starts at 18vw. With -8vw shift, it goes to 10vw. */}
+            {/* Sidebar is 10vw. Gap is 0vw (touching). */}
+            <div className="w-full grid grid-cols-[18vw_1fr_18vw] pt-24 relative z-40">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
