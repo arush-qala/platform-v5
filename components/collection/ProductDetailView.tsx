@@ -54,7 +54,7 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
                     className="fixed left-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-start pl-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors"
                 >
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-30 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
-                        <div className="relative w-full h-full -ml-[50%]">
+                        <div className="relative w-full h-full -ml-[75%]">
                             <Image src={prevProduct.image} alt="Prev" fill className="object-cover" />
                         </div>
                     </div>
@@ -70,7 +70,7 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
                     className="fixed right-0 top-0 h-screen w-[15vw] hidden md:flex items-center justify-end pr-4 cursor-pointer z-[55] group hover:bg-white/5 transition-colors"
                 >
                     <div className="absolute right-0 top-1/2 -translate-y-1/2 w-full h-[60vh] opacity-30 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none grayscale group-hover:grayscale-0">
-                        <div className="relative w-full h-full -mr-[50%]">
+                        <div className="relative w-full h-full -mr-[75%]">
                             <Image src={nextProduct.image} alt="Next" fill className="object-cover" />
                         </div>
                     </div>
