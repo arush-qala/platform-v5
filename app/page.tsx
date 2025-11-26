@@ -29,20 +29,10 @@
 
 'use client'
 
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import Link from 'next/link'
-import { ChevronDown } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { HeroCarousel, type Slide } from '@/components/home/HeroCarousel'
+import { StatementOverlay } from '@/components/home/StatementOverlay'
 import { useRouter } from 'next/navigation'
-import { BackgroundMedia, MediaItem } from '@/components/ui/BackgroundMedia'
-
-/**
- * PRODUCT CATEGORIES
- * These categories match the Product.category field in the database.
- * "Everything" is a special value that means "no filter" - show all categories.
- * Used for filtering brands that have products in specific categories.
- */
-const categories = ['Everything', 'Dresses', 'Co-ord Sets', 'Evening Wear', 'Tops', 'Shirts', 'Pants']
 
 /**
  * SEASON FILTERS
@@ -239,8 +229,8 @@ export default function Home() {
                               key={cat}
                               onClick={() => handleCategorySelect(cat)}
                               className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedCategory === cat
-                                  ? 'bg-black text-white'
-                                  : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
+                                ? 'bg-black text-white'
+                                : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
                                 }`}
                             >
                               {cat}
@@ -294,8 +284,8 @@ export default function Home() {
                               key={season}
                               onClick={() => handleSeasonSelect(season)}
                               className={`px-8 py-4 text-xl font-light transition-all duration-300 rounded-sm font-cormorant ${selectedSeason === season
-                                  ? 'bg-black text-white'
-                                  : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
+                                ? 'bg-black text-white'
+                                : 'bg-white text-black hover:bg-gray-100 border border-gray-200'
                                 }`}
                             >
                               {season}
