@@ -19,7 +19,7 @@ export function CollectionGrid({ collections }: CollectionGridProps) {
         <section className="py-32 px-6 md:px-12 bg-white">
             <div className="max-w-[1600px] mx-auto">
 
-                <div className="flex justify-between items-end mb-16">
+                <div className="flex justify-between items-end mb-32">
                     <h2 className="text-3xl font-serif text-black">More Collections</h2>
                     <Link href="/discover" className="text-xs uppercase tracking-widest text-gray-500 hover:text-black transition-colors border-b border-transparent hover:border-black pb-1">
                         View All
