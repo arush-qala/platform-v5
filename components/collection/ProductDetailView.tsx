@@ -31,8 +31,8 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
     })
 
     // Animation: Shift images to the left as user scrolls down
-    // Shift of -8vw moves image from 18vw to 10vw (touching the 10vw sidebar)
-    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-8vw"])
+    // Shift of -5vw moves image from 15vw to 10vw (touching the 10vw sidebar)
+    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-5vw"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
 
@@ -86,10 +86,10 @@ export function ProductDetailView({ product, prevProduct, nextProduct, onClose, 
             )}
 
             {/* Main Content Area */}
-            {/* Grid layout enforces strict columns: 18vw empty | Content | 18vw empty */}
-            {/* This guarantees the content starts at 18vw. With -8vw shift, it goes to 10vw. */}
+            {/* Grid layout enforces strict columns: 15vw empty | Content | 15vw empty */}
+            {/* This guarantees the content starts at 15vw. With -5vw shift, it goes to 10vw. */}
             {/* Sidebar is 10vw. Gap is 0vw (touching). */}
-            <div className="w-full grid grid-cols-[18vw_1fr_18vw] pt-24 relative z-40">
+            <div className="w-full grid grid-cols-[15vw_1fr_15vw] pt-24 relative z-40">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
