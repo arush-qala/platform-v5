@@ -173,9 +173,9 @@ export default function ProductDetailView({
                                 setFlyingImage(null)
                             }, 800)
                         }}
-                        className="w-full py-4 bg-[#B8956A] text-white uppercase tracking-[0.2em] text-xs hover:bg-[#A6855E] transition-all duration-300 font-medium border border-[#B8956A]"
+                        className="w-full py-4 bg-[#B8956A] text-white hover:bg-[#A6855E] transition-all duration-300 border border-[#B8956A] flex items-center justify-center group"
                     >
-                        Select This Style
+                        <span className="uppercase tracking-[0.2em] text-sm font-bold relative z-10">Select This Style</span>
                     </button>
 
                     {/* Virtual Trial Panel */}
