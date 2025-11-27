@@ -7,7 +7,7 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { CollectionHero } from '@/components/collection/CollectionHero'
 import { ProductCarousel } from '@/components/collection/ProductCarousel'
-import { ProductDetailView } from '@/components/collection/ProductDetailView'
+import ProductDetailView from '@/components/collection/ProductDetailView'
 
 // Mock Data
 const MOCK_COLLECTION = {
