@@ -150,58 +150,84 @@ export default function ProductDetailView({
                                 onClick={() => setShowSizeGuide(true)}
                                 className="underline underline-offset-4 hover:text-gray-500"
                             >
-                                <video
-                                    src="/videos/virtual-try-on.mp4"
-                                    autoPlay
-                                    loop
-                                    muted
-                                    playsInline
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                />
-                                <div className="absolute bottom-2 left-2 bg-white/80 backdrop-blur-sm px-2 py-1">
-                                    <span className="text-[10px] uppercase tracking-widest text-black">Virtual Trial</span>
-                                </div>
+                                View Chart
+                            </button>
                         </div>
+                    </div>
 
-                        {/* Details Tabs */}
-                        <div className="border-t border-gray-200 pt-6">
-                            <div className="flex gap-6 mb-4 border-b border-gray-100 pb-2 overflow-x-auto">
-                                {['Details', 'Wash & Care', 'Bulk Price', 'Shipping'].map((tab) => (
-                                    <button
-                                        key={tab}
-                                        onClick={() => setActiveTab(tab)}
-                                        className={`text-xs uppercase tracking-widest whitespace-nowrap pb-1 transition-colors ${activeTab === tab ? 'text-black border-b border-black' : 'text-gray-400 hover:text-gray-600'}`}
-                                    >
-                                        {tab}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="text-xs text-gray-600 leading-relaxed min-h-[100px]">
-                                {activeTab === 'Details' && (
-                                    <p>
-                                        Meticulously crafted with attention to architectural lines. This piece embodies the collection's ethos of structured fluidity.
-                                        Designed for the modern wardrobe, offering versatility and timeless elegance.
-                                    </p>
-                                )}
-                                {activeTab === 'Wash & Care' && (
-                                    <p>
-                                        Dry clean only. Do not bleach. Iron on low heat. Store in a cool, dry place away from direct sunlight to preserve the fabric's integrity.
-                                    </p>
-                                )}
-                                {activeTab === 'Bulk Price' && (
-                                    <div className="space-y-2">
-                                        <div className="flex justify-between"><span>10-50 units:</span> <span className="font-medium">$450</span></div>
-                                        <div className="flex justify-between"><span>51-100 units:</span> <span className="font-medium">$420</span></div>
-                                        <div className="flex justify-between"><span>100+ units:</span> <span className="font-medium">$395</span></div>
-                                    </div>
-                                )}
-                                {activeTab === 'Shipping' && (
-                                    <p>
-                                        Global shipping available. Standard delivery: 5-7 business days. Express delivery: 2-3 business days. Duties and taxes calculated at checkout.
-                                    </p>
-                                )}
-                            </div>
+                    {/* Selection CTA */}
+                    <button
+                        onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect()
+                            setSwooshOrigin({
+                                x: rect.left + rect.width / 2,
+                                y: rect.top + rect.height / 2
+                            })
+                            setShowSwoosh(true)
+                            setTimeout(() => {
+                                onSelectProduct(product)
+                                setShowSwoosh(false)
+                            }, 600)
+                        }}
+                        className="w-full py-4 bg-gradient-to-r from-[#B8956A] to-[#C5A572] text-white uppercase tracking-[0.2em] text-xs hover:from-[#A67D4F] hover:to-[#B8956A] transition-all duration-300 shadow-md hover:shadow-lg"
+                    >
+                        Select This Style
+                    </button>
+
+                    {/* Virtual Trial Panel */}
+                    <div className="w-full aspect-video bg-gray-50 border border-gray-200 flex flex-col items-center justify-center overflow-hidden relative">
+                        <video
+                            src="/videos/virtual-try-on.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute bottom-2 left-2 bg-white/80 backdrop-blur-sm px-2 py-1">
+                            <span className="text-[10px] uppercase tracking-widest text-black">Virtual Trial</span>
                         </div>
+                    </div>
+
+                    {/* Details Tabs */}
+                    <div className="border-t border-gray-200 pt-6">
+                        <div className="flex gap-6 mb-4 border-b border-gray-100 pb-2 overflow-x-auto">
+                            {['Details', 'Wash & Care', 'Bulk Price', 'Shipping'].map((tab) => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`text-xs uppercase tracking-widest whitespace-nowrap pb-1 transition-colors ${activeTab === tab ? 'text-black border-b border-black' : 'text-gray-400 hover:text-gray-600'}`}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="text-xs text-gray-600 leading-relaxed min-h-[100px]">
+                            {activeTab === 'Details' && (
+                                <p>
+                                    Meticulously crafted with attention to architectural lines. This piece embodies the collection's ethos of structured fluidity.
+                                    Designed for the modern wardrobe, offering versatility and timeless elegance.
+                                </p>
+                            )}
+                            {activeTab === 'Wash & Care' && (
+                                <p>
+                                    Dry clean only. Do not bleach. Iron on low heat. Store in a cool, dry place away from direct sunlight to preserve the fabric's integrity.
+                                </p>
+                            )}
+                            {activeTab === 'Bulk Price' && (
+                                <div className="space-y-2">
+                                    <div className="flex justify-between"><span>10-50 units:</span> <span className="font-medium">$450</span></div>
+                                    <div className="flex justify-between"><span>51-100 units:</span> <span className="font-medium">$420</span></div>
+                                    <div className="flex justify-between"><span>100+ units:</span> <span className="font-medium">$395</span></div>
+                                </div>
+                            )}
+                            {activeTab === 'Shipping' && (
+                                <p>
+                                    Global shipping available. Standard delivery: 5-7 business days. Express delivery: 2-3 business days. Duties and taxes calculated at checkout.
+                                </p>
+                            )}
+                        </div>
+                    </div>
 
                 </motion.div>
             </div>
