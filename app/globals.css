@@ -4,17 +4,21 @@
 
 :root {
   /* Old Money Luxury Color Palette - STRICT WHITE/BLACK */
-  --cream: #FFFFFF; /* Replaced Cream with White as per user request */
-  --ivory: #FFFFFF; /* Replaced Ivory with White */
-  --sand: #F5F5F5;  /* Light Gray for subtle separation */
+  --cream: #FFFFFF;
+  /* Replaced Cream with White as per user request */
+  --ivory: #FFFFFF;
+  /* Replaced Ivory with White */
+  --sand: #F5F5F5;
+  /* Light Gray for subtle separation */
   --warm-grey: #E5E5E5;
   --taupe: #666666;
   --charcoal: #333333;
-  --deep-charcoal: #000000; /* Pure Black */
+  --deep-charcoal: #000000;
+  /* Pure Black */
   --gold-accent: #B8956A;
   --sage: #9CAA9E;
   --muted-rose: #D4ABA4;
-  
+
   /* Semantic Colors */
   --background: #FFFFFF;
   --foreground: #000000;
@@ -24,7 +28,7 @@
   --surface: #FFFFFF;
   --surface-elevated: #FFFFFF;
   --accent: var(--gold-accent);
-  
+
   /* Spacing */
   --spacing-xs: 0.5rem;
   --spacing-sm: 1rem;
@@ -47,8 +51,8 @@
   --color-gold-accent: var(--gold-accent);
   --color-sage: var(--sage);
   --color-muted-rose: var(--muted-rose);
-  --font-heading: var(--font-cormorant);
-  --font-body: var(--font-inter);
+  --font-heading: "Optima Nova LT Pro", "Optima", var(--font-cormorant), serif;
+  --font-body: "Open Sauce Two", var(--font-inter), sans-serif;
 }
 
 * {
@@ -57,8 +61,7 @@
   box-sizing: border-box;
 }
 
-html {
-}
+html {}
 
 body {
   background: var(--background);
@@ -72,7 +75,12 @@ body {
 }
 
 /* Typography Scale */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-cormorant), serif;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -107,7 +115,11 @@ p {
 }
 
 /* Smooth Transitions */
-a, button, input, textarea, select {
+a,
+button,
+input,
+textarea,
+select {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -169,6 +181,7 @@ button {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

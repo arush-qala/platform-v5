@@ -31,14 +31,13 @@ export default function ProductDetailView({
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null)
     const [zoomedImage, setZoomedImage] = useState<string | null>(null)
+    const [activeTab, setActiveTab] = useState('Details')
     const { scrollYProgress } = useScroll({ target: containerRef })
 
     // Animation: Shift images to the left as user scrolls down
-    // Start: 14vw
-    // Shift: -9vw
-    // End: 5vw (4vw Sidebar + 1vw Gap)
-    // Shift: -25vw (Adjusted as per user request)
-    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-25vw"])
+    // Start: 50vw (Center of screen) -> Requires -6.5vw offset from 56.5vw center of 85vw col
+    // Shift: -25vw relative to start
+    const imageX = useTransform(scrollYProgress, [0, 0.1], ["-6.5vw", "-31.5vw"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
 
@@ -127,8 +126,7 @@ export default function ProductDetailView({
                 >
                     {/* Product Header */}
                     <div>
-                        <h1 className="text-3xl font-serif text-black mb-2">{product.name}</h1>
-                        <p className="text-sm text-gray-500 tracking-wide">{product.price}</p>
+                        <h1 className="text-2xl font-serif text-black mb-2">{product.name}</h1>
                     </div>
 
                     {/* Specs */}
@@ -161,17 +159,40 @@ export default function ProductDetailView({
                     {/* Details Tabs */}
                     <div className="border-t border-gray-200 pt-6">
                         <div className="flex gap-6 mb-4 border-b border-gray-100 pb-2 overflow-x-auto">
-                            {['Details', 'Wash & Care', 'Bulk Price', 'Shipping'].map((tab, i) => (
-                                <button key={tab} className={`text-xs uppercase tracking-widest whitespace-nowrap pb-1 ${i === 0 ? 'text-black border-b border-black' : 'text-gray-400 hover:text-gray-600'}`}>
+                            {['Details', 'Wash & Care', 'Bulk Price', 'Shipping'].map((tab) => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`text-xs uppercase tracking-widest whitespace-nowrap pb-1 transition-colors ${activeTab === tab ? 'text-black border-b border-black' : 'text-gray-400 hover:text-gray-600'}`}
+                                >
                                     {tab}
                                 </button>
                             ))}
                         </div>
                         <div className="text-xs text-gray-600 leading-relaxed min-h-[100px]">
-                            <p>
-                                Meticulously crafted with attention to architectural lines. This piece embodies the collection's ethos of structured fluidity.
-                                Designed for the modern wardrobe, offering versatility and timeless elegance.
-                            </p>
+                            {activeTab === 'Details' && (
+                                <p>
+                                    Meticulously crafted with attention to architectural lines. This piece embodies the collection's ethos of structured fluidity.
+                                    Designed for the modern wardrobe, offering versatility and timeless elegance.
+                                </p>
+                            )}
+                            {activeTab === 'Wash & Care' && (
+                                <p>
+                                    Dry clean only. Do not bleach. Iron on low heat. Store in a cool, dry place away from direct sunlight to preserve the fabric's integrity.
+                                </p>
+                            )}
+                            {activeTab === 'Bulk Price' && (
+                                <div className="space-y-2">
+                                    <div className="flex justify-between"><span>10-50 units:</span> <span className="font-medium">$450</span></div>
+                                    <div className="flex justify-between"><span>51-100 units:</span> <span className="font-medium">$420</span></div>
+                                    <div className="flex justify-between"><span>100+ units:</span> <span className="font-medium">$395</span></div>
+                                </div>
+                            )}
+                            {activeTab === 'Shipping' && (
+                                <p>
+                                    Global shipping available. Standard delivery: 5-7 business days. Express delivery: 2-3 business days. Duties and taxes calculated at checkout.
+                                </p>
+                            )}
                         </div>
                     </div>
 
