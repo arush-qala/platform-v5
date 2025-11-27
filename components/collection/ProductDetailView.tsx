@@ -169,7 +169,7 @@ export default function ProductDetailView({
                                 setShowSwoosh(false)
                             }, 600)
                         }}
-                        className="w-full py-4 bg-gradient-to-r from-[#B8956A] to-[#C5A572] text-white uppercase tracking-[0.2em] text-xs hover:from-[#A67D4F] hover:to-[#B8956A] transition-all duration-300 shadow-md hover:shadow-lg"
+                        className="w-full py-4 bg-[#B8956A] hover:bg-[#A67D4F] text-white border-2 border-[#B8956A] hover:border-[#A67D4F] uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                         Select This Style
                     </button>
