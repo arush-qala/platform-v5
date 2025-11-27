@@ -173,9 +173,10 @@ export default function ProductDetailView({
                                 setFlyingImage(null)
                             }, 800)
                         }}
-                        className="w-full py-4 bg-[#B8956A] text-white hover:bg-[#A6855E] transition-all duration-300 border border-[#B8956A] flex items-center justify-center group"
+                        style={{ backgroundColor: '#B8956A', color: 'white', borderColor: '#B8956A' }}
+                        className="w-full py-4 uppercase tracking-[0.2em] text-sm font-bold hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10"
                     >
-                        <span className="uppercase tracking-[0.2em] text-sm font-bold relative z-10">Select This Style</span>
+                        <span className="relative z-10">Select This Style</span>
                     </button>
 
                     {/* Virtual Trial Panel */}
