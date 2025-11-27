@@ -36,8 +36,8 @@ export default function ProductDetailView({
     // Start: 14vw
     // Shift: -9vw
     // End: 5vw (4vw Sidebar + 1vw Gap)
-    // Shift: -30vw (Moves from ~37.5vw to ~7.5vw, close to 4vw sidebar)
-    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-30vw"])
+    // Shift: -25vw (Adjusted as per user request)
+    const imageX = useTransform(scrollYProgress, [0, 0.1], ["0vw", "-25vw"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
 
