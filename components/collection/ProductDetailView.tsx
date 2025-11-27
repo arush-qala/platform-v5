@@ -4,21 +4,23 @@ import Image from 'next/image'
 import { useRef, useState } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
+import AssortmentTray from './AssortmentTray'
+import AssortmentReview from './AssortmentReview'
+import { useAssortment } from './AssortmentContext'
 
 type Product = {
     id: string
     name: string
     price: string
     image: string
-    fabric: string
-    feels_like: string
+    fabric?: string
+    feels_like?: string
 }
 
 type Props = {
     product: Product
     onClose: () => void
     onNavigate: (product: Product) => void
-    onSelectProduct: (product: Product) => void
     prevProduct?: Product
     nextProduct?: Product
 }
@@ -27,7 +29,6 @@ export default function ProductDetailView({
     product,
     onClose,
     onNavigate,
-    onSelectProduct,
     prevProduct,
     nextProduct,
 }: Props) {
@@ -35,8 +36,9 @@ export default function ProductDetailView({
     const [zoomedImage, setZoomedImage] = useState<string | null>(null)
     const [activeTab, setActiveTab] = useState('Details')
     const [showSizeGuide, setShowSizeGuide] = useState(false)
-    const [showSwoosh, setShowSwoosh] = useState(false)
-    const [swooshOrigin, setSwooshOrigin] = useState({ x: 0, y: 0 })
+    const [showReview, setShowReview] = useState(false)
+    const [flyingImage, setFlyingImage] = useState<{ src: string, x: number, y: number } | null>(null)
+    const { addItem } = useAssortment()
     const { scrollYProgress } = useScroll({ target: containerRef })
 
     // Animation: Shift images to the left as user scrolls down
@@ -158,18 +160,20 @@ export default function ProductDetailView({
                     {/* Selection CTA */}
                     <button
                         onClick={(e) => {
-                            const rect = e.currentTarget.getBoundingClientRect()
-                            setSwooshOrigin({
+                            const rect = (e.target as HTMLElement).getBoundingClientRect()
+                            setFlyingImage({
+                                src: product.image,
                                 x: rect.left + rect.width / 2,
                                 y: rect.top + rect.height / 2
                             })
-                            setShowSwoosh(true)
+
+                            // Delay adding to context to match animation
                             setTimeout(() => {
-                                onSelectProduct(product)
-                                setShowSwoosh(false)
-                            }, 600)
+                                addItem(product)
+                                setFlyingImage(null)
+                            }, 800)
                         }}
-                        className="w-full py-4 bg-black text-white border-2 border-black hover:bg-gray-800 hover:border-gray-800 uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300"
+                        className="w-full py-4 bg-[#B8956A] text-black uppercase tracking-[0.2em] text-xs hover:bg-[#A6855E] transition-all duration-300 font-medium"
                     >
                         Select This Style
                     </button>
@@ -283,45 +287,54 @@ export default function ProductDetailView({
                     </motion.div>
                 )}
             </AnimatePresence>
+            {/* Assortment Tray */}
+            <AssortmentTray onReview={() => setShowReview(true)} />
 
-            {/* Swoosh Animation */}
+            {/* Assortment Review Modal */}
             <AnimatePresence>
-                {showSwoosh && (
+                {showReview && (
+                    <AssortmentReview
+                        onClose={() => setShowReview(false)}
+                        onNavigate={(p) => {
+                            setShowReview(false)
+                            onNavigate(p)
+                        }}
+                    />
+                )}
+            </AnimatePresence>
+
+            {/* Flying Image Animation */}
+            <AnimatePresence>
+                {flyingImage && (
                     <motion.div
                         initial={{
                             position: 'fixed',
-                            left: swooshOrigin.x,
-                            top: swooshOrigin.y,
-                            width: 100,
-                            height: 140,
-                            scale: 1,
+                            left: flyingImage.x,
+                            top: flyingImage.y,
+                            width: 200,
+                            height: 300,
                             opacity: 1,
+                            zIndex: 100,
+                            x: '-50%',
+                            y: '-50%'
                         }}
                         animate={{
-                            left: window.innerWidth / 2,
-                            top: window.innerHeight - 120,
-                            scale: 0.3,
-                            opacity: 0.7,
+                            left: '50%',
+                            top: '100%',
+                            width: 50,
+                            height: 50,
+                            opacity: 0,
+                            scale: 0.2
                         }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                            duration: 0.6,
-                            ease: [0.4, 0, 0.2, 1],
-                        }}
-                        className="pointer-events-none z-[110]"
-                        style={{
-                            position: 'fixed',
-                            transform: 'translate(-50%, -50%)',
-                        }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                        className="pointer-events-none"
                     >
-                        <div className="relative w-full h-full bg-white shadow-2xl rounded-lg overflow-hidden">
-                            <Image
-                                src={product.image}
-                                alt={product.name}
-                                fill
-                                className="object-cover"
-                            />
-                        </div>
+                        <Image
+                            src={flyingImage.src}
+                            alt="Flying Product"
+                            fill
+                            className="object-cover rounded-md"
+                        />
                     </motion.div>
                 )}
             </AnimatePresence>

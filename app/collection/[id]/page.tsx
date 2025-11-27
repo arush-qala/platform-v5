@@ -8,8 +8,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CollectionHero } from '@/components/collection/CollectionHero'
 import { ProductCarousel } from '@/components/collection/ProductCarousel'
 import ProductDetailView from '@/components/collection/ProductDetailView'
-import AssortmentTray from '@/components/collection/AssortmentTray'
-import AssortmentReview from '@/components/collection/AssortmentReview'
+import { AssortmentProvider } from '@/components/collection/AssortmentContext'
 
 // Mock Data
 const MOCK_COLLECTION = {
@@ -31,111 +30,70 @@ const MOCK_COLLECTION = {
 export default function CollectionPage() {
     const params = useParams()
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
-    const [selectedProducts, setSelectedProducts] = useState<typeof MOCK_COLLECTION.products>([])
-    const [showReview, setShowReview] = useState(false)
 
     const selectedProduct = MOCK_COLLECTION.products.find(p => p.id === selectedProductId)
     const selectedIndex = MOCK_COLLECTION.products.findIndex(p => p.id === selectedProductId)
     const prevProduct = selectedIndex > 0 ? MOCK_COLLECTION.products[selectedIndex - 1] : undefined
     const nextProduct = selectedIndex < MOCK_COLLECTION.products.length - 1 ? MOCK_COLLECTION.products[selectedIndex + 1] : undefined
 
-    const handleSelectProduct = (product: typeof MOCK_COLLECTION.products[0]) => {
-        if (selectedProducts.length >= 10) {
-            alert('Maximum 10 products can be added to the assortment')
-            return
-        }
-        if (!selectedProducts.find(p => p.id === product.id)) {
-            setSelectedProducts([...selectedProducts, product])
-        }
-    }
-
-    const handleRemoveProduct = (productId: string) => {
-        setSelectedProducts(selectedProducts.filter(p => p.id !== productId))
-    }
-
-    const handleProductClick = (productId: string) => {
-        setSelectedProductId(productId)
-        setShowReview(false)
-    }
-
     return (
-        <main className="bg-white min-h-screen">
-            {/* Back Button - Always visible or handled within views */}
-            {!selectedProductId && (
-                <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
-                    <Link href="/brands/maison-solene" className="flex items-center gap-2 text-xs uppercase tracking-widest hover:underline underline-offset-4">
-                        <ArrowLeft size={16} />
-                        <span>Back to Brand</span>
-                    </Link>
-                </div>
-            )}
-
-            <AnimatePresence mode="wait">
-                {selectedProductId && selectedProduct ? (
-                    <motion.div
-                        key="detail"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="relative z-40"
-                    >
-                        <ProductDetailView
-                            product={selectedProduct}
-                            prevProduct={prevProduct}
-                            nextProduct={nextProduct}
-                            onClose={() => setSelectedProductId(null)}
-                            onNavigate={(p) => setSelectedProductId(p.id)}
-                            onSelectProduct={handleSelectProduct}
-                        />
-                    </motion.div>
-                ) : (
-                    <motion.div
-                        key="list"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                    >
-                        {/* Hero Section - First Slide */}
-                        <CollectionHero
-                            collectionName={MOCK_COLLECTION.name}
-                            season={MOCK_COLLECTION.season}
-                            description={MOCK_COLLECTION.description}
-                            coverImage={MOCK_COLLECTION.coverImage}
-                        />
-
-                        {/* Product Rail - Horizontal Scroll */}
-                        <ProductCarousel
-                            products={MOCK_COLLECTION.products}
-                            onSelect={(p) => {
-                                window.scrollTo({ top: 0, behavior: 'instant' })
-                                setSelectedProductId(p.id)
-                            }}
-                        />
-                    </motion.div>
+        <AssortmentProvider>
+            <main className="bg-white min-h-screen">
+                {/* Back Button - Always visible or handled within views */}
+                {!selectedProductId && (
+                    <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
+                        <Link href="/brands/maison-solene" className="flex items-center gap-2 text-xs uppercase tracking-widest hover:underline underline-offset-4">
+                            <ArrowLeft size={16} />
+                            <span>Back to Brand</span>
+                        </Link>
+                    </div>
                 )}
-            </AnimatePresence>
 
-            {/* Assortment Tray */}
-            <AssortmentTray
-                products={selectedProducts}
-                onRemove={handleRemoveProduct}
-                onProductClick={handleProductClick}
-                onReviewClick={() => setShowReview(true)}
-            />
+                <AnimatePresence mode="wait">
+                    {selectedProductId && selectedProduct ? (
+                        <motion.div
+                            key="detail"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="relative z-40"
+                        >
+                            <ProductDetailView
+                                product={selectedProduct}
+                                prevProduct={prevProduct}
+                                nextProduct={nextProduct}
+                                onClose={() => setSelectedProductId(null)}
+                                onNavigate={(p) => setSelectedProductId(p.id)}
+                            />
+                        </motion.div>
+                    ) : (
+                        <motion.div
+                            key="list"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        >
+                            {/* Hero Section - First Slide */}
+                            <CollectionHero
+                                collectionName={MOCK_COLLECTION.name}
+                                season={MOCK_COLLECTION.season}
+                                description={MOCK_COLLECTION.description}
+                                coverImage={MOCK_COLLECTION.coverImage}
+                            />
 
-            {/* Review Modal */}
-            <AnimatePresence>
-                {showReview && (
-                    <AssortmentReview
-                        products={selectedProducts}
-                        onClose={() => setShowReview(false)}
-                        onRemove={handleRemoveProduct}
-                        onProductClick={handleProductClick}
-                        onReorder={setSelectedProducts}
-                    />
-                )}
-            </AnimatePresence>
+                            {/* Product Rail - Horizontal Scroll */}
+                            <ProductCarousel
+                                products={MOCK_COLLECTION.products}
+                                onSelect={(p) => {
+                                    window.scrollTo({ top: 0, behavior: 'instant' })
+                                    setSelectedProductId(p.id)
+                                }}
+                            />
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
-        </main>
+            </main>
+        </AssortmentProvider>
     )
 }
