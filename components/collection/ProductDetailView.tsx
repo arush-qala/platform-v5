@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 
 type Product = {
@@ -30,6 +30,7 @@ export default function ProductDetailView({
     nextProduct,
 }: Props) {
     const containerRef = useRef<HTMLDivElement>(null)
+    const [zoomedImage, setZoomedImage] = useState<string | null>(null)
     const { scrollYProgress } = useScroll({ target: containerRef })
 
     // Animation: Shift images to the left as user scrolls down
@@ -91,10 +92,10 @@ export default function ProductDetailView({
             )}
 
             {/* Main Content Area */}
-            {/* Grid layout enforces strict columns: 14vw empty | Content | 14vw empty */}
-            {/* This guarantees the content starts at 14vw. With -9vw shift, it goes to 5vw. */}
+            {/* Grid layout enforces strict columns: 14vw empty | Content | 1vw empty */}
+            {/* This guarantees the content starts at 14vw. */}
             {/* Sidebar is 4vw. Gap is 1vw. */}
-            <div className="w-full grid grid-cols-[14vw_1fr_14vw] pt-24 relative z-40">
+            <div className="w-full grid grid-cols-[14vw_1fr_1vw] pt-24 relative z-40">
 
                 {/* Image Column - Shifts Left */}
                 <motion.div
@@ -103,7 +104,11 @@ export default function ProductDetailView({
                 >
                     {productImages.map((img, idx) => (
                         // Max width constrained to 25vw
-                        <div key={idx} className="relative w-full max-w-[25vw] aspect-[3/4] bg-gray-100">
+                        <div
+                            key={idx}
+                            onClick={() => setZoomedImage(img)}
+                            className="relative w-full max-w-[25vw] aspect-[3/4] bg-gray-100 cursor-zoom-in"
+                        >
                             <Image
                                 src={img}
                                 alt={`${product.name} - View ${idx + 1}`}
@@ -172,6 +177,29 @@ export default function ProductDetailView({
 
                 </motion.div>
             </div>
+
+            {/* Zoom Modal */}
+            <AnimatePresence>
+                {zoomedImage && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setZoomedImage(null)}
+                        className="fixed inset-0 z-[100] bg-white/95 backdrop-blur-sm flex items-center justify-center cursor-zoom-out"
+                    >
+                        <div className="relative w-[90vw] h-[90vh]">
+                            <Image
+                                src={zoomedImage}
+                                alt="Zoomed View"
+                                fill
+                                className="object-contain"
+                                quality={100}
+                            />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
