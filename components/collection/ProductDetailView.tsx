@@ -151,9 +151,18 @@ export default function ProductDetailView({
                     </button>
 
                     {/* Virtual Trial Panel */}
-                    <div className="w-full aspect-video bg-gray-50 border border-gray-200 flex flex-col items-center justify-center gap-2 p-4 text-center">
-                        <span className="text-xs uppercase tracking-widest text-gray-400">Virtual Trial Panel</span>
-                        <p className="text-[10px] text-gray-400">AI Try-On Coming Soon</p>
+                    <div className="w-full aspect-video bg-gray-50 border border-gray-200 flex flex-col items-center justify-center overflow-hidden relative">
+                        <video
+                            src="/videos/virtual-try-on.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="absolute inset-0 w-full h-full object-cover"
+                        />
+                        <div className="absolute bottom-2 left-2 bg-white/80 backdrop-blur-sm px-2 py-1">
+                            <span className="text-[10px] uppercase tracking-widest text-black">Virtual Trial</span>
+                        </div>
                     </div>
 
                     {/* Details Tabs */}

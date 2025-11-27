@@ -2,6 +2,77 @@
 
 /* Qala Platform - Luxury Design System */
 
+/* Custom Fonts */
+/* Optima Nova LT Pro */
+@font-face {
+  font-family: 'Optima Nova LT Pro';
+  src: url('/fonts/OptimaNovaLTProLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Optima Nova LT Pro';
+  src: url('/fonts/OptimaNovaLTProRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Optima Nova LT Pro';
+  src: url('/fonts/OptimaNovaLTProMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Optima Nova LT Pro';
+  src: url('/fonts/OptimaNovaLTProBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Open Sauce Two */
+@font-face {
+  font-family: 'Open Sauce Two';
+  src: url('/fonts/open-sauce-two-latin-300-normal.woff2') format('woff2'),
+    url('/fonts/open-sauce-two-latin-300-normal.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sauce Two';
+  src: url('/fonts/open-sauce-two-latin-400-normal.woff2') format('woff2'),
+    url('/fonts/open-sauce-two-latin-400-normal.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sauce Two';
+  src: url('/fonts/open-sauce-two-latin-500-normal.woff2') format('woff2'),
+    url('/fonts/open-sauce-two-latin-500-normal.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Open Sauce Two';
+  src: url('/fonts/open-sauce-two-latin-600-normal.woff2') format('woff2'),
+    url('/fonts/open-sauce-two-latin-600-normal.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Old Money Luxury Color Palette - STRICT WHITE/BLACK */
   --cream: #FFFFFF;
@@ -140,6 +211,17 @@ button {
 }
 
 /* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
