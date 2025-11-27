@@ -173,7 +173,7 @@ export default function ProductDetailView({
                                 setFlyingImage(null)
                             }, 800)
                         }}
-                        className="w-full py-4 bg-[#B8956A] text-black uppercase tracking-[0.2em] text-xs hover:bg-[#A6855E] transition-all duration-300 font-medium"
+                        className="w-full py-4 bg-[#B8956A] text-white uppercase tracking-[0.2em] text-xs hover:bg-[#A6855E] transition-all duration-300 font-medium border border-[#B8956A]"
                     >
                         Select This Style
                     </button>

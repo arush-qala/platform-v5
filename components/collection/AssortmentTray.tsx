@@ -21,7 +21,7 @@ export default function AssortmentTray({ onReview }: Props) {
             if (timerRef.current) clearTimeout(timerRef.current)
             timerRef.current = setTimeout(() => {
                 setTrayOpen(false)
-            }, 3000)
+            }, 5000)
         }
         return () => {
             if (timerRef.current) clearTimeout(timerRef.current)
@@ -81,7 +81,7 @@ export default function AssortmentTray({ onReview }: Props) {
                                         initial={{ scale: 0, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
                                         exit={{ scale: 0, opacity: 0 }}
-                                        className="relative w-12 h-16 bg-gray-100 rounded-md overflow-hidden group cursor-pointer border border-gray-200"
+                                        className="relative w-16 h-24 bg-gray-100 rounded-md overflow-hidden group cursor-pointer border border-gray-200"
                                     >
                                         <Image
                                             src={item.image}
