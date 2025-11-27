@@ -32,6 +32,7 @@ export default function ProductDetailView({
     const containerRef = useRef<HTMLDivElement>(null)
     const [zoomedImage, setZoomedImage] = useState<string | null>(null)
     const [activeTab, setActiveTab] = useState('Details')
+    const [showSizeGuide, setShowSizeGuide] = useState(false)
     const { scrollYProgress } = useScroll({ target: containerRef })
 
     // Animation: Shift images to the left as user scrolls down
@@ -141,7 +142,12 @@ export default function ProductDetailView({
                         </div>
                         <div className="flex gap-2 items-center">
                             <span className="font-medium uppercase tracking-wider text-xs w-24">Size Guide:</span>
-                            <button className="underline underline-offset-4 hover:text-gray-500">View Chart</button>
+                            <button
+                                onClick={() => setShowSizeGuide(true)}
+                                className="underline underline-offset-4 hover:text-gray-500"
+                            >
+                                View Chart
+                            </button>
                         </div>
                     </div>
 
@@ -226,6 +232,35 @@ export default function ProductDetailView({
                                 className="object-contain"
                                 quality={100}
                             />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Size Guide Overlay */}
+            <AnimatePresence>
+                {showSizeGuide && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowSizeGuide(false)}
+                        className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center cursor-pointer"
+                    >
+                        <div className="relative w-[90vw] max-w-4xl h-[90vh] flex items-center justify-center">
+                            <Image
+                                src="/images/size-guide.jpg"
+                                alt="Size Guide"
+                                fill
+                                className="object-contain"
+                                quality={100}
+                            />
+                            <button
+                                onClick={() => setShowSizeGuide(false)}
+                                className="absolute top-4 right-4 p-2 bg-white/90 backdrop-blur-md rounded-full hover:bg-white transition-colors"
+                            >
+                                <X size={24} className="text-black" />
+                            </button>
                         </div>
                     </motion.div>
                 )}
