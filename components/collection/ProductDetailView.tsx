@@ -126,7 +126,7 @@ export default function ProductDetailView({
 
                 {/* Details Column - Appears on Right */}
                 <motion.div
-                    style={{ opacity: detailsOpacity, x: detailsX }}
+                    style={{ x: detailsX }}
                     className="fixed top-24 right-[15%] w-[40%] h-[calc(100vh-6rem)] hidden md:flex flex-col gap-8 overflow-y-auto pb-12 no-scrollbar"
                 >
                     {/* Product Header */}
@@ -169,7 +169,7 @@ export default function ProductDetailView({
                                 setShowSwoosh(false)
                             }, 600)
                         }}
-                        className="w-full py-4 bg-[#B8956A] hover:bg-[#A67D4F] text-white border-2 border-[#B8956A] hover:border-[#A67D4F] uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300 shadow-md hover:shadow-lg"
+                        className="w-3/4 mx-auto py-5 bg-[#B8956A] hover:bg-[#A67D4F] text-white border-2 border-[#B8956A] hover:border-[#A67D4F] uppercase tracking-[0.2em] text-xs font-medium transition-all duration-300 shadow-md hover:shadow-lg"
                     >
                         Select This Style
                     </button>
