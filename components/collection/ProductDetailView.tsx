@@ -118,7 +118,7 @@ export default function ProductDetailView({
                 {/* Details Column - Appears on Right */}
                 <motion.div
                     style={{ opacity: detailsOpacity, x: detailsX }}
-                    className="fixed top-24 right-[15%] w-[25%] h-[calc(100vh-6rem)] hidden md:flex flex-col gap-8 overflow-y-auto pb-12 no-scrollbar"
+                    className="fixed top-24 right-[15%] w-[40%] h-[calc(100vh-6rem)] hidden md:flex flex-col gap-8 overflow-y-auto pb-12 no-scrollbar"
                 >
                     {/* Product Header */}
                     <div>
