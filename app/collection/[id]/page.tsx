@@ -82,7 +82,10 @@ export default function CollectionPage() {
                         {/* Product Rail - Horizontal Scroll */}
                         <ProductCarousel
                             products={MOCK_COLLECTION.products}
-                            onSelect={(p) => setSelectedProductId(p.id)}
+                            onSelect={(p) => {
+                                window.scrollTo(0, 0)
+                                setSelectedProductId(p.id)
+                            }}
                         />
                     </motion.div>
                 )}
