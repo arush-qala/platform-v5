@@ -83,7 +83,7 @@ export default function CollectionPage() {
                         <ProductCarousel
                             products={MOCK_COLLECTION.products}
                             onSelect={(p) => {
-                                window.scrollTo(0, 0)
+                                window.scrollTo({ top: 0, behavior: 'instant' })
                                 setSelectedProductId(p.id)
                             }}
                         />
