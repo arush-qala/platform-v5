@@ -8,6 +8,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { CollectionHero } from '@/components/collection/CollectionHero'
 import { ProductCarousel } from '@/components/collection/ProductCarousel'
 import ProductDetailView from '@/components/collection/ProductDetailView'
+import AssortmentTray from '@/components/collection/AssortmentTray'
+import AssortmentReview from '@/components/collection/AssortmentReview'
 
 // Mock Data
 const MOCK_COLLECTION = {
@@ -29,11 +31,32 @@ const MOCK_COLLECTION = {
 export default function CollectionPage() {
     const params = useParams()
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
+    const [selectedProducts, setSelectedProducts] = useState<typeof MOCK_COLLECTION.products>([])
+    const [showReview, setShowReview] = useState(false)
 
     const selectedProduct = MOCK_COLLECTION.products.find(p => p.id === selectedProductId)
     const selectedIndex = MOCK_COLLECTION.products.findIndex(p => p.id === selectedProductId)
     const prevProduct = selectedIndex > 0 ? MOCK_COLLECTION.products[selectedIndex - 1] : undefined
     const nextProduct = selectedIndex < MOCK_COLLECTION.products.length - 1 ? MOCK_COLLECTION.products[selectedIndex + 1] : undefined
+
+    const handleSelectProduct = (product: typeof MOCK_COLLECTION.products[0]) => {
+        if (selectedProducts.length >= 10) {
+            alert('Maximum 10 products can be added to the assortment')
+            return
+        }
+        if (!selectedProducts.find(p => p.id === product.id)) {
+            setSelectedProducts([...selectedProducts, product])
+        }
+    }
+
+    const handleRemoveProduct = (productId: string) => {
+        setSelectedProducts(selectedProducts.filter(p => p.id !== productId))
+    }
+
+    const handleProductClick = (productId: string) => {
+        setSelectedProductId(productId)
+        setShowReview(false)
+    }
 
     return (
         <main className="bg-white min-h-screen">
@@ -62,6 +85,7 @@ export default function CollectionPage() {
                             nextProduct={nextProduct}
                             onClose={() => setSelectedProductId(null)}
                             onNavigate={(p) => setSelectedProductId(p.id)}
+                            onSelectProduct={handleSelectProduct}
                         />
                     </motion.div>
                 ) : (
@@ -88,6 +112,27 @@ export default function CollectionPage() {
                             }}
                         />
                     </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Assortment Tray */}
+            <AssortmentTray
+                products={selectedProducts}
+                onRemove={handleRemoveProduct}
+                onProductClick={handleProductClick}
+                onReviewClick={() => setShowReview(true)}
+            />
+
+            {/* Review Modal */}
+            <AnimatePresence>
+                {showReview && (
+                    <AssortmentReview
+                        products={selectedProducts}
+                        onClose={() => setShowReview(false)}
+                        onRemove={handleRemoveProduct}
+                        onProductClick={handleProductClick}
+                        onReorder={setSelectedProducts}
+                    />
                 )}
             </AnimatePresence>
 

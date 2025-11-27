@@ -10,14 +10,15 @@ type Product = {
     name: string
     price: string
     image: string
-    fabric?: string
-    feels_like?: string
+    fabric: string
+    feels_like: string
 }
 
 type Props = {
     product: Product
     onClose: () => void
     onNavigate: (product: Product) => void
+    onSelectProduct: (product: Product) => void
     prevProduct?: Product
     nextProduct?: Product
 }
@@ -26,6 +27,7 @@ export default function ProductDetailView({
     product,
     onClose,
     onNavigate,
+    onSelectProduct,
     prevProduct,
     nextProduct,
 }: Props) {
@@ -33,6 +35,8 @@ export default function ProductDetailView({
     const [zoomedImage, setZoomedImage] = useState<string | null>(null)
     const [activeTab, setActiveTab] = useState('Details')
     const [showSizeGuide, setShowSizeGuide] = useState(false)
+    const [showSwoosh, setShowSwoosh] = useState(false)
+    const [swooshOrigin, setSwooshOrigin] = useState({ x: 0, y: 0 })
     const { scrollYProgress } = useScroll({ target: containerRef })
 
     // Animation: Shift images to the left as user scrolls down
@@ -152,7 +156,21 @@ export default function ProductDetailView({
                     </div>
 
                     {/* Selection CTA */}
-                    <button className="w-full py-4 border border-black text-black uppercase tracking-[0.2em] text-xs hover:bg-black hover:text-white transition-all duration-300">
+                    <button
+                        onClick={(e) => {
+                            const rect = e.currentTarget.getBoundingClientRect()
+                            setSwooshOrigin({
+                                x: rect.left + rect.width / 2,
+                                y: rect.top + rect.height / 2
+                            })
+                            setShowSwoosh(true)
+                            setTimeout(() => {
+                                onSelectProduct(product)
+                                setShowSwoosh(false)
+                            }, 600)
+                        }}
+                        className="w-full py-4 border border-black text-black uppercase tracking-[0.2em] text-xs hover:bg-black hover:text-white transition-all duration-300"
+                    >
                         Select This Style
                     </button>
 
@@ -261,6 +279,48 @@ export default function ProductDetailView({
                             >
                                 <X size={24} className="text-black" />
                             </button>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* Swoosh Animation */}
+            <AnimatePresence>
+                {showSwoosh && (
+                    <motion.div
+                        initial={{
+                            position: 'fixed',
+                            left: swooshOrigin.x,
+                            top: swooshOrigin.y,
+                            width: 100,
+                            height: 140,
+                            scale: 1,
+                            opacity: 1,
+                        }}
+                        animate={{
+                            left: window.innerWidth / 2,
+                            top: window.innerHeight - 60,
+                            scale: 0.3,
+                            opacity: 0.7,
+                        }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                            duration: 0.6,
+                            ease: [0.4, 0, 0.2, 1],
+                        }}
+                        className="pointer-events-none z-[110]"
+                        style={{
+                            position: 'fixed',
+                            transform: 'translate(-50%, -50%)',
+                        }}
+                    >
+                        <div className="relative w-full h-full bg-white shadow-2xl rounded-lg overflow-hidden">
+                            <Image
+                                src={product.image}
+                                alt={product.name}
+                                fill
+                                className="object-cover"
+                            />
                         </div>
                     </motion.div>
                 )}
