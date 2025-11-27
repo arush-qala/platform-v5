@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import { X, ChevronRight, ChevronLeft } from 'lucide-react'
@@ -25,6 +25,12 @@ interface ProductDetailViewProps {
 
 export function ProductDetailView({ product, prevProduct, nextProduct, onClose, onNavigate }: ProductDetailViewProps) {
     const containerRef = useRef<HTMLDivElement>(null)
+
+    // Force scroll to top on mount so animation starts from 0
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end end"]
