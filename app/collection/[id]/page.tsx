@@ -29,6 +29,7 @@ const MOCK_COLLECTION = {
 
 export default function CollectionPage() {
     const params = useParams()
+    const [direction, setDirection] = useState(0)
     const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
 
     const selectedProduct = MOCK_COLLECTION.products.find(p => p.id === selectedProductId)
@@ -36,9 +37,26 @@ export default function CollectionPage() {
     const prevProduct = selectedIndex > 0 ? MOCK_COLLECTION.products[selectedIndex - 1] : undefined
     const nextProduct = selectedIndex < MOCK_COLLECTION.products.length - 1 ? MOCK_COLLECTION.products[selectedIndex + 1] : undefined
 
+    const variants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? '100%' : '-100%',
+            opacity: 1
+        }),
+        center: {
+            zIndex: 1,
+            x: 0,
+            opacity: 1
+        },
+        exit: (direction: number) => ({
+            zIndex: 0,
+            x: direction < 0 ? '100%' : '-100%',
+            opacity: 1
+        })
+    }
+
     return (
         <AssortmentProvider>
-            <main className="bg-white min-h-screen">
+            <main className="bg-white min-h-screen overflow-x-hidden">
                 {/* Back Button - Always visible or handled within views */}
                 {!selectedProductId && (
                     <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
@@ -49,21 +67,32 @@ export default function CollectionPage() {
                     </div>
                 )}
 
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="popLayout" custom={direction}>
                     {selectedProductId && selectedProduct ? (
                         <motion.div
-                            key="detail"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="relative z-40"
+                            key={selectedProductId}
+                            custom={direction}
+                            variants={variants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{
+                                x: { type: "spring", stiffness: 200, damping: 25 },
+                                opacity: { duration: 0.2 }
+                            }}
+                            className="relative z-40 bg-white w-full min-h-screen"
                         >
                             <ProductDetailView
                                 product={selectedProduct}
                                 prevProduct={prevProduct}
                                 nextProduct={nextProduct}
                                 onClose={() => setSelectedProductId(null)}
-                                onNavigate={(p) => setSelectedProductId(p.id)}
+                                onNavigate={(p) => {
+                                    const newIndex = MOCK_COLLECTION.products.findIndex(prod => prod.id === p.id)
+                                    setDirection(newIndex > selectedIndex ? 1 : -1)
+                                    setSelectedProductId(p.id)
+                                    window.scrollTo({ top: 0, behavior: 'instant' })
+                                }}
                             />
                         </motion.div>
                     ) : (
@@ -72,6 +101,7 @@ export default function CollectionPage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
+                            className="w-full"
                         >
                             {/* Hero Section - First Slide */}
                             <CollectionHero
@@ -86,6 +116,7 @@ export default function CollectionPage() {
                                 products={MOCK_COLLECTION.products}
                                 onSelect={(p) => {
                                     window.scrollTo({ top: 0, behavior: 'instant' })
+                                    setDirection(1)
                                     setSelectedProductId(p.id)
                                 }}
                             />
