@@ -56,7 +56,7 @@ export default function CollectionPage() {
 
     return (
         <AssortmentProvider>
-            <main className="bg-white min-h-screen overflow-x-hidden">
+            <main className="bg-white h-screen overflow-hidden">
                 {/* Back Button - Always visible or handled within views */}
                 {!selectedProductId && (
                     <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">

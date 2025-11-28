@@ -133,7 +133,7 @@ export default function ProductDetailView({
                 >
                     {/* Product Header */}
                     <div>
-                        <h1 className="text-lg font-serif text-black mb-2" style={{ fontSize: '18px' }}>{product.name}</h1>
+                        <h1 className="text-lg font-serif text-black mb-2" style={{ fontSize: '20px' }}>{product.name}</h1>
                     </div>
 
                     {/* Specs */}
