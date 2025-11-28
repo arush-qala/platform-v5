@@ -174,7 +174,7 @@ export default function ProductDetailView({
                             }, 800)
                         }}
                         style={{ backgroundColor: '#B8956A', color: 'white', borderColor: '#B8956A' }}
-                        className="w-full py-4 uppercase tracking-[0.2em] text-sm font-bold hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10"
+                        className="px-8 py-4 uppercase tracking-[0.2em] text-sm font-bold hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10"
                     >
                         <span className="relative z-10">Select This Style</span>
                     </button>
