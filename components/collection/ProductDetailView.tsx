@@ -133,7 +133,7 @@ export default function ProductDetailView({
                 >
                     {/* Product Header */}
                     <div>
-                        <h1 className="text-lg font-serif text-black mb-2">{product.name}</h1>
+                        <h1 className="text-lg font-serif text-black mb-2" style={{ fontSize: '18px' }}>{product.name}</h1>
                     </div>
 
                     {/* Specs */}
@@ -173,8 +173,8 @@ export default function ProductDetailView({
                                 setFlyingImage(null)
                             }, 800)
                         }}
-                        style={{ backgroundColor: '#B8956A', color: 'white', borderColor: '#B8956A' }}
-                        className="px-4 py-6 uppercase tracking-[0.2em] text-sm font-bold hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10"
+                        style={{ backgroundColor: '#B8956A', color: 'white', borderColor: '#B8956A', padding: '24px 16px' }}
+                        className="uppercase tracking-[0.2em] text-sm font-bold hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10"
                     >
                         <span className="relative z-10">Select This Style</span>
                     </button>
