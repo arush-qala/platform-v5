@@ -56,7 +56,7 @@ export default function CollectionPage() {
 
     return (
         <AssortmentProvider>
-            <main className="bg-white h-screen overflow-hidden">
+            <main className={`bg-white ${selectedProductId ? 'h-screen overflow-hidden' : 'min-h-screen overflow-x-hidden'}`}>
                 {/* Back Button - Always visible or handled within views */}
                 {!selectedProductId && (
                     <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
@@ -80,7 +80,7 @@ export default function CollectionPage() {
                                 x: { type: "spring", stiffness: 200, damping: 25 },
                                 opacity: { duration: 0.2 }
                             }}
-                            className="relative z-40 bg-white w-full min-h-screen"
+                            className="relative z-40 bg-white w-full h-full"
                         >
                             <ProductDetailView
                                 product={selectedProduct}
