@@ -56,7 +56,7 @@ export default function CollectionPage() {
 
     return (
         <AssortmentProvider>
-            <main className={`bg-white ${selectedProductId ? 'h-screen overflow-hidden' : 'min-h-screen overflow-x-hidden'}`}>
+            <main className="bg-white h-screen overflow-hidden">
                 {/* Back Button - Always visible or handled within views */}
                 {!selectedProductId && (
                     <div className="fixed top-6 left-6 z-50 mix-blend-difference text-white">
@@ -80,7 +80,7 @@ export default function CollectionPage() {
                                 x: { type: "spring", stiffness: 200, damping: 25 },
                                 opacity: { duration: 0.2 }
                             }}
-                            className="relative z-40 bg-white w-full h-full"
+                            className="relative z-40 bg-white w-full min-h-screen"
                         >
                             <ProductDetailView
                                 product={selectedProduct}
@@ -103,17 +103,15 @@ export default function CollectionPage() {
                             exit={{ opacity: 0 }}
                             className="w-full"
                         >
-                            {/* Hero Section - First Slide */}
-                            <CollectionHero
-                                collectionName={MOCK_COLLECTION.name}
-                                season={MOCK_COLLECTION.season}
-                                description={MOCK_COLLECTION.description}
-                                coverImage={MOCK_COLLECTION.coverImage}
-                            />
-
-                            {/* Product Rail - Horizontal Scroll */}
+                            {/* Combined Hero & Product Rail */}
                             <ProductCarousel
                                 products={MOCK_COLLECTION.products}
+                                heroData={{
+                                    collectionName: MOCK_COLLECTION.name,
+                                    season: MOCK_COLLECTION.season,
+                                    description: MOCK_COLLECTION.description,
+                                    coverImage: MOCK_COLLECTION.coverImage
+                                }}
                                 onSelect={(p) => {
                                     window.scrollTo({ top: 0, behavior: 'instant' })
                                     setDirection(1)

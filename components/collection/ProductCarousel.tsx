@@ -1,8 +1,7 @@
-'use client'
-
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Image from 'next/image'
+import { CollectionHero } from './CollectionHero'
 
 interface Product {
     id: string
@@ -11,18 +10,30 @@ interface Product {
     price?: string
 }
 
+interface HeroData {
+    collectionName: string
+    season: string
+    description: string
+    coverImage: string
+}
+
 interface ProductCarouselProps {
     products: Product[]
     onSelect: (product: Product) => void
+    heroData: HeroData
 }
 
-export function ProductCarousel({ products, onSelect }: ProductCarouselProps) {
+export function ProductCarousel({ products, onSelect, heroData }: ProductCarouselProps) {
     const targetRef = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
         target: targetRef,
     })
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-90%"])
+    // Scroll 0 -> 1 maps to moving the rail left.
+    // We want to move enough to see the last product.
+    // Hero is 100vw. Products are ~30-40vw each.
+    // Total width is large. Let's try -85% to start, can be tuned.
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"])
     const smoothX = useSpring(x, { damping: 20, stiffness: 90 })
 
     return (
@@ -30,16 +41,24 @@ export function ProductCarousel({ products, onSelect }: ProductCarouselProps) {
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
                 <motion.div
                     style={{ x: smoothX }}
-                    className="flex items-center h-[80vh] pl-[50vw]"
+                    className="flex items-center h-screen"
                 >
-                    {products.map((product, index) => (
-                        <ProductTile
-                            key={product.id}
-                            product={product}
-                            index={index}
-                            onClick={() => onSelect(product)}
-                        />
-                    ))}
+                    {/* Hero Section as the first slide */}
+                    <div className="w-screen h-screen flex-shrink-0">
+                        <CollectionHero {...heroData} />
+                    </div>
+
+                    {/* Product Rail */}
+                    <div className="flex items-center h-[80vh] pl-12 gap-0">
+                        {products.map((product, index) => (
+                            <ProductTile
+                                key={product.id}
+                                product={product}
+                                index={index}
+                                onClick={() => onSelect(product)}
+                            />
+                        ))}
+                    </div>
                 </motion.div>
             </div>
         </section>
