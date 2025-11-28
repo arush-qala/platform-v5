@@ -72,7 +72,7 @@ export default function AssortmentTray({ onReview }: Props) {
                         className="pointer-events-auto mb-6 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl p-4 flex items-center gap-6"
                     >
                         {/* Items List */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 flex-1 justify-center">
                             <AnimatePresence mode='popLayout'>
                                 {items.map((item) => (
                                     <motion.div
