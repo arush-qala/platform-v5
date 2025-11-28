@@ -110,10 +110,10 @@ export default function AssortmentTray({ onReview }: Props) {
                         {/* Review Button */}
                         <button
                             onClick={onReview}
-                            style={{ backgroundColor: '#000000', color: '#FFFFFF', minWidth: '80px' }}
+                            style={{ backgroundColor: '#000000', color: '#FFFFFF', minWidth: '80px', maxWidth: '100px' }}
                             className="flex-shrink-0 px-6 py-2 text-xs uppercase tracking-widest hover:bg-gray-800 transition-colors rounded-full text-center"
                         >
-                            Review & Save
+                            Review<br />& Save
                         </button>
                     </motion.div>
                 )}
