@@ -77,7 +77,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 className="relative w-full max-w-6xl h-[80vh] bg-white rounded-t-3xl shadow-2xl overflow-hidden flex flex-col"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-16 py-10 border-b border-gray-100">
+                <div className="flex items-center justify-between px-24 py-10 border-b border-gray-100">
                     <h2 className="text-4xl font-serif">Your Assortment ({items.length})</h2>
                     <button
                         onClick={onClose}
@@ -90,11 +90,11 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 {/* Reorderable Content */}
                 <div
                     ref={containerRef}
-                    className="flex-1 overflow-x-auto overflow-y-hidden flex items-center px-16 py-12 bg-gray-50/30
+                    className="flex-1 overflow-x-auto overflow-y-hidden flex items-center px-24 py-12 bg-gray-50/30
                     [&::-webkit-scrollbar]:h-2
                     [&::-webkit-scrollbar-track]:bg-gray-100
                     [&::-webkit-scrollbar-track]:rounded-full
-                    [&::-webkit-scrollbar-track]:mx-16
+                    [&::-webkit-scrollbar-track]:mx-24
                     [&::-webkit-scrollbar-thumb]:bg-gray-300
                     [&::-webkit-scrollbar-thumb]:rounded-full
                     [&::-webkit-scrollbar-thumb]:hover:bg-gray-400
@@ -154,7 +154,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-16 py-8 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
+                <div className="px-24 py-8 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
                     <div className="text-sm text-gray-500 font-medium">
                         Drag to reorder • {items.length}/10 Styles Selected
                     </div>
