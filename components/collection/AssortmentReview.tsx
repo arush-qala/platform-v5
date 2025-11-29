@@ -5,10 +5,30 @@ import { motion, Reorder } from 'framer-motion'
 import Image from 'next/image'
 import { X, ArrowRight } from 'lucide-react'
 import { useAssortment } from './AssortmentContext'
+'use client'
+
+import { useRef, useEffect } from 'react'
+import { motion, Reorder } from 'framer-motion'
+import Image from 'next/image'
+import { X, ArrowRight } from 'lucide-react'
+import { useAssortment } from './AssortmentContext'
 
 type Props = {
     onClose: () => void
     onNavigate: (product: any) => void
+}
+
+// Helper to extract category from product name
+const getCategory = (name: string) => {
+    const lowerName = name.toLowerCase()
+    if (lowerName.includes('dress')) return 'Dress'
+    if (lowerName.includes('gown')) return 'Gown'
+    if (lowerName.includes('skirt')) return 'Skirt'
+    if (lowerName.includes('top') || lowerName.includes('shirt') || lowerName.includes('blouse')) return 'Top'
+    if (lowerName.includes('pant') || lowerName.includes('trouser')) return 'Pant'
+    if (lowerName.includes('jacket') || lowerName.includes('coat') || lowerName.includes('blazer')) return 'Outerwear'
+    if (lowerName.includes('suit') || lowerName.includes('coord')) return 'Co-ord Set'
+    return 'Ready-to-Wear'
 }
 
 export default function AssortmentReview({ onClose, onNavigate }: Props) {
@@ -64,8 +84,8 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 className="relative w-full max-w-6xl h-[80vh] bg-white rounded-t-3xl shadow-2xl overflow-hidden flex flex-col"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-12 py-8 border-b border-gray-100">
-                    <h2 className="text-3xl font-serif">Your Assortment ({items.length})</h2>
+                <div className="flex items-center justify-between px-16 py-10 border-b border-gray-100">
+                    <h2 className="text-4xl font-serif">Your Assortment ({items.length})</h2>
                     <button
                         onClick={onClose}
                         className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -77,11 +97,11 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 {/* Reorderable Content */}
                 <div
                     ref={containerRef}
-                    className="flex-1 overflow-x-auto overflow-y-hidden flex items-center p-12 bg-gray-50/50 
+                    className="flex-1 overflow-x-auto overflow-y-hidden flex items-center px-16 py-12 bg-gray-50/30
                     [&::-webkit-scrollbar]:h-2
                     [&::-webkit-scrollbar-track]:bg-gray-100
                     [&::-webkit-scrollbar-track]:rounded-full
-                    [&::-webkit-scrollbar-track]:mx-12
+                    [&::-webkit-scrollbar-track]:mx-16
                     [&::-webkit-scrollbar-thumb]:bg-gray-300
                     [&::-webkit-scrollbar-thumb]:rounded-full
                     [&::-webkit-scrollbar-thumb]:hover:bg-gray-400
@@ -91,13 +111,13 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                         axis="x"
                         values={items}
                         onReorder={setItems}
-                        className="flex gap-8 mx-auto min-w-max"
+                        className="flex gap-12 mx-auto min-w-max"
                     >
                         {items.map((item, index) => (
                             <Reorder.Item
                                 key={item.id}
                                 value={item}
-                                className="relative w-[240px] flex flex-col gap-4 group cursor-grab active:cursor-grabbing"
+                                className="relative w-[240px] flex flex-col gap-6 group cursor-grab active:cursor-grabbing"
                                 onClick={() => {
                                     // Optional: Navigate on click if not dragging
                                     // onNavigate(item)
@@ -130,10 +150,10 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                                 </div>
 
                                 {/* Product Details */}
-                                <div className="flex flex-col gap-1 px-1">
-                                    <h3 className="font-serif text-lg text-black leading-tight">{item.name}</h3>
-                                    <p className="text-xs text-gray-500 uppercase tracking-wider">Ready-to-Wear</p>
-                                    <p className="text-sm font-medium text-gray-900 mt-1">{item.price}</p>
+                                <div className="flex flex-col gap-2 px-1">
+                                    <h3 className="font-serif text-xl text-black leading-tight">{item.name}</h3>
+                                    <p className="text-xs text-gray-500 uppercase tracking-widest font-medium">{getCategory(item.name)}</p>
+                                    <p className="text-sm font-medium text-gray-900">{item.price}</p>
                                 </div>
                             </Reorder.Item>
                         ))}
@@ -141,7 +161,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-12 py-8 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
+                <div className="px-16 py-8 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
                     <div className="text-sm text-gray-500 font-medium">
                         Drag to reorder • {items.length}/10 Styles Selected
                     </div>
