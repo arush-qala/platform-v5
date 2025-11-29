@@ -12,6 +12,7 @@ type Props = {
 }
 
 export default function AssortmentReview({ onClose, onNavigate }: Props) {
+    const { items, removeItem, setItems } = useAssortment()
     const containerRef = useRef<HTMLDivElement>(null)
 
     // Horizontal scroll with mouse wheel
