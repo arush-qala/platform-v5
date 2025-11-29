@@ -72,7 +72,7 @@ export default function AssortmentTray({ onReview }: Props) {
                         className="pointer-events-auto mb-6 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl p-4 flex items-center gap-6"
                     >
                         {/* Items List */}
-                        <div className="flex items-center gap-3 flex-1 justify-center">
+                        <div className="flex-1 basis-0 flex items-center justify-center gap-3">
                             <AnimatePresence mode='popLayout'>
                                 {items.map((item) => (
                                     <motion.div
@@ -105,10 +105,10 @@ export default function AssortmentTray({ onReview }: Props) {
                         </div>
 
                         {/* Divider */}
-                        <div className="w-px h-10 bg-gray-300" />
+                        <div className="w-px h-10 bg-gray-300 flex-shrink-0" />
 
                         {/* Review Button - Clean Text */}
-                        <div className="flex items-center justify-center flex-1">
+                        <div className="flex-1 basis-0 flex items-center justify-center">
                             <button
                                 onClick={onReview}
                                 className="text-sm uppercase tracking-[0.2em] font-medium text-black hover:text-gray-600 transition-colors"
