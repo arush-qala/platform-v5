@@ -108,7 +108,7 @@ export default function AssortmentTray({ onReview }: Props) {
                         <div className="w-px h-10 bg-gray-300 flex-shrink-0" />
 
                         {/* Review Button - Clean Text */}
-                        <div className="flex-1 basis-0 flex items-center justify-center">
+                        <div className="flex-1 basis-0 flex items-center justify-center pr-8">
                             <button
                                 onClick={onReview}
                                 className="text-sm uppercase tracking-[0.2em] font-medium text-black hover:text-gray-600 transition-colors"
