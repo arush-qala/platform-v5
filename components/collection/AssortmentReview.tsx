@@ -5,13 +5,6 @@ import { motion, Reorder } from 'framer-motion'
 import Image from 'next/image'
 import { X, ArrowRight } from 'lucide-react'
 import { useAssortment } from './AssortmentContext'
-'use client'
-
-import { useRef, useEffect } from 'react'
-import { motion, Reorder } from 'framer-motion'
-import Image from 'next/image'
-import { X, ArrowRight } from 'lucide-react'
-import { useAssortment } from './AssortmentContext'
 
 type Props = {
     onClose: () => void
