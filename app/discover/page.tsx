@@ -205,10 +205,6 @@ function DiscoverContent() {
 
   return (
     <main className="min-h-screen bg-white text-deep-charcoal flex flex-col relative overflow-hidden">
-      {/* Background Texture */}
-      <div className="absolute inset-0 opacity-[0.4] pointer-events-none mix-blend-multiply"
-        style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}
-      />
 
       {/* Header - QALA */}
       <motion.header
@@ -269,7 +265,7 @@ function DiscoverContent() {
                   <p className="text-charcoal/90 font-light leading-relaxed text-xl max-w-xl font-cormorant">
                     {activeBrand.description.split('.').slice(0, 2).join('.')}.
                     <br />
-                    <span className="text-sm text-taupe mt-6 block uppercase tracking-widest font-sans">{activeBrand.location}</span>
+                    <span className="text-sm text-taupe mt-10 block uppercase tracking-widest font-sans">{activeBrand.location}</span>
                   </p>
 
                   {/* USP Tags (Mocked) */}
@@ -322,8 +318,8 @@ function DiscoverContent() {
         transition={{ duration: 0.8, delay: 0.6 }}
         className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-warm-grey/30 py-6 z-40"
       >
-        <div className="max-w-7xl mx-auto px-6 overflow-x-auto no-scrollbar">
-          <div className="flex justify-center items-center gap-8 md:gap-16 min-w-max">
+        <div className="w-full px-6 overflow-x-auto no-scrollbar">
+          <div className="flex justify-center items-center gap-8 md:gap-16">
             {brands.map((brand, index) => (
               <button
                 key={brand.id}

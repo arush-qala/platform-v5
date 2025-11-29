@@ -35,7 +35,7 @@ export function StatementOverlay({
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-full max-w-[90%] md:max-w-none flex justify-center pointer-events-none">
                 <div
                     className="bg-[#F5F3F0]/90 backdrop-blur-md rounded-sm shadow-sm flex flex-wrap items-center justify-center gap-x-3 gap-y-3 text-[18px] md:text-[20px] leading-relaxed pointer-events-auto transition-all duration-300 hover:bg-[#F5F3F0]/95"
-                    style={{ padding: '1rem 2rem' }}
+                    style={{ padding: '1.5rem 3rem' }}
                 >
                     <span className="text-[#6b6b6b] font-normal whitespace-nowrap">
                         I want to source for
@@ -64,7 +64,7 @@ export function StatementOverlay({
                     {/* Find Button */}
                     <button
                         onClick={onFind}
-                        className="ml-6 px-8 py-2 border border-[#1a1a1a] text-[#1a1a1a] text-[11px] uppercase tracking-[0.2em] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
+                        className="ml-8 px-8 py-2 border border-[#1a1a1a] text-[#1a1a1a] text-[18px] uppercase tracking-[0.2em] font-medium hover:bg-[#1a1a1a] hover:text-white transition-all duration-300"
                     >
                         Find
                     </button>
