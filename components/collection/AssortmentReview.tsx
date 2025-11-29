@@ -90,7 +90,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 {/* Reorderable Content */}
                 <div
                     ref={containerRef}
-                    className="flex-1 overflow-x-auto overflow-y-hidden bg-gray-50/30
+                    className="flex-1 overflow-x-auto overflow-y-hidden overscroll-x-contain bg-gray-50/30
                     [&::-webkit-scrollbar]:h-2
                     [&::-webkit-scrollbar-track]:bg-gray-100
                     [&::-webkit-scrollbar-track]:rounded-full
@@ -100,7 +100,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                     [&::-webkit-scrollbar-thumb]:hover:bg-gray-400
                     [&::-webkit-scrollbar-thumb]:transition-colors"
                 >
-                    <div className="min-w-full w-fit flex justify-center px-32 py-12 h-full items-center">
+                    <div className="min-w-full w-fit flex items-center px-32 py-12 h-full">
                         <Reorder.Group
                             axis="x"
                             values={items}

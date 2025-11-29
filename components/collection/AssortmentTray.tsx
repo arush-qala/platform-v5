@@ -62,7 +62,7 @@ export default function AssortmentTray({ onReview }: Props) {
             </AnimatePresence>
 
             {/* Container for Dock + Floating Button */}
-            <div className="relative flex items-end gap-4 mb-6">
+            <div className="relative flex items-end gap-8 mb-6">
                 {/* The Dock */}
                 <AnimatePresence>
                     {isTrayOpen && (
@@ -123,7 +123,7 @@ export default function AssortmentTray({ onReview }: Props) {
                             animate={{ scale: 1, opacity: 1, x: 0 }}
                             exit={{ scale: 0.9, opacity: 0, x: 20 }}
                             onClick={onReview}
-                            className="pointer-events-auto h-14 px-8 bg-white/90 backdrop-blur-xl border border-gray-200 text-black text-xs uppercase tracking-[0.2em] font-medium rounded-full shadow-2xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-3 whitespace-nowrap z-[90]"
+                            className="pointer-events-auto h-14 px-12 bg-white/90 backdrop-blur-xl border border-gray-200 text-black text-xs uppercase tracking-[0.2em] font-medium rounded-full shadow-2xl hover:bg-white hover:scale-105 transition-all duration-300 flex items-center gap-3 whitespace-nowrap z-[90]"
                         >
                             <span>Review Assortment</span>
                             <ArrowRight size={14} className="opacity-60" />
