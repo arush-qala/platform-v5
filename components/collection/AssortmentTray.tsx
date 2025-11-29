@@ -69,7 +69,7 @@ export default function AssortmentTray({ onReview }: Props) {
                         animate={{ y: 0 }}
                         exit={{ y: '100%' }}
                         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className="pointer-events-auto mb-6 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl p-4 flex items-center gap-6"
+                        className="pointer-events-auto mb-6 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl px-8 py-4 flex items-center gap-6"
                     >
                         {/* Items List */}
                         <div className="flex-1 basis-0 flex items-center justify-center gap-3">
