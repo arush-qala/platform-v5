@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import AssortmentTray from './AssortmentTray'
@@ -47,6 +47,42 @@ export default function ProductDetailView({
     const imageX = useTransform(scrollYProgress, [0, 0.1], ["-6.5vw", "-31.5vw"])
     const detailsOpacity = useTransform(scrollYProgress, [0.05, 0.15], [0, 1])
     const detailsX = useTransform(scrollYProgress, [0.05, 0.15], [50, 0])
+
+    // Keyboard navigation
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowLeft' && prevProduct) {
+                onNavigate(prevProduct)
+            } else if (e.key === 'ArrowRight' && nextProduct) {
+                onNavigate(nextProduct)
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
+    }, [prevProduct, nextProduct, onNavigate])
+
+    // Horizontal scroll navigation
+    useEffect(() => {
+        const handleWheel = (e: WheelEvent) => {
+            // Detect horizontal scroll (deltaX) or shift+scroll
+            if (Math.abs(e.deltaX) > Math.abs(e.deltaY) || e.shiftKey) {
+                const scrollAmount = e.deltaX || e.deltaY
+
+                if (scrollAmount > 50 && nextProduct) {
+                    onNavigate(nextProduct)
+                } else if (scrollAmount < -50 && prevProduct) {
+                    onNavigate(prevProduct)
+                }
+            }
+        }
+
+        const container = containerRef.current
+        if (container) {
+            container.addEventListener('wheel', handleWheel, { passive: true })
+            return () => container.removeEventListener('wheel', handleWheel)
+        }
+    }, [prevProduct, nextProduct, onNavigate])
 
     // Mock multiple images for the vertical stack
     const productImages = [product.image, product.image, product.image]
