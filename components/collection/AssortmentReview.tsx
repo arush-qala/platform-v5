@@ -111,7 +111,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                                 <Reorder.Item
                                     key={item.id}
                                     value={item}
-                                    className="relative w-[240px] flex flex-col gap-6 group cursor-grab active:cursor-grabbing"
+                                    className="relative w-[240px] flex flex-col gap-10 group cursor-grab active:cursor-grabbing"
                                     onClick={() => {
                                         // Optional: Navigate on click if not dragging
                                         // onNavigate(item)
