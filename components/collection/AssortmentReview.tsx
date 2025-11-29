@@ -97,41 +97,43 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                             <Reorder.Item
                                 key={item.id}
                                 value={item}
-                                className="relative aspect-[3/4] w-[280px] bg-white shadow-xl rounded-xl overflow-hidden group cursor-grab active:cursor-grabbing border border-gray-100"
+                                className="relative w-[240px] flex flex-col gap-4 group cursor-grab active:cursor-grabbing"
                                 onClick={() => {
                                     // Optional: Navigate on click if not dragging
                                     // onNavigate(item)
                                 }}
                             >
-                                <Image
-                                    src={item.image}
-                                    alt={item.name}
-                                    fill
-                                    className="object-cover pointer-events-none"
-                                />
+                                {/* Image Container */}
+                                <div className="relative aspect-[3/4] w-full bg-white shadow-xl rounded-xl overflow-hidden border border-gray-100">
+                                    <Image
+                                        src={item.image}
+                                        alt={item.name}
+                                        fill
+                                        className="object-cover pointer-events-none"
+                                    />
 
-                                {/* Number Badge */}
-                                <div className="absolute top-4 left-4 w-10 h-10 bg-black/80 backdrop-blur-md rounded-full flex items-center justify-center z-10 shadow-lg border border-white/20">
-                                    <span className="text-lg font-serif text-white">{index + 1}</span>
+                                    {/* Number Badge */}
+                                    <div className="absolute top-3 left-3 w-8 h-8 bg-black/80 backdrop-blur-md rounded-full flex items-center justify-center z-10 shadow-lg border border-white/20">
+                                        <span className="text-sm font-serif text-white">{index + 1}</span>
+                                    </div>
+
+                                    {/* Remove Button */}
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation()
+                                            removeItem(item.id)
+                                        }}
+                                        className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-red-500 hover:text-white backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 shadow-lg opacity-0 group-hover:opacity-100"
+                                    >
+                                        <X size={14} />
+                                    </button>
                                 </div>
 
-                                {/* Remove Button */}
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation()
-                                        removeItem(item.id)
-                                    }}
-                                    className="absolute top-4 right-4 w-8 h-8 bg-white/90 hover:bg-red-500 hover:text-white backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 shadow-lg opacity-0 group-hover:opacity-100"
-                                >
-                                    <X size={16} />
-                                </button>
-
-                                {/* Overlay Info */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-6 pointer-events-none">
-                                    <div className="text-white text-center transform translate-y-4 group-hover:translate-y-0 transition-transform">
-                                        <p className="font-serif text-xl mb-1">{item.name}</p>
-                                        <p className="text-sm opacity-90">{item.price}</p>
-                                    </div>
+                                {/* Product Details */}
+                                <div className="flex flex-col gap-1 px-1">
+                                    <h3 className="font-serif text-lg text-black leading-tight">{item.name}</h3>
+                                    <p className="text-xs text-gray-500 uppercase tracking-wider">Ready-to-Wear</p>
+                                    <p className="text-sm font-medium text-gray-900 mt-1">{item.price}</p>
                                 </div>
                             </Reorder.Item>
                         ))}
