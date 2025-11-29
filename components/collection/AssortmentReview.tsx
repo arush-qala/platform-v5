@@ -15,9 +15,10 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
 
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            exit={{ y: '100%' }}
+            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-[90] bg-white/95 backdrop-blur-xl flex flex-col"
         >
             {/* Header */}
