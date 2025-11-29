@@ -77,7 +77,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 className="relative w-full max-w-6xl h-[80vh] bg-white rounded-t-3xl shadow-2xl overflow-hidden flex flex-col"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-24 py-10 border-b border-gray-100">
+                <div className="flex items-center justify-between px-32 py-10 border-b border-gray-100">
                     <h2 className="text-4xl font-serif">Your Assortment ({items.length})</h2>
                     <button
                         onClick={onClose}
@@ -90,71 +90,73 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 {/* Reorderable Content */}
                 <div
                     ref={containerRef}
-                    className="flex-1 overflow-x-auto overflow-y-hidden flex items-center px-24 py-12 bg-gray-50/30
+                    className="flex-1 overflow-x-auto overflow-y-hidden bg-gray-50/30
                     [&::-webkit-scrollbar]:h-2
                     [&::-webkit-scrollbar-track]:bg-gray-100
                     [&::-webkit-scrollbar-track]:rounded-full
-                    [&::-webkit-scrollbar-track]:mx-24
+                    [&::-webkit-scrollbar-track]:mx-32
                     [&::-webkit-scrollbar-thumb]:bg-gray-300
                     [&::-webkit-scrollbar-thumb]:rounded-full
                     [&::-webkit-scrollbar-thumb]:hover:bg-gray-400
                     [&::-webkit-scrollbar-thumb]:transition-colors"
                 >
-                    <Reorder.Group
-                        axis="x"
-                        values={items}
-                        onReorder={setItems}
-                        className="flex gap-16 mx-auto w-full justify-center min-w-max"
-                    >
-                        {items.map((item, index) => (
-                            <Reorder.Item
-                                key={item.id}
-                                value={item}
-                                className="relative w-[240px] flex flex-col gap-6 group cursor-grab active:cursor-grabbing"
-                                onClick={() => {
-                                    // Optional: Navigate on click if not dragging
-                                    // onNavigate(item)
-                                }}
-                            >
-                                {/* Image Container */}
-                                <div className="relative aspect-[3/4] w-full bg-white shadow-xl rounded-xl overflow-hidden border border-gray-100">
-                                    <Image
-                                        src={item.image}
-                                        alt={item.name}
-                                        fill
-                                        className="object-cover pointer-events-none"
-                                    />
+                    <div className="min-w-full w-fit flex justify-center px-32 py-12 h-full items-center">
+                        <Reorder.Group
+                            axis="x"
+                            values={items}
+                            onReorder={setItems}
+                            className="flex gap-16"
+                        >
+                            {items.map((item, index) => (
+                                <Reorder.Item
+                                    key={item.id}
+                                    value={item}
+                                    className="relative w-[240px] flex flex-col gap-6 group cursor-grab active:cursor-grabbing"
+                                    onClick={() => {
+                                        // Optional: Navigate on click if not dragging
+                                        // onNavigate(item)
+                                    }}
+                                >
+                                    {/* Image Container */}
+                                    <div className="relative aspect-[3/4] w-full bg-white shadow-xl rounded-xl overflow-hidden border border-gray-100">
+                                        <Image
+                                            src={item.image}
+                                            alt={item.name}
+                                            fill
+                                            className="object-cover pointer-events-none"
+                                        />
 
-                                    {/* Number Badge */}
-                                    <div className="absolute top-3 left-3 w-8 h-8 bg-black/80 backdrop-blur-md rounded-full flex items-center justify-center z-10 shadow-lg border border-white/20">
-                                        <span className="text-sm font-serif text-white">{index + 1}</span>
+                                        {/* Number Badge */}
+                                        <div className="absolute top-3 left-3 w-8 h-8 bg-black/80 backdrop-blur-md rounded-full flex items-center justify-center z-10 shadow-lg border border-white/20">
+                                            <span className="text-sm font-serif text-white">{index + 1}</span>
+                                        </div>
+
+                                        {/* Remove Button */}
+                                        <button
+                                            onClick={(e) => {
+                                                e.stopPropagation()
+                                                removeItem(item.id)
+                                            }}
+                                            className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-red-500 hover:text-white backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 shadow-lg opacity-0 group-hover:opacity-100"
+                                        >
+                                            <X size={14} />
+                                        </button>
                                     </div>
 
-                                    {/* Remove Button */}
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            removeItem(item.id)
-                                        }}
-                                        className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-red-500 hover:text-white backdrop-blur-md rounded-full flex items-center justify-center transition-all z-10 shadow-lg opacity-0 group-hover:opacity-100"
-                                    >
-                                        <X size={14} />
-                                    </button>
-                                </div>
-
-                                {/* Product Details */}
-                                <div className="flex flex-col gap-2 px-4">
-                                    <h3 className="font-serif text-xl text-black leading-tight">{item.name}</h3>
-                                    <p className="text-xs text-gray-500 uppercase tracking-widest font-medium">{getCategory(item.name)}</p>
-                                    <p className="text-sm font-medium text-gray-900">{item.price}</p>
-                                </div>
-                            </Reorder.Item>
-                        ))}
-                    </Reorder.Group>
+                                    {/* Product Details */}
+                                    <div className="flex flex-col gap-2 px-6">
+                                        <h3 className="font-serif text-xl text-black leading-tight">{item.name}</h3>
+                                        <p className="text-xs text-gray-500 uppercase tracking-widest font-medium">{getCategory(item.name)}</p>
+                                        <p className="text-sm font-medium text-gray-900">{item.price}</p>
+                                    </div>
+                                </Reorder.Item>
+                            ))}
+                        </Reorder.Group>
+                    </div>
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-24 py-8 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
+                <div className="px-32 py-8 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
                     <div className="text-sm text-gray-500 font-medium">
                         Drag to reorder • {items.length}/10 Styles Selected
                     </div>
