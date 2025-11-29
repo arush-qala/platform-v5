@@ -104,7 +104,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                         axis="x"
                         values={items}
                         onReorder={setItems}
-                        className="flex gap-12 mx-auto min-w-max"
+                        className="flex gap-16 mx-auto w-full justify-center min-w-max"
                     >
                         {items.map((item, index) => (
                             <Reorder.Item
@@ -143,7 +143,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                                 </div>
 
                                 {/* Product Details */}
-                                <div className="flex flex-col gap-2 px-1">
+                                <div className="flex flex-col gap-2 px-4">
                                     <h3 className="font-serif text-xl text-black leading-tight">{item.name}</h3>
                                     <p className="text-xs text-gray-500 uppercase tracking-widest font-medium">{getCategory(item.name)}</p>
                                     <p className="text-sm font-medium text-gray-900">{item.price}</p>
