@@ -15,6 +15,7 @@ type AssortmentContextType = {
     items: Product[]
     addItem: (product: Product) => boolean
     removeItem: (id: string) => void
+    setItems: (items: Product[]) => void
     isTrayOpen: boolean
     setTrayOpen: (open: boolean) => void
 }
@@ -39,7 +40,7 @@ export function AssortmentProvider({ children }: { children: ReactNode }) {
     }
 
     return (
-        <AssortmentContext.Provider value={{ items, addItem, removeItem, isTrayOpen, setTrayOpen }}>
+        <AssortmentContext.Provider value={{ items, addItem, removeItem, setItems, isTrayOpen, setTrayOpen }}>
             {children}
         </AssortmentContext.Provider>
     )

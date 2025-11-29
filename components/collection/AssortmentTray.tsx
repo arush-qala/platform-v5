@@ -61,64 +61,75 @@ export default function AssortmentTray({ onReview }: Props) {
                 )}
             </AnimatePresence>
 
-            {/* The Dock */}
-            <AnimatePresence>
-                {isTrayOpen && (
-                    <motion.div
-                        initial={{ y: '100%' }}
-                        animate={{ y: 0 }}
-                        exit={{ y: '100%' }}
-                        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className="pointer-events-auto mb-6 bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl px-8 py-4 flex items-center gap-6"
-                    >
-                        {/* Items List */}
-                        <div className="flex-1 basis-0 flex items-center justify-center gap-3">
-                            <AnimatePresence mode='popLayout'>
-                                {items.map((item) => (
-                                    <motion.div
-                                        key={item.id}
-                                        layout
-                                        initial={{ scale: 0, opacity: 0 }}
-                                        animate={{ scale: 1, opacity: 1 }}
-                                        exit={{ scale: 0, opacity: 0 }}
-                                        className="relative w-16 h-24 bg-gray-100 rounded-md overflow-hidden group cursor-pointer border border-gray-200"
-                                    >
-                                        <Image
-                                            src={item.image}
-                                            alt={item.name}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                        {/* Remove Button on Hover */}
-                                        <div
-                                            onClick={(e) => {
-                                                e.stopPropagation()
-                                                removeItem(item.id)
-                                            }}
-                                            className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+            {/* Container for Dock + Floating Button */}
+            <div className="relative flex items-end gap-4 mb-6">
+                {/* The Dock */}
+                <AnimatePresence>
+                    {isTrayOpen && (
+                        <motion.div
+                            initial={{ y: '100%' }}
+                            animate={{ y: 0 }}
+                            exit={{ y: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                            className="pointer-events-auto bg-white/90 backdrop-blur-xl border border-gray-200 rounded-2xl shadow-2xl px-8 py-4 flex items-center gap-3"
+                        >
+                            {/* Items List */}
+                            <div className="flex items-center gap-3">
+                                <AnimatePresence mode='popLayout'>
+                                    {items.map((item, index) => (
+                                        <motion.div
+                                            key={item.id}
+                                            layout
+                                            initial={{ scale: 0, opacity: 0 }}
+                                            animate={{ scale: 1, opacity: 1 }}
+                                            exit={{ scale: 0, opacity: 0 }}
+                                            className="relative w-16 h-24 bg-gray-100 rounded-md overflow-hidden group cursor-pointer border border-gray-200"
                                         >
-                                            <X size={12} className="text-white" />
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </AnimatePresence>
-                        </div>
+                                            <Image
+                                                src={item.image}
+                                                alt={item.name}
+                                                fill
+                                                className="object-cover"
+                                            />
 
-                        {/* Divider */}
-                        <div className="w-px h-10 bg-gray-300 flex-shrink-0" />
+                                            {/* Number Badge */}
+                                            <div className="absolute top-1 left-1 w-4 h-4 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center">
+                                                <span className="text-[10px] font-medium text-white">{index + 1}</span>
+                                            </div>
 
-                        {/* Review Button - Clean Text */}
-                        <div className="flex-1 basis-0 flex items-center justify-center pr-8">
-                            <button
-                                onClick={onReview}
-                                className="text-sm uppercase tracking-[0.2em] font-medium text-black hover:text-gray-600 transition-colors"
-                            >
-                                Review
-                            </button>
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                                            {/* Remove Button on Hover */}
+                                            <div
+                                                onClick={(e) => {
+                                                    e.stopPropagation()
+                                                    removeItem(item.id)
+                                                }}
+                                                className="absolute top-1 right-1 w-4 h-4 bg-black/50 hover:bg-red-500 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center z-10"
+                                            >
+                                                <X size={10} className="text-white" />
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+
+                {/* Floating Review Button */}
+                <AnimatePresence>
+                    {isTrayOpen && (
+                        <motion.button
+                            initial={{ scale: 0, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0, opacity: 0 }}
+                            onClick={onReview}
+                            className="pointer-events-auto h-12 px-8 bg-black text-white text-sm uppercase tracking-widest font-medium rounded-full shadow-xl hover:bg-gray-800 transition-colors flex items-center justify-center whitespace-nowrap"
+                        >
+                            Review
+                        </motion.button>
+                    )}
+                </AnimatePresence>
+            </div>
         </div>
     )
 }
