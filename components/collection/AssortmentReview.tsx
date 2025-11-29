@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useEffect } from 'react'
 import { motion, Reorder } from 'framer-motion'
 import Image from 'next/image'
 import { X, ArrowRight } from 'lucide-react'
@@ -11,7 +12,23 @@ type Props = {
 }
 
 export default function AssortmentReview({ onClose, onNavigate }: Props) {
-    const { items, removeItem, setItems } = useAssortment()
+    const containerRef = useRef<HTMLDivElement>(null)
+
+    // Horizontal scroll with mouse wheel
+    useEffect(() => {
+        const container = containerRef.current
+        if (!container) return
+
+        const handleWheel = (e: WheelEvent) => {
+            if (e.deltaY !== 0) {
+                e.preventDefault()
+                container.scrollLeft += e.deltaY
+            }
+        }
+
+        container.addEventListener('wheel', handleWheel, { passive: false })
+        return () => container.removeEventListener('wheel', handleWheel)
+    }, [])
 
     return (
         <div className="fixed inset-0 z-[90] flex items-end justify-center">
@@ -44,12 +61,23 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 </div>
 
                 {/* Reorderable Content */}
-                <div className="flex-1 overflow-x-auto overflow-y-hidden flex items-center p-12 bg-gray-50/50">
+                <div
+                    ref={containerRef}
+                    className="flex-1 overflow-x-auto overflow-y-hidden flex items-center p-12 bg-gray-50/50 
+                    [&::-webkit-scrollbar]:h-2
+                    [&::-webkit-scrollbar-track]:bg-gray-100
+                    [&::-webkit-scrollbar-track]:rounded-full
+                    [&::-webkit-scrollbar-track]:mx-12
+                    [&::-webkit-scrollbar-thumb]:bg-gray-300
+                    [&::-webkit-scrollbar-thumb]:rounded-full
+                    [&::-webkit-scrollbar-thumb]:hover:bg-gray-400
+                    [&::-webkit-scrollbar-thumb]:transition-colors"
+                >
                     <Reorder.Group
                         axis="x"
                         values={items}
                         onReorder={setItems}
-                        className="flex gap-8 mx-auto"
+                        className="flex gap-8 mx-auto min-w-max"
                     >
                         {items.map((item, index) => (
                             <Reorder.Item
