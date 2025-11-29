@@ -15,15 +15,28 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
     const { items, removeItem, setItems } = useAssortment()
     const containerRef = useRef<HTMLDivElement>(null)
 
-    // Horizontal scroll with mouse wheel
+    // Horizontal scroll with mouse wheel - prevent scroll propagation
     useEffect(() => {
         const container = containerRef.current
         if (!container) return
 
         const handleWheel = (e: WheelEvent) => {
             if (e.deltaY !== 0) {
-                e.preventDefault()
-                container.scrollLeft += e.deltaY
+                const scrollLeft = container.scrollLeft
+                const maxScrollLeft = container.scrollWidth - container.clientWidth
+
+                // Check if we can scroll in the intended direction
+                const scrollingRight = e.deltaY > 0
+                const scrollingLeft = e.deltaY < 0
+
+                const canScrollRight = scrollLeft < maxScrollLeft
+                const canScrollLeft = scrollLeft > 0
+
+                // Only prevent default and scroll if we can actually scroll
+                if ((scrollingRight && canScrollRight) || (scrollingLeft && canScrollLeft)) {
+                    e.preventDefault()
+                    container.scrollLeft += e.deltaY
+                }
             }
         }
 
