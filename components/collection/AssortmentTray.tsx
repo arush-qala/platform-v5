@@ -107,14 +107,13 @@ export default function AssortmentTray({ onReview }: Props) {
                         {/* Divider */}
                         <div className="w-px h-10 bg-gray-300" />
 
-                        {/* Review Button - Centered */}
+                        {/* Review Button - Clean Text */}
                         <div className="flex items-center justify-center flex-1">
                             <button
                                 onClick={onReview}
-                                style={{ backgroundColor: '#000000', color: '#FFFFFF', minWidth: '80px', maxWidth: '100px' }}
-                                className="flex-shrink-0 px-6 py-2 text-xs uppercase tracking-widest hover:bg-gray-800 transition-colors rounded-full text-center"
+                                className="text-sm uppercase tracking-[0.2em] font-medium text-black hover:text-gray-600 transition-colors"
                             >
-                                Review<br />& Save
+                                Review
                             </button>
                         </div>
                     </motion.div>
