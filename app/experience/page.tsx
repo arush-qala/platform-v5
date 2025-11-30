@@ -78,16 +78,13 @@ function ExperienceCard({ icon, title, description }: { icon: React.ReactNode, t
             </motion.div>
 
             {/* Hover State: Description Slide Up */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileHover={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="absolute bottom-0 left-0 w-full p-6 bg-white/95 backdrop-blur-sm border-t border-gray-50 translate-y-full group-hover:translate-y-0 transition-transform duration-500 flex flex-col items-center justify-center min-h-[30%]"
+            <div
+                className="absolute bottom-0 left-0 w-full p-6 bg-white/95 backdrop-blur-sm border-t border-gray-50 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center min-h-[30%]"
             >
                 <p className="text-sm text-gray-600 font-light leading-relaxed max-w-[80%]">
                     {description}
                 </p>
-            </motion.div>
+            </div>
         </motion.div>
     )
 }
