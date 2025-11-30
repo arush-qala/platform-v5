@@ -163,7 +163,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                     </div>
                     <button
                         onClick={() => router.push('/experience')}
-                        className="px-8 py-4 bg-black text-white uppercase tracking-widest text-sm flex items-center gap-2 rounded-full hover:bg-gray-800 transition-colors shadow-lg"
+                        className="px-8 py-4 bg-white text-black border border-gray-200 uppercase tracking-widest text-sm flex items-center gap-2 rounded-full hover:bg-gray-50 transition-colors shadow-lg"
                     >
                         Continue <ArrowRight size={16} />
                     </button>
