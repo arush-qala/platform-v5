@@ -1,6 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { motion, Reorder } from 'framer-motion'
 import Image from 'next/image'
 import { X, ArrowRight } from 'lucide-react'
@@ -27,6 +28,7 @@ const getCategory = (name: string) => {
 export default function AssortmentReview({ onClose, onNavigate }: Props) {
     const { items, removeItem, setItems } = useAssortment()
     const containerRef = useRef<HTMLDivElement>(null)
+    const router = useRouter()
 
     // Horizontal scroll with mouse wheel - prevent scroll propagation
     useEffect(() => {
@@ -113,8 +115,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                                     value={item}
                                     className="relative w-[240px] flex flex-col gap-10 group cursor-grab active:cursor-grabbing"
                                     onClick={() => {
-                                        // Optional: Navigate on click if not dragging
-                                        // onNavigate(item)
+                                        onNavigate(item)
                                     }}
                                 >
                                     {/* Image Container */}
@@ -161,7 +162,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                         Drag to reorder • {items.length}/10 Styles Selected
                     </div>
                     <button
-                        disabled
+                        onClick={() => router.push('/experience')}
                         className="px-8 py-4 bg-black text-white uppercase tracking-widest text-sm flex items-center gap-2 rounded-full hover:bg-gray-800 transition-colors shadow-lg"
                     >
                         Continue <ArrowRight size={16} />
