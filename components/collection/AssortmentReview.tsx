@@ -77,7 +77,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 className="relative w-full max-w-6xl h-[80vh] bg-white rounded-t-3xl shadow-2xl overflow-hidden flex flex-col"
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-48 py-14 border-b border-gray-100">
+                <div className="flex items-center justify-between px-[160px] py-14 border-b border-gray-100">
                     <h2 className="text-4xl font-serif">Your Assortment ({items.length})</h2>
                     <button
                         onClick={onClose}
@@ -94,13 +94,13 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                     [&::-webkit-scrollbar]:h-2
                     [&::-webkit-scrollbar-track]:bg-gray-100
                     [&::-webkit-scrollbar-track]:rounded-full
-                    [&::-webkit-scrollbar-track]:mx-48
+                    [&::-webkit-scrollbar-track]:mx-[160px]
                     [&::-webkit-scrollbar-thumb]:bg-gray-300
                     [&::-webkit-scrollbar-thumb]:rounded-full
                     [&::-webkit-scrollbar-thumb]:hover:bg-gray-400
                     [&::-webkit-scrollbar-thumb]:transition-colors"
                 >
-                    <div className="min-w-full w-fit flex items-center px-48 py-20 h-full">
+                    <div className="min-w-full w-fit flex items-center px-[160px] py-20 h-full">
                         <Reorder.Group
                             axis="x"
                             values={items}
@@ -156,7 +156,7 @@ export default function AssortmentReview({ onClose, onNavigate }: Props) {
                 </div>
 
                 {/* Footer Actions */}
-                <div className="px-48 py-12 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
+                <div className="px-[160px] py-12 border-t border-gray-100 flex justify-end items-center gap-8 bg-white">
                     <div className="text-sm text-gray-500 font-medium">
                         Drag to reorder • {items.length}/10 Styles Selected
                     </div>
