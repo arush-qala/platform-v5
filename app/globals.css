@@ -122,8 +122,12 @@
   --color-gold-accent: var(--gold-accent);
   --color-sage: var(--sage);
   --color-muted-rose: var(--muted-rose);
-  --font-heading: "Optima Nova LT Pro", "Optima", var(--font-cormorant), serif;
-  --font-body: "Open Sauce Two", var(--font-inter), sans-serif;
+  
+  /* Map Tailwind utilities to custom fonts */
+  --font-serif: "Optima Nova LT Pro", "Optima", serif;
+  --font-sans: "Open Sauce Two", sans-serif;
+  --font-heading: var(--font-serif);
+  --font-body: var(--font-sans);
 }
 
 * {
@@ -137,7 +141,7 @@ html {}
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -152,7 +156,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-cormorant), serif;
+  font-family: var(--font-serif);
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.2;

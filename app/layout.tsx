@@ -19,59 +19,8 @@
  */
 
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
-
-/**
- * Cormorant Garamond Font Configuration
- * 
- * DESIGN PURPOSE:
- * Luxury serif font used for:
- * - Brand name "QALA"
- * - Headings and hero text
- * - Brand names and collection titles
- * 
- * WEIGHTS:
- * - 300: Light (for elegant, minimal headings)
- * - 400: Regular (default body weight)
- * - 500: Medium (for emphasis)
- * - 600: Semi-bold (for strong emphasis)
- * 
- * CSS VARIABLE:
- * --font-cormorant: Used in Tailwind config and components
- */
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  display: "swap", // Show fallback font while loading, then swap
-});
-
-/**
- * Inter Font Configuration
- * 
- * DESIGN PURPOSE:
- * Modern sans-serif font used for:
- * - Body text and descriptions
- * - UI elements and buttons
- * - Navigation and metadata
- * 
- * WEIGHTS:
- * - 300: Light (for subtle text)
- * - 400: Regular (default body weight)
- * - 500: Medium (for emphasis)
- * - 600: Semi-bold (for strong emphasis)
- * 
- * CSS VARIABLE:
- * --font-inter: Used in Tailwind config and components
- */
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  display: "swap", // Show fallback font while loading, then swap
-});
 
 /**
  * SEO Metadata
@@ -114,9 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="smooth-scroll">
-      <body
-        className={`${cormorant.variable} ${inter.variable} antialiased`}
-      >
+      <body className="antialiased">
         <Providers>
           {children}
         </Providers>
