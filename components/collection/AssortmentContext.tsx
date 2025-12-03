@@ -11,6 +11,11 @@ type Product = {
     feels_like?: string
 }
 
+type SampleItem = {
+    product: Product
+    size: string
+}
+
 type AssortmentContextType = {
     items: Product[]
     addItem: (product: Product) => boolean
@@ -18,6 +23,11 @@ type AssortmentContextType = {
     setItems: (items: Product[]) => void
     isTrayOpen: boolean
     setTrayOpen: (open: boolean) => void
+    // Sample Crate Logic
+    sampleItems: SampleItem[]
+    addToSampleCart: (product: Product, size: string) => boolean
+    removeFromSampleCart: (productId: string) => void
+    isInSampleCart: (productId: string) => boolean
 }
 
 const AssortmentContext = createContext<AssortmentContextType | undefined>(undefined)
@@ -25,6 +35,7 @@ const AssortmentContext = createContext<AssortmentContextType | undefined>(undef
 export function AssortmentProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<Product[]>([])
     const [isTrayOpen, setTrayOpen] = useState(false)
+    const [sampleItems, setSampleItems] = useState<SampleItem[]>([])
 
     const addItem = (product: Product) => {
         if (items.length >= 10) return false
@@ -39,8 +50,43 @@ export function AssortmentProvider({ children }: { children: ReactNode }) {
         setItems(prev => prev.filter(i => i.id !== id))
     }
 
+    // Sample Crate Methods
+    const addToSampleCart = (product: Product, size: string) => {
+        if (sampleItems.length >= 5) return false
+        // Check if product is already in cart (regardless of size, or maybe allow different sizes? Assuming 1 per product for now based on "selected" state)
+        if (sampleItems.some(i => i.product.id === product.id)) {
+            // Update size if already exists? Or just return false?
+            // Let's update size if it exists, or return false if we want strict "already added"
+            // For now, let's just add it. If it exists, we replace it?
+            // User requirement: "product will be denoted as selected".
+            // So if I select it again, maybe I change size.
+            setSampleItems(prev => {
+                const existing = prev.find(i => i.product.id === product.id)
+                if (existing) {
+                    return prev.map(i => i.product.id === product.id ? { product, size } : i)
+                }
+                return [...prev, { product, size }]
+            })
+            return true
+        }
+
+        setSampleItems(prev => [...prev, { product, size }])
+        return true
+    }
+
+    const removeFromSampleCart = (productId: string) => {
+        setSampleItems(prev => prev.filter(i => i.product.id !== productId))
+    }
+
+    const isInSampleCart = (productId: string) => {
+        return sampleItems.some(i => i.product.id === productId)
+    }
+
     return (
-        <AssortmentContext.Provider value={{ items, addItem, removeItem, setItems, isTrayOpen, setTrayOpen }}>
+        <AssortmentContext.Provider value={{
+            items, addItem, removeItem, setItems, isTrayOpen, setTrayOpen,
+            sampleItems, addToSampleCart, removeFromSampleCart, isInSampleCart
+        }}>
             {children}
         </AssortmentContext.Provider>
     )

@@ -19,11 +19,13 @@ export default function ExperiencePage() {
 
             {/* Experience Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full px-8 z-10 mb-20">
-                <ExperienceCard
-                    icon={<ShoppingBag size={48} strokeWidth={1} />}
-                    title="Order Sample Crate"
-                    description="Order a sample crate @ manf cost (upto 5 pieces)"
-                />
+                <Link href="/experience/sample-crate">
+                    <ExperienceCard
+                        icon={<ShoppingBag size={48} strokeWidth={1} />}
+                        title="Order Sample Crate"
+                        description="Order a sample crate @ manf cost (upto 5 pieces)"
+                    />
+                </Link>
                 <ExperienceCard
                     icon={<Shirt size={48} strokeWidth={1} />}
                     title="Request Private Showcase"
