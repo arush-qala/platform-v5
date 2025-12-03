@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 type Product = {
     id: string
@@ -36,6 +36,45 @@ export function AssortmentProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<Product[]>([])
     const [isTrayOpen, setTrayOpen] = useState(false)
     const [sampleItems, setSampleItems] = useState<SampleItem[]>([])
+    const [isHydrated, setIsHydrated] = useState(false)
+
+    // Load from localStorage on mount
+    useEffect(() => {
+        const savedItems = localStorage.getItem('qala_assortment')
+        const savedSamples = localStorage.getItem('qala_sample_cart')
+
+        if (savedItems) {
+            try {
+                setItems(JSON.parse(savedItems))
+            } catch (e) {
+                console.error('Failed to parse saved assortment:', e)
+            }
+        }
+
+        if (savedSamples) {
+            try {
+                setSampleItems(JSON.parse(savedSamples))
+            } catch (e) {
+                console.error('Failed to parse saved sample cart:', e)
+            }
+        }
+
+        setIsHydrated(true)
+    }, [])
+
+    // Save to localStorage whenever items change
+    useEffect(() => {
+        if (isHydrated) {
+            localStorage.setItem('qala_assortment', JSON.stringify(items))
+        }
+    }, [items, isHydrated])
+
+    // Save to localStorage whenever sampleItems change
+    useEffect(() => {
+        if (isHydrated) {
+            localStorage.setItem('qala_sample_cart', JSON.stringify(sampleItems))
+        }
+    }, [sampleItems, isHydrated])
 
     const addItem = (product: Product) => {
         if (items.length >= 10) return false
