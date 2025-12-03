@@ -7,6 +7,8 @@ import { X, ArrowLeft, CreditCard, Truck, ShieldCheck } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useAssortment } from '@/components/collection/AssortmentContext'
 
+export const dynamic = 'force-dynamic'
+
 export default function CheckoutPage() {
     const router = useRouter()
     const { sampleItems, removeFromSampleCart } = useAssortment()

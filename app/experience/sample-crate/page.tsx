@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation'
 import { useAssortment } from '@/components/collection/AssortmentContext'
 import SizeSelectionModal from '@/components/experience/SizeSelectionModal'
 
+export const dynamic = 'force-dynamic'
+
 export default function SampleSelectionPage() {
     const router = useRouter()
     const { items, addToSampleCart, removeFromSampleCart, isInSampleCart, sampleItems } = useAssortment()
@@ -54,8 +56,8 @@ export default function SampleSelectionPage() {
                         disabled={sampleItems.length === 0}
                         onClick={() => router.push('/checkout')}
                         className={`px-8 py-3 rounded-full flex items-center gap-2 text-sm uppercase tracking-widest transition-all ${sampleItems.length > 0
-                                ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
-                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             }`}
                     >
                         Proceed to Checkout <ArrowRight size={16} />
