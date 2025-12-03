@@ -56,7 +56,7 @@ export default function SampleSelectionPage() {
                         disabled={sampleItems.length === 0}
                         onClick={() => router.push('/checkout')}
                         className={`px-8 py-3 rounded-full flex items-center gap-2 text-sm uppercase tracking-widest transition-all ${sampleItems.length > 0
-                            ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
+                            ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             }`}
                     >
