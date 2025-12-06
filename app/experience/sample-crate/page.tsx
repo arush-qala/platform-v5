@@ -44,7 +44,7 @@ export default function SampleSelectionPage() {
             {/* Header */}
             <div className="px-12 py-8 flex justify-between items-center border-b border-gray-100">
                 <div>
-                    <h1 className="font-serif text-2xl mb-2">Select Samples</h1>
+                    <h1 className="font-serif text-xl mb-2">Select Samples</h1>
                     <p className="text-gray-500 text-xs text-sm">Choose up to 5 pieces from your assortment to order samples.</p>
                 </div>
                 <div className="flex items-center gap-4">

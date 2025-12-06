@@ -13,7 +13,7 @@ export default function ExperiencePage() {
 
             {/* Header */}
             <div className="text-center mb-16 z-10 px-4">
-                <h1 className="font-serif text-3xl mb-4 text-black">Experience this brand</h1>
+                <h1 className="font-serif text-2xl mb-4 text-black">Experience this brand</h1>
                 <p className="text-gray-500 font-light text-base">Choose how you'd like to experience this brand before placing an order.</p>
             </div>
 

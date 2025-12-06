@@ -54,7 +54,7 @@ export default function CheckoutPage() {
                         <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                             <ArrowLeft size={20} />
                         </button>
-                        <h1 className="font-serif text-2xl">Shopping Bag ({sampleItems.length})</h1>
+                        <h1 className="font-serif text-xl">Shopping Bag ({sampleItems.length})</h1>
                     </div>
 
                     {/* Items List */}
