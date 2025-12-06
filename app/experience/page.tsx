@@ -26,11 +26,13 @@ export default function ExperiencePage() {
                         description="Order a sample crate @ manf cost (upto 5 pieces)"
                     />
                 </Link>
-                <ExperienceCard
-                    icon={<Shirt size={48} strokeWidth={0.75} />}
-                    title="Request Private Showcase"
-                    description="Schedule an in-person viewing with the Qala team"
-                />
+                <Link href="/experience/private-showcase">
+                    <ExperienceCard
+                        icon={<Shirt size={48} strokeWidth={0.75} />}
+                        title="Request Private Showcase"
+                        description="Schedule an in-person viewing with the Qala team"
+                    />
+                </Link>
                 <ExperienceCard
                     icon={<MapPin size={48} strokeWidth={0.75} />}
                     title="Meet at a Trade Show"
