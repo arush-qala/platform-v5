@@ -13,8 +13,8 @@ export default function ExperiencePage() {
 
             {/* Header */}
             <div className="text-center mb-16 z-10 px-4">
-                <h1 className="font-serif text-4xl mb-4 text-black">Experience this brand</h1>
-                <p className="text-gray-500 font-light text-lg">Choose how you'd like to experience this brand before placing an order.</p>
+                <h1 className="font-serif text-3xl mb-4 text-black">Experience this brand</h1>
+                <p className="text-gray-500 font-light text-base">Choose how you'd like to experience this brand before placing an order.</p>
             </div>
 
             {/* Experience Grid */}
@@ -46,8 +46,8 @@ export default function ExperiencePage() {
                         whileTap={{ scale: 0.99 }}
                         className="w-full bg-white border border-gray-200 py-12 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all cursor-pointer group rounded-none"
                     >
-                        <h2 className="font-light text-3xl tracking-wide text-black group-hover:text-gray-800">Proceed to Order</h2>
-                        <p className="text-sm text-gray-400 font-light tracking-wide uppercase">Skip physical experience and go straight to quantities and order details</p>
+                        <h2 className="font-light text-2xl tracking-wide text-black group-hover:text-gray-800">Proceed to Order</h2>
+                        <p className="text-xs text-gray-400 font-light tracking-wide uppercase">Skip physical experience and go straight to quantities and order details</p>
                     </motion.div>
                 </Link>
             </div>
@@ -76,7 +76,7 @@ function ExperienceCard({ icon, title, description }: { icon: React.ReactNode, t
                 <div className="text-gray-800 group-hover:scale-110 transition-transform duration-500">
                     {icon}
                 </div>
-                <h3 className="font-serif text-xl text-gray-900">{title}</h3>
+                <h3 className="font-serif text-lg text-gray-900">{title}</h3>
             </motion.div>
 
             {/* Hover State: Description Slide Up */}
