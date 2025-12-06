@@ -93,9 +93,9 @@ export default function ProductDetailView({
             {/* Close Button */}
             <button
                 onClick={onClose}
-                className="fixed top-6 right-6 z-[60] p-2 bg-white/80 backdrop-blur-md rounded-full hover:bg-black hover:text-white transition-colors"
+                className="fixed top-6 right-6 z-[60] p-3 bg-white/80 backdrop-blur-md hover:bg-black hover:text-white transition-colors border border-transparent hover:border-black rounded-none"
             >
-                <X size={24} />
+                <X size={24} strokeWidth={1} />
             </button>
 
             {/* Navigation Sidebars - Fixed Width & Overflow Hidden to prevent bleed */}
@@ -165,28 +165,28 @@ export default function ProductDetailView({
                 {/* Details Column - Appears on Right */}
                 <motion.div
                     style={{ opacity: detailsOpacity, x: detailsX }}
-                    className="fixed top-24 right-[15%] w-[40%] h-[calc(100vh-6rem)] hidden md:flex flex-col gap-8 overflow-y-auto pb-12 no-scrollbar"
+                    className="fixed top-24 right-[10%] w-[45%] h-[calc(100vh-6rem)] hidden md:flex flex-col gap-12 overflow-y-auto pb-12 no-scrollbar"
                 >
                     {/* Product Header */}
                     <div>
-                        <h1 className="text-lg font-serif text-black mb-2" style={{ fontSize: '30px' }}>{product.name}</h1>
+                        <h1 className="text-4xl md:text-5xl font-light font-serif text-black mb-4 tracking-tight leading-tight">{product.name}</h1>
                     </div>
 
                     {/* Specs */}
-                    <div className="space-y-4 text-sm text-gray-800 font-light">
-                        <div className="flex gap-2">
-                            <span className="font-medium uppercase tracking-wider text-xs w-24">Fabric:</span>
-                            <span>{product.fabric || '100% Organic Silk'}</span>
+                    <div className="space-y-6 text-sm text-gray-800 font-light tracking-wide">
+                        <div className="flex gap-4">
+                            <span className="font-normal uppercase tracking-[0.2em] text-xs w-32 text-gray-400">Fabric:</span>
+                            <span className="text-black">{product.fabric || '100% Organic Silk'}</span>
                         </div>
-                        <div className="flex gap-2">
-                            <span className="font-medium uppercase tracking-wider text-xs w-24">Feels Like:</span>
-                            <span>{product.feels_like || 'Lightweight, fluid drape'}</span>
+                        <div className="flex gap-4">
+                            <span className="font-normal uppercase tracking-[0.2em] text-xs w-32 text-gray-400">Feels Like:</span>
+                            <span className="text-black">{product.feels_like || 'Lightweight, fluid drape'}</span>
                         </div>
-                        <div className="flex gap-2 items-center">
-                            <span className="font-medium uppercase tracking-wider text-xs w-24">Size Guide:</span>
+                        <div className="flex gap-4 items-center">
+                            <span className="font-normal uppercase tracking-[0.2em] text-xs w-32 text-gray-400">Size Guide:</span>
                             <button
                                 onClick={() => setShowSizeGuide(true)}
-                                className="underline underline-offset-4 hover:text-gray-500"
+                                className="underline underline-offset-4 hover:text-gray-500 transition-colors"
                             >
                                 View Chart
                             </button>
@@ -209,8 +209,8 @@ export default function ProductDetailView({
                                 setFlyingImage(null)
                             }, 800)
                         }}
-                        style={{ backgroundColor: '#B8956A', color: 'white', borderColor: '#B8956A', padding: '12px 8px', width: 'fit-content' }}
-                        className="uppercase tracking-[0.2em] text-sm font-bold hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10"
+                        style={{ backgroundColor: '#B8956A', borderColor: '#B8956A', color: 'white' }}
+                        className="py-4 px-12 w-fit uppercase tracking-[0.25em] text-xs font-medium hover:opacity-90 transition-all duration-300 border flex items-center justify-center group relative z-10 rounded-none"
                     >
                         <span className="relative z-10">Select This Style</span>
                     </button>

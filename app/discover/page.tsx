@@ -273,8 +273,8 @@ function DiscoverContent() {
                     {['Ethical', 'Pure Cotton', 'Hand Dyeing', 'Sustainable'].map((tag, i) => (
                       <span
                         key={i}
-                        style={{ paddingLeft: '1rem', paddingRight: '1rem', paddingTop: '0.5rem', paddingBottom: '0.5rem' }}
-                        className="rounded-full border border-black/10 text-[11px] uppercase tracking-[0.2em] text-black/60 hover:border-black hover:text-black transition-all duration-500 cursor-default bg-white hover:bg-black/5 whitespace-nowrap"
+                        style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: '0.75rem', paddingBottom: '0.75rem' }}
+                        className="border border-black/10 text-[10px] uppercase tracking-[0.25em] text-black/60 hover:border-black hover:text-black transition-all duration-500 cursor-default bg-white hover:bg-black/5 whitespace-nowrap rounded-none"
                       >
                         {tag}
                       </span>
@@ -316,17 +316,17 @@ function DiscoverContent() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-warm-grey/30 py-6 z-40"
+        className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-warm-grey/30 py-8 z-40"
       >
         <div className="w-full px-6 overflow-x-auto no-scrollbar">
-          <div className="flex justify-center items-center gap-8 md:gap-16">
+          <div className="flex justify-center items-center gap-12 md:gap-24">
             {brands.map((brand, index) => (
               <button
                 key={brand.id}
                 onClick={() => setActiveBrandIndex(index)}
                 className="group relative py-2"
               >
-                <span className={`text-sm md:text-base font-light tracking-[0.2em] transition-colors whitespace-nowrap uppercase ${index === activeBrandIndex
+                <span className={`text-xs md:text-sm font-light tracking-[0.3em] transition-colors whitespace-nowrap uppercase ${index === activeBrandIndex
                   ? 'text-deep-charcoal font-medium'
                   : 'text-taupe group-hover:text-deep-charcoal'
                   }`}>
@@ -335,7 +335,7 @@ function DiscoverContent() {
                 {index === activeBrandIndex && (
                   <motion.div
                     layoutId="activeIndicator"
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold-accent"
+                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-black"
                     transition={{ duration: 0.3 }}
                   />
                 )}
@@ -366,7 +366,7 @@ function LoadingFallback() {
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-        className="w-12 h-12 border border-gold-accent border-t-transparent rounded-full"
+        className="w-16 h-16 border border-black border-t-transparent rounded-none"
       />
     </main>
   )

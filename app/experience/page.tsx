@@ -18,47 +18,47 @@ export default function ExperiencePage() {
             </div>
 
             {/* Experience Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full px-8 z-10 mb-20">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-7xl w-full px-8 z-10 mb-32">
                 <Link href="/experience/sample-crate">
                     <ExperienceCard
-                        icon={<ShoppingBag size={48} strokeWidth={1} />}
+                        icon={<ShoppingBag size={48} strokeWidth={0.75} />}
                         title="Order Sample Crate"
                         description="Order a sample crate @ manf cost (upto 5 pieces)"
                     />
                 </Link>
                 <ExperienceCard
-                    icon={<Shirt size={48} strokeWidth={1} />}
+                    icon={<Shirt size={48} strokeWidth={0.75} />}
                     title="Request Private Showcase"
                     description="Schedule an in-person viewing with the Qala team"
                 />
                 <ExperienceCard
-                    icon={<MapPin size={48} strokeWidth={1} />}
+                    icon={<MapPin size={48} strokeWidth={0.75} />}
                     title="Meet at a Trade Show"
                     description="Catch the brand at an upcoming Trade show"
                 />
             </div>
 
             {/* Proceed CTA */}
-            <div className="w-full max-w-6xl px-8 z-10">
+            <div className="w-full max-w-7xl px-8 z-10">
                 <Link href="/order" className="block w-full">
                     <motion.div
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
-                        className="w-full bg-white border border-gray-200 py-8 flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                        className="w-full bg-white border border-gray-200 py-12 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all cursor-pointer group rounded-none"
                     >
-                        <h2 className="font-serif text-2xl text-black group-hover:text-gray-800">Proceed to Order</h2>
-                        <p className="text-sm text-gray-400 font-light">Skip physical experience and go straight to quantities and order details</p>
+                        <h2 className="font-light text-3xl tracking-wide text-black group-hover:text-gray-800">Proceed to Order</h2>
+                        <p className="text-sm text-gray-400 font-light tracking-wide uppercase">Skip physical experience and go straight to quantities and order details</p>
                     </motion.div>
                 </Link>
             </div>
 
             {/* Floating Chat Button */}
-            <button className="fixed bottom-8 right-8 bg-white border border-gray-200 shadow-lg p-4 rounded-full flex items-center gap-3 hover:bg-gray-50 transition-colors z-50 group">
+            <button className="fixed bottom-12 right-12 bg-white border border-gray-200 shadow-lg p-6 flex items-center gap-4 hover:bg-gray-50 transition-colors z-50 group rounded-none">
                 <div className="text-right hidden group-hover:block">
                     <p className="text-[10px] text-gray-400 uppercase tracking-widest">Need help deciding?</p>
-                    <p className="text-xs font-medium">Chat with us</p>
+                    <p className="text-xs font-medium uppercase tracking-wider">Chat with us</p>
                 </div>
-                <MessageCircle size={24} />
+                <MessageCircle size={24} strokeWidth={1} />
             </button>
         </div>
     )
@@ -67,7 +67,7 @@ export default function ExperiencePage() {
 function ExperienceCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
     return (
         <motion.div
-            className="aspect-square bg-white border border-gray-100 flex flex-col items-center justify-center p-8 text-center cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
+            className="aspect-square bg-white border border-gray-100 flex flex-col items-center justify-center p-12 text-center cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 rounded-none"
         >
             {/* Default State: Icon + Title */}
             <motion.div
