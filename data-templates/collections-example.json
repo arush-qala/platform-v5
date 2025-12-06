@@ -1,0 +1,24 @@
+[
+    {
+        "brandSlug": "khara-kapas",
+        "name": "Highland",
+        "slug": "highland",
+        "description": "Inspired by the misty highlands of Scotland, this collection features flowing silhouettes, earthy tones, and luxurious natural fabrics. Each piece captures the essence of serene landscapes and timeless elegance, perfect for the modern woman who appreciates understated luxury.",
+        "season": "Summer/Spring",
+        "year": "2024",
+        "coverImage": "/images/brands/khara-kapas/collections/highland/cover.jpg",
+        "lookbookImages": "[\"/images/brands/khara-kapas/collections/highland/lookbook-1.jpg\", \"/images/brands/khara-kapas/collections/highland/lookbook-2.jpg\", \"/images/brands/khara-kapas/collections/highland/lookbook-3.jpg\"]",
+        "featured": true
+    },
+    {
+        "brandSlug": "khara-kapas",
+        "name": "Urban Nomad",
+        "slug": "urban-nomad",
+        "description": "A contemporary collection that bridges the gap between traditional craftsmanship and urban sophistication. Featuring bold prints, structured silhouettes, and versatile pieces that transition seamlessly from day to night.",
+        "season": "Fall/Winter",
+        "year": "2024",
+        "coverImage": "/images/brands/khara-kapas/collections/urban-nomad/cover.jpg",
+        "lookbookImages": "[\"/images/brands/khara-kapas/collections/urban-nomad/lookbook-1.jpg\", \"/images/brands/khara-kapas/collections/urban-nomad/lookbook-2.jpg\"]",
+        "featured": false
+    }
+]

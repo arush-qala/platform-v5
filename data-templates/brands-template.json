@@ -1,0 +1,28 @@
+[
+    {
+        "name": "Brand Name Here",
+        "slug": "brand-name-here",
+        "description": "Short 1-2 sentence description for brand cards and discovery page",
+        "story": "Detailed brand story - multiple paragraphs about heritage, craftsmanship, values, founder story, etc.",
+        "videoUrl": "https://youtube.com/... or https://vimeo.com/... (optional, can be null)",
+        "logoUrl": "/images/brands/brand-slug/logo.png",
+        "coverImage": "/images/brands/brand-slug/cover.jpg",
+        "founded": "2015",
+        "location": "City, Country",
+        "aesthetic": "[\"sustainable\", \"handcrafted\", \"traditional\", \"luxury\", \"minimalist\"]",
+        "featured": true
+    },
+    {
+        "name": "Another Brand",
+        "slug": "another-brand",
+        "description": "Another brand description",
+        "story": "Another brand story...",
+        "videoUrl": null,
+        "logoUrl": "/images/brands/another-brand/logo.png",
+        "coverImage": "/images/brands/another-brand/cover.jpg",
+        "founded": "2018",
+        "location": "Mumbai, India",
+        "aesthetic": "[\"contemporary\", \"bold\", \"urban\"]",
+        "featured": false
+    }
+]

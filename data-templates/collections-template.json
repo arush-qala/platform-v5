@@ -1,0 +1,24 @@
+[
+    {
+        "brandSlug": "brand-name-here",
+        "name": "Collection Name",
+        "slug": "collection-name",
+        "description": "Collection description - design inspiration, theme, etc.",
+        "season": "Summer/Spring",
+        "year": "2024",
+        "coverImage": "/images/brands/brand-slug/collections/collection-slug/cover.jpg",
+        "lookbookImages": "[\"/images/brands/brand-slug/collections/collection-slug/lookbook-1.jpg\", \"/images/brands/brand-slug/collections/collection-slug/lookbook-2.jpg\", \"/images/brands/brand-slug/collections/collection-slug/lookbook-3.jpg\"]",
+        "featured": true
+    },
+    {
+        "brandSlug": "brand-name-here",
+        "name": "Another Collection",
+        "slug": "another-collection",
+        "description": "Another collection description",
+        "season": "Fall/Winter",
+        "year": "2024",
+        "coverImage": "/images/brands/brand-slug/collections/another-collection/cover.jpg",
+        "lookbookImages": "[\"/images/brands/brand-slug/collections/another-collection/lookbook-1.jpg\"]",
+        "featured": false
+    }
+]

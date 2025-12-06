@@ -1,0 +1,15 @@
+[
+    {
+        "name": "Khara Kapas",
+        "slug": "khara-kapas",
+        "description": "Handcrafted luxury fashion celebrating traditional Indian textiles with contemporary design.",
+        "story": "Founded in 2015 in the heart of Jaipur, Khara Kapas represents the perfect fusion of traditional Indian craftsmanship and modern luxury fashion. Each piece is meticulously handcrafted by skilled artisans using time-honored techniques passed down through generations.\n\nOur commitment to sustainability and ethical production is at the core of everything we do. We work directly with local artisan communities, ensuring fair wages and preserving traditional craft techniques that might otherwise be lost to time.\n\nFrom hand-block printing to intricate embroidery, every garment tells a story of heritage, skill, and dedication. We source the finest natural fabrics and use eco-friendly dyes, creating pieces that are not only beautiful but also kind to the planet.\n\nKhara Kapas is more than a fashion brand - it's a celebration of India's rich textile heritage, reimagined for the modern woman who values authenticity, craftsmanship, and conscious luxury.",
+        "videoUrl": null,
+        "logoUrl": "/images/brands/khara-kapas/logo.png",
+        "coverImage": "/images/brands/khara-kapas/cover.jpg",
+        "founded": "2015",
+        "location": "Jaipur, India",
+        "aesthetic": "[\"sustainable\", \"handcrafted\", \"traditional\", \"luxury\"]",
+        "featured": true
+    }
+]

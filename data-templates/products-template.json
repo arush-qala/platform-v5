@@ -1,0 +1,68 @@
+[
+    {
+        "brandSlug": "brand-name-here",
+        "collectionSlug": "collection-name",
+        "name": "Product Name",
+        "slug": "product-name",
+        "description": "Detailed product description - fit, styling, features, craftsmanship details",
+        "category": "tops",
+        "price": 4500.00,
+        "fabricDetails": "100% Cotton, Hand-block printed, Natural dyes, Sourced from artisans",
+        "careInstructions": "Dry clean only. Do not bleach. Iron on low heat. Store in a cool, dry place.",
+        "colors": "[\"Emerald Green\", \"Ivory\", \"Coral\"]",
+        "featured": false,
+        "images": [
+            {
+                "url": "/images/brands/brand-slug/products/product-slug/front.jpg",
+                "alt": "Product Name - Front View",
+                "order": 0,
+                "isPrimary": true
+            },
+            {
+                "url": "/images/brands/brand-slug/products/product-slug/back.jpg",
+                "alt": "Product Name - Back View",
+                "order": 1,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/brand-slug/products/product-slug/detail.jpg",
+                "alt": "Product Name - Detail Shot",
+                "order": 2,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/brand-slug/products/product-slug/styled.jpg",
+                "alt": "Product Name - Styled Look",
+                "order": 3,
+                "isPrimary": false
+            }
+        ],
+        "sizes": [
+            {
+                "size": "XS",
+                "inStock": true,
+                "quantity": 10
+            },
+            {
+                "size": "S",
+                "inStock": true,
+                "quantity": 15
+            },
+            {
+                "size": "M",
+                "inStock": true,
+                "quantity": 20
+            },
+            {
+                "size": "L",
+                "inStock": true,
+                "quantity": 15
+            },
+            {
+                "size": "XL",
+                "inStock": false,
+                "quantity": 0
+            }
+        ]
+    }
+]

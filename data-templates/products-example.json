@@ -1,0 +1,195 @@
+[
+    {
+        "brandSlug": "khara-kapas",
+        "collectionSlug": "highland",
+        "name": "Lush Floral Top",
+        "slug": "lush-floral-top",
+        "description": "A beautiful handcrafted top featuring intricate floral embroidery on premium cotton. The flowing silhouette and delicate details make it perfect for summer events and casual elegance. Hand-block printed using traditional techniques, each piece is unique with slight variations that add to its artisanal charm.\n\nThe relaxed fit ensures comfort while maintaining a sophisticated look. Pair with tailored pants for a polished ensemble or with flowing skirts for a bohemian vibe. The natural cotton fabric breathes beautifully, making it ideal for warm weather.",
+        "category": "tops",
+        "price": 4500.00,
+        "fabricDetails": "100% Cotton, Hand-block printed, Natural dyes, Sourced from Jaipur artisans. The fabric is pre-washed for softness and to prevent shrinkage. Each print is applied by hand using traditional wooden blocks, making every piece unique.",
+        "careInstructions": "Dry clean only for best results. If hand washing, use cold water with mild detergent. Do not bleach. Do not wring. Dry flat in shade. Iron on low heat while slightly damp. Store in a cool, dry place away from direct sunlight.",
+        "colors": "[\"Emerald Green\", \"Ivory\", \"Coral\"]",
+        "featured": false,
+        "images": [
+            {
+                "url": "/images/brands/khara-kapas/products/lush-floral-top/front.jpg",
+                "alt": "Lush Floral Top - Front View",
+                "order": 0,
+                "isPrimary": true
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/lush-floral-top/back.jpg",
+                "alt": "Lush Floral Top - Back View",
+                "order": 1,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/lush-floral-top/detail.jpg",
+                "alt": "Lush Floral Top - Embroidery Detail",
+                "order": 2,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/lush-floral-top/styled.jpg",
+                "alt": "Lush Floral Top - Styled Look",
+                "order": 3,
+                "isPrimary": false
+            }
+        ],
+        "sizes": [
+            {
+                "size": "XS",
+                "inStock": true,
+                "quantity": 10
+            },
+            {
+                "size": "S",
+                "inStock": true,
+                "quantity": 15
+            },
+            {
+                "size": "M",
+                "inStock": true,
+                "quantity": 20
+            },
+            {
+                "size": "L",
+                "inStock": true,
+                "quantity": 15
+            },
+            {
+                "size": "XL",
+                "inStock": false,
+                "quantity": 0
+            }
+        ]
+    },
+    {
+        "brandSlug": "khara-kapas",
+        "collectionSlug": "highland",
+        "name": "Flowing Maxi Dress",
+        "slug": "flowing-maxi-dress",
+        "description": "An elegant maxi dress that embodies effortless sophistication. The flowing silhouette drapes beautifully, creating a flattering shape for all body types. Features delicate hand-embroidered details at the neckline and cuffs.\n\nPerfect for summer weddings, garden parties, or any special occasion where you want to make a statement while staying comfortable. The breathable cotton-silk blend ensures you stay cool even on the warmest days.",
+        "category": "dresses",
+        "price": 8500.00,
+        "fabricDetails": "70% Cotton, 30% Silk blend. Hand-woven fabric with natural sheen. Embroidery done using silk threads. Lightweight and breathable with a luxurious drape.",
+        "careInstructions": "Dry clean recommended. Can be hand washed in cold water with gentle detergent. Do not bleach or wring. Hang dry in shade. Steam iron on low setting. Store on a padded hanger to maintain shape.",
+        "colors": "[\"Sage Green\", \"Dusty Rose\", \"Midnight Blue\"]",
+        "featured": true,
+        "images": [
+            {
+                "url": "/images/brands/khara-kapas/products/flowing-maxi-dress/front.jpg",
+                "alt": "Flowing Maxi Dress - Front View",
+                "order": 0,
+                "isPrimary": true
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/flowing-maxi-dress/back.jpg",
+                "alt": "Flowing Maxi Dress - Back View",
+                "order": 1,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/flowing-maxi-dress/detail.jpg",
+                "alt": "Flowing Maxi Dress - Embroidery Detail",
+                "order": 2,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/flowing-maxi-dress/styled.jpg",
+                "alt": "Flowing Maxi Dress - Styled Look",
+                "order": 3,
+                "isPrimary": false
+            }
+        ],
+        "sizes": [
+            {
+                "size": "XS",
+                "inStock": true,
+                "quantity": 8
+            },
+            {
+                "size": "S",
+                "inStock": true,
+                "quantity": 12
+            },
+            {
+                "size": "M",
+                "inStock": true,
+                "quantity": 15
+            },
+            {
+                "size": "L",
+                "inStock": true,
+                "quantity": 10
+            },
+            {
+                "size": "XL",
+                "inStock": true,
+                "quantity": 5
+            }
+        ]
+    },
+    {
+        "brandSlug": "khara-kapas",
+        "collectionSlug": "highland",
+        "name": "Linen Co-ord Set",
+        "slug": "linen-coord-set",
+        "description": "A versatile co-ord set in premium linen that can be worn together or styled separately. The relaxed-fit top features a flattering V-neckline and three-quarter sleeves, while the wide-leg pants create an elongated silhouette.\n\nPerfect for both professional settings and casual outings. The natural linen fabric becomes softer with each wash while maintaining its structure. Available in earthy, neutral tones that pair beautifully with any accessories.",
+        "category": "co-ord sets",
+        "price": 7200.00,
+        "fabricDetails": "100% European Linen. Breathable and moisture-wicking. Pre-washed for softness. Natural texture with slight slub characteristic of authentic linen.",
+        "careInstructions": "Machine wash cold on gentle cycle or hand wash. Use mild detergent. Do not bleach. Tumble dry low or hang dry. Iron while slightly damp on medium-high heat. Linen naturally wrinkles - embrace the relaxed aesthetic.",
+        "colors": "[\"Natural Beige\", \"Charcoal Grey\", \"Terracotta\"]",
+        "featured": false,
+        "images": [
+            {
+                "url": "/images/brands/khara-kapas/products/linen-coord-set/front.jpg",
+                "alt": "Linen Co-ord Set - Front View",
+                "order": 0,
+                "isPrimary": true
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/linen-coord-set/back.jpg",
+                "alt": "Linen Co-ord Set - Back View",
+                "order": 1,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/linen-coord-set/detail.jpg",
+                "alt": "Linen Co-ord Set - Fabric Detail",
+                "order": 2,
+                "isPrimary": false
+            },
+            {
+                "url": "/images/brands/khara-kapas/products/linen-coord-set/styled.jpg",
+                "alt": "Linen Co-ord Set - Styled Look",
+                "order": 3,
+                "isPrimary": false
+            }
+        ],
+        "sizes": [
+            {
+                "size": "S",
+                "inStock": true,
+                "quantity": 12
+            },
+            {
+                "size": "M",
+                "inStock": true,
+                "quantity": 18
+            },
+            {
+                "size": "L",
+                "inStock": true,
+                "quantity": 14
+            },
+            {
+                "size": "XL",
+                "inStock": true,
+                "quantity": 8
+            }
+        ]
+    }
+]
