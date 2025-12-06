@@ -54,7 +54,7 @@ export default function CheckoutPage() {
                         <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                             <ArrowLeft size={20} />
                         </button>
-                        <h1 className="font-serif text-xl">Shopping Bag ({sampleItems.length})</h1>
+                        <h1 className="font-serif text-base">Shopping Bag ({sampleItems.length})</h1>
                     </div>
 
                     {/* Items List */}
@@ -75,7 +75,7 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex-1 flex justify-between">
                                     <div className="space-y-2">
-                                        <h3 className="font-serif text-base">{item.product.name}</h3>
+                                        <h3 className="font-serif text-xs">{item.product.name}</h3>
                                         <p className="text-xs text-gray-500">Sample ID: {item.product.id.slice(0, 8)}</p>
                                         <div className="flex items-center gap-4 mt-4">
                                             <div className="bg-gray-50 px-3 py-1 rounded text-[10px] font-medium">
@@ -105,7 +105,7 @@ export default function CheckoutPage() {
                     <div className="bg-gray-50 p-6 rounded-xl space-y-4">
                         <div className="flex items-center gap-3 text-gray-800">
                             <Truck size={20} />
-                            <h3 className="font-medium text-sm">Estimated Delivery</h3>
+                            <h3 className="font-medium text-xs">Estimated Delivery</h3>
                         </div>
                         <p className="text-xs text-gray-500 pl-8">
                             Express Shipping • 3-5 Business Days
@@ -116,7 +116,7 @@ export default function CheckoutPage() {
                 {/* Right Column: Order Summary */}
                 <div className="lg:col-span-5">
                     <div className="sticky top-12 bg-gray-50 p-8 rounded-2xl space-y-8">
-                        <h2 className="font-serif text-xl">Summary</h2>
+                        <h2 className="font-serif text-sm">Summary</h2>
 
                         <div className="space-y-4 text-xs">
                             <div className="flex justify-between text-gray-600">
