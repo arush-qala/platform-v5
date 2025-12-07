@@ -33,11 +33,13 @@ export default function ExperiencePage() {
                         description="Schedule an in-person viewing with the Qala team"
                     />
                 </Link>
-                <ExperienceCard
-                    icon={<MapPin size={48} strokeWidth={0.75} />}
-                    title="Meet at a Trade Show"
-                    description="Catch the brand at an upcoming Trade show"
-                />
+                <Link href="/experience/trade-show">
+                    <ExperienceCard
+                        icon={<MapPin size={48} strokeWidth={0.75} />}
+                        title="Meet at a Trade Show"
+                        description="Catch the brand at an upcoming Trade show"
+                    />
+                </Link>
             </div>
 
             {/* Proceed CTA */}

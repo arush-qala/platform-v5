@@ -9,6 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const navItems = [
         { icon: LayoutDashboard, label: 'Overview', href: '/dashboard' },
+        { icon: ShoppingBag, label: 'Assortments', href: '/dashboard/assortments' },
         { icon: Calendar, label: 'Appointments', href: '/dashboard/appointments' },
         { icon: ShoppingBag, label: 'Orders', href: '/dashboard/orders' },
         { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
@@ -30,8 +31,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                                 key={item.href}
                                 href={item.href}
                                 className={`flex items-center gap-3 px-4 py-3 text-sm uppercase tracking-wider transition-colors ${isActive
-                                        ? 'bg-black text-white'
-                                        : 'text-gray-500 hover:bg-gray-50 hover:text-black'
+                                    ? 'bg-black text-white'
+                                    : 'text-gray-500 hover:bg-gray-50 hover:text-black'
                                     }`}
                             >
                                 <item.icon size={18} />
