@@ -26,16 +26,20 @@ export default function ExperiencePage() {
                         description="Order a sample crate @ manf cost (upto 5 pieces)"
                     />
                 </Link>
-                <ExperienceCard
-                    icon={<Shirt size={48} strokeWidth={1} />}
-                    title="Request Private Showcase"
-                    description="Schedule an in-person viewing with the Qala team"
-                />
-                <ExperienceCard
-                    icon={<MapPin size={48} strokeWidth={1} />}
-                    title="Meet at a Trade Show"
-                    description="Catch the brand at an upcoming Trade show"
-                />
+                <Link href="/order/appointment">
+                    <ExperienceCard
+                        icon={<Shirt size={48} strokeWidth={1} />}
+                        title="Request Private Showcase"
+                        description="Schedule an in-person viewing with the Qala team"
+                    />
+                </Link>
+                <Link href="/experience/tradeshow">
+                    <ExperienceCard
+                        icon={<MapPin size={48} strokeWidth={1} />}
+                        title="Meet at a Trade Show"
+                        description="Catch the brand at an upcoming Trade show"
+                    />
+                </Link>
             </div>
 
             {/* Proceed CTA */}
