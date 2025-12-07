@@ -10,35 +10,35 @@ import { motion } from 'framer-motion'
 const HERO_SLIDES: Slide[] = [
   {
     id: 1,
-    image: '/images/hero/slide1.jpg',
-    title: 'Maison Solène',
-    description: 'Contemporary elegance meets timeless Parisian craftsmanship.',
-    category: 'Dresses',
+    image: '/images/brands/doodlage/arlene-coral-dress-doodlage-1.jpg',
+    title: 'Doodlage',
+    description: 'Upcycled factory waste into short limited edition collections.',
+    category: 'Sustainable',
     season: 'Summer/Spring'
   },
   {
     id: 2,
-    image: '/images/hero/slide2.jpg',
-    title: 'L\'Art de la Soie',
-    description: 'Hand-painted silk collections for the modern resort lifestyle.',
-    category: 'Resortwear',
-    season: 'Resortwear'
+    image: '/images/brands/doodlage/doris-green-dress-dl-1.jpg',
+    title: 'Eco-Chic Summer',
+    description: 'Breezy, sustainable fabrics designed for the modern conscious consumer.',
+    category: 'Dresses',
+    season: 'Summer/Spring'
   },
   {
     id: 3,
-    image: '/images/hero/slide3.jpg',
-    title: 'Nordic Minimalist',
-    description: 'Sustainable outerwear designed for the urban explorer.',
+    image: '/images/brands/doodlage/amelia-trench-dl-1.jpg',
+    title: 'Winter Layers',
+    description: 'Statement trenches and jackets crafted from industrial waste.',
     category: 'Outerwear',
     season: 'Fall/Winter'
   },
   {
     id: 4,
-    image: '/images/hero/slide4.jpg',
-    title: 'Evening Allure',
-    description: 'Sophisticated evening wear for special occasions.',
-    category: 'Evening wear',
-    season: 'Pre-Fall'
+    image: '/images/brands/doodlage/austin-coral-set-doodlage-1.jpg',
+    title: 'Co-ordinated Style',
+    description: 'Effortless matching sets for a put-together look.',
+    category: 'Co-ord Sets',
+    season: 'Resortwear'
   }
 ]
 
