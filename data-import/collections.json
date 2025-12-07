@@ -1,0 +1,13 @@
+[
+  {
+    "brandSlug": "doodlage",
+    "name": "Doodlage Main Collection",
+    "slug": "doodlage-collection",
+    "description": "Main collection of upcycled fashion from Doodlage.",
+    "season": "Fall/Winter",
+    "year": "2024",
+    "coverImage": "/images/brands/doodlage/collection-cover.jpg",
+    "lookbookImages": "[]",
+    "featured": true
+  }
+]
