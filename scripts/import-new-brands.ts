@@ -33,7 +33,7 @@ async function main() {
     // 2. Load All Collections Metadata
     console.log('📂 Loading All Collections metadata...');
     const allCollectionsCsv = fs.readFileSync(path.join(process.cwd(), 'data-import/all_collections.csv'), 'utf-8');
-    const allCollectionsRecords = parse(allCollectionsCsv, {
+    const allCollectionsRecords: any[] = parse(allCollectionsCsv, {
         columns: true,
         skip_empty_lines: true
     });
@@ -52,7 +52,7 @@ async function main() {
         console.log(`\n📦 Processing Brand: ${brandConfig.name}`);
 
         // --- STEP A: Create Brand ---
-        const brandMeta = findBrandMetadata(brandConfig.name);
+        const brandMeta: any = findBrandMetadata(brandConfig.name);
         if (!brandMeta) {
             console.warn(`⚠️ Could not find metadata for brand ${brandConfig.name}. Searching deeper...`);
             // Fallback: Check 'Rule: Value' or 'Title' without template suffix
@@ -102,7 +102,7 @@ async function main() {
 
         for (const handle of validHandles) {
             // Find the collection row
-            const colRecord = allCollectionsRecords.find((r: any) => r['Handle']?.toLowerCase() === handle);
+            const colRecord: any = allCollectionsRecords.find((r: any) => r['Handle']?.toLowerCase() === handle);
             if (!colRecord) {
                 console.warn(`   ⚠️ Collection handle '${handle}' not found in CSV records.`);
                 continue;
