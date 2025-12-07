@@ -18,17 +18,17 @@ const ICON_MAP = {
 
 export function SustainabilityTags({ tags }: SustainabilityTagsProps) {
     return (
-        <section className="bg-white" style={{ padding: '240px 0' }}>
-            <div className="w-full flex justify-center px-12">
-                <div className="flex flex-wrap justify-center items-center gap-24 md:gap-40 max-w-6xl">
+        <section className="bg-white border-t border-gray-100" style={{ padding: '200px 0' }}>
+            <div className="w-full flex justify-center px-6">
+                <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 max-w-4xl">
                     {tags.map((tag, index) => {
                         const Icon = ICON_MAP[tag.icon] || Leaf
                         return (
-                            <div key={index} className="flex flex-col items-center gap-8 group">
-                                <div className="p-10 border border-gray-200 group-hover:border-black transition-all duration-700 bg-transparent">
-                                    <Icon size={32} strokeWidth={0.75} className="text-gray-400 group-hover:text-black transition-colors duration-700" />
+                            <div key={index} className="flex flex-col items-center gap-6 group">
+                                <div className="p-6 rounded-full border border-gray-100 group-hover:border-black transition-colors duration-500">
+                                    <Icon size={32} strokeWidth={1} className="text-gray-600 group-hover:text-black transition-colors duration-500" />
                                 </div>
-                                <span className="text-xs uppercase tracking-[0.3em] text-gray-400 group-hover:text-black transition-colors duration-700">
+                                <span className="text-xs uppercase tracking-[0.2em] text-gray-500 group-hover:text-black transition-colors duration-500">
                                     {tag.name}
                                 </span>
                             </div>

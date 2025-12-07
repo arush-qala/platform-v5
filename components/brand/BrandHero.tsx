@@ -45,7 +45,7 @@ export function BrandHero({
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
-                    className="text-7xl md:text-9xl font-light tracking-wide text-white drop-shadow-lg"
+                    className="text-6xl md:text-8xl font-serif tracking-tight text-white drop-shadow-lg"
                 >
                     {brandName}
                 </motion.h1>
@@ -55,7 +55,7 @@ export function BrandHero({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
-                    className="text-sm md:text-base uppercase tracking-[0.3em] text-white/90 font-light"
+                    className="text-sm uppercase tracking-[0.2em] text-white/90 font-medium"
                 >
                     {location}
                 </motion.p>
@@ -65,7 +65,7 @@ export function BrandHero({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-xl md:text-2xl font-extralight leading-relaxed text-white max-w-3xl drop-shadow-md tracking-wide"
+                    className="text-lg md:text-xl font-light leading-relaxed text-white max-w-2xl drop-shadow-md"
                 >
                     {intro}
                 </motion.p>
@@ -75,12 +75,12 @@ export function BrandHero({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.6 }}
-                    className="flex gap-12 mt-8 items-center justify-center opacity-80"
+                    className="flex gap-8 mt-4 items-center justify-center"
                 >
                     {featuredIn.map((feature, index) => (
-                        <div key={index} className="flex flex-col items-center gap-2 text-white/90">
-                            {/* Sharp Square Placeholder */}
-                            <div className="w-12 h-12 border border-white/40 flex items-center justify-center text-[10px] uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-500">
+                        <div key={index} className="flex flex-col items-center gap-2 text-white/80">
+                            {/* Placeholder Icon Circle */}
+                            <div className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-[10px] uppercase">
                                 {feature.substring(0, 3)}
                             </div>
                         </div>
@@ -89,14 +89,15 @@ export function BrandHero({
 
                 {/* Play Video CTA */}
                 <motion.button
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, delay: 0.8 }}
-                    className="mt-12 flex items-center gap-4 px-10 py-4 bg-white/10 backdrop-blur-sm border border-white/50 text-white hover:bg-white hover:text-black transition-all duration-500 group rounded-none"
+                    className="mt-8 flex items-center gap-3 px-8 py-3 bg-white/20 backdrop-blur-md border border-white/40 rounded-full text-white hover:bg-white hover:text-black transition-all duration-300 group"
                 >
-                    <Play size={14} fill="currentColor" className="group-hover:scale-110 transition-transform" />
-                    <span className="text-xs uppercase tracking-[0.25em] font-medium">Play Brand Film</span>
+                    <Play size={16} fill="currentColor" className="group-hover:scale-110 transition-transform" />
+                    <span className="text-xs uppercase tracking-widest font-medium">Play Brand Film</span>
                 </motion.button>
+
             </div>
         </section>
     )

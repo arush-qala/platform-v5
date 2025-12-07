@@ -15,18 +15,18 @@ export function Button({
   className = '',
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-light uppercase tracking-wider transition-all duration-300 rounded-none'
+  const baseStyles = 'font-medium transition-all duration-300 rounded-sm'
 
   const variants = {
-    primary: 'bg-black text-white hover:bg-neutral-800 border border-transparent',
-    secondary: 'bg-transparent text-black border border-neutral-200 hover:border-black hover:bg-black hover:text-white',
-    ghost: 'bg-transparent text-black hover:text-neutral-500',
+    primary: 'bg-deep-charcoal text-ivory hover:bg-charcoal',
+    secondary: 'bg-transparent text-deep-charcoal border border-charcoal hover:bg-deep-charcoal hover:text-ivory',
+    ghost: 'bg-transparent text-deep-charcoal hover:text-gold-accent',
   }
 
   const sizes = {
-    sm: 'px-6 py-3 text-xs',
-    md: 'px-10 py-4 text-sm',
-    lg: 'px-12 py-5 text-base',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-3 text-base',
+    lg: 'px-8 py-4 text-lg',
   }
 
   return (

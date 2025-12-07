@@ -44,23 +44,23 @@ export default function SampleSelectionPage() {
             {/* Header */}
             <div className="px-12 py-8 flex justify-between items-center border-b border-gray-100">
                 <div>
-                    <h1 className="font-serif text-xl mb-2">Select Samples</h1>
-                    <p className="text-gray-500 text-xs text-sm">Choose up to 5 pieces from your assortment to order samples.</p>
+                    <h1 className="font-serif text-3xl mb-2">Select Samples</h1>
+                    <p className="text-gray-500 text-sm">Choose up to 5 pieces from your assortment to order samples.</p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right">
-                        <p className="text-xs font-medium">{sampleItems.length}/5 Selected</p>
-                        {sampleItems.length === 5 && <p className="text-[10px] text-amber-600">Limit Reached</p>}
+                        <p className="text-sm font-medium">{sampleItems.length}/5 Selected</p>
+                        {sampleItems.length === 5 && <p className="text-xs text-amber-600">Limit Reached</p>}
                     </div>
                     <button
                         disabled={sampleItems.length === 0}
                         onClick={() => router.push('/checkout')}
-                        className={`px-8 py-3 rounded-full flex items-center gap-2 text-xs uppercase tracking-widest transition-all ${sampleItems.length > 0
+                        className={`px-8 py-3 rounded-full flex items-center gap-2 text-sm uppercase tracking-widest transition-all ${sampleItems.length > 0
                             ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             }`}
                     >
-                        Proceed to Checkout <ArrowRight size={14} />
+                        Proceed to Checkout <ArrowRight size={16} />
                     </button>
                 </div>
             </div>
@@ -109,10 +109,10 @@ export default function SampleSelectionPage() {
 
                                 {/* Details */}
                                 <div className="mt-6 text-center">
-                                    <h3 className="font-serif text-base mb-1">{item.name}</h3>
-                                    <p className="text-xs text-gray-500 mb-2">Sample Cost: <span className="text-black font-medium">$50</span></p>
+                                    <h3 className="font-serif text-xl mb-1">{item.name}</h3>
+                                    <p className="text-sm text-gray-500 mb-2">Sample Cost: <span className="text-black font-medium">$50</span></p>
                                     {isSelected && (
-                                        <div className="inline-block bg-gray-100 px-3 py-1 rounded-full text-[10px] font-medium text-gray-600">
+                                        <div className="inline-block bg-gray-100 px-3 py-1 rounded-full text-xs font-medium text-gray-600">
                                             Size: {sampleItems.find(i => i.product.id === item.id)?.size}
                                         </div>
                                     )}

@@ -28,6 +28,18 @@ type AssortmentContextType = {
     addToSampleCart: (product: Product, size: string) => boolean
     removeFromSampleCart: (productId: string) => void
     isInSampleCart: (productId: string) => boolean
+
+    // B2B Order Logic
+    orderQuantities: Record<string, Record<string, number>> // productId -> size -> quantity
+    updateOrderQuantity: (productId: string, size: string, quantity: number) => void
+    customizationNotes: Record<string, string> // productId -> note
+    updateCustomizationNote: (productId: string, note: string) => void
+    appointmentDetails: {
+        scheduled: boolean
+        date?: string
+        slot?: string
+    }
+    scheduleAppointment: (date: string, slot: string) => void
 }
 
 const AssortmentContext = createContext<AssortmentContextType | undefined>(undefined)
@@ -36,45 +48,51 @@ export function AssortmentProvider({ children }: { children: ReactNode }) {
     const [items, setItems] = useState<Product[]>([])
     const [isTrayOpen, setTrayOpen] = useState(false)
     const [sampleItems, setSampleItems] = useState<SampleItem[]>([])
+
+    // B2B Order State
+    const [orderQuantities, setOrderQuantities] = useState<Record<string, Record<string, number>>>({})
+    const [customizationNotes, setCustomizationNotes] = useState<Record<string, string>>({})
+    const [appointmentDetails, setAppointmentDetails] = useState<{ scheduled: boolean, date?: string, slot?: string }>({ scheduled: false })
+
     const [isHydrated, setIsHydrated] = useState(false)
 
     // Load from localStorage on mount
     useEffect(() => {
         const savedItems = localStorage.getItem('qala_assortment')
         const savedSamples = localStorage.getItem('qala_sample_cart')
+        const savedQuantities = localStorage.getItem('qala_order_quantities')
+        const savedNotes = localStorage.getItem('qala_customization_notes')
+        const savedAppointment = localStorage.getItem('qala_appointment')
 
         if (savedItems) {
-            try {
-                setItems(JSON.parse(savedItems))
-            } catch (e) {
-                console.error('Failed to parse saved assortment:', e)
-            }
+            try { setItems(JSON.parse(savedItems)) } catch (e) { console.error(e) }
         }
-
         if (savedSamples) {
-            try {
-                setSampleItems(JSON.parse(savedSamples))
-            } catch (e) {
-                console.error('Failed to parse saved sample cart:', e)
-            }
+            try { setSampleItems(JSON.parse(savedSamples)) } catch (e) { console.error(e) }
+        }
+        if (savedQuantities) {
+            try { setOrderQuantities(JSON.parse(savedQuantities)) } catch (e) { console.error(e) }
+        }
+        if (savedNotes) {
+            try { setCustomizationNotes(JSON.parse(savedNotes)) } catch (e) { console.error(e) }
+        }
+        if (savedAppointment) {
+            try { setAppointmentDetails(JSON.parse(savedAppointment)) } catch (e) { console.error(e) }
         }
 
         setIsHydrated(true)
     }, [])
 
-    // Save to localStorage whenever items change
+    // Save to localStorage
     useEffect(() => {
         if (isHydrated) {
             localStorage.setItem('qala_assortment', JSON.stringify(items))
-        }
-    }, [items, isHydrated])
-
-    // Save to localStorage whenever sampleItems change
-    useEffect(() => {
-        if (isHydrated) {
             localStorage.setItem('qala_sample_cart', JSON.stringify(sampleItems))
+            localStorage.setItem('qala_order_quantities', JSON.stringify(orderQuantities))
+            localStorage.setItem('qala_customization_notes', JSON.stringify(customizationNotes))
+            localStorage.setItem('qala_appointment', JSON.stringify(appointmentDetails))
         }
-    }, [sampleItems, isHydrated])
+    }, [items, sampleItems, orderQuantities, customizationNotes, appointmentDetails, isHydrated])
 
     const addItem = (product: Product) => {
         if (items.length >= 10) return false
@@ -92,23 +110,12 @@ export function AssortmentProvider({ children }: { children: ReactNode }) {
     // Sample Crate Methods
     const addToSampleCart = (product: Product, size: string) => {
         if (sampleItems.length >= 5) return false
-        // Check if product is already in cart (regardless of size, or maybe allow different sizes? Assuming 1 per product for now based on "selected" state)
         if (sampleItems.some(i => i.product.id === product.id)) {
-            // Update size if already exists? Or just return false?
-            // Let's update size if it exists, or return false if we want strict "already added"
-            // For now, let's just add it. If it exists, we replace it?
-            // User requirement: "product will be denoted as selected".
-            // So if I select it again, maybe I change size.
             setSampleItems(prev => {
-                const existing = prev.find(i => i.product.id === product.id)
-                if (existing) {
-                    return prev.map(i => i.product.id === product.id ? { product, size } : i)
-                }
-                return [...prev, { product, size }]
+                return prev.map(i => i.product.id === product.id ? { product, size } : i)
             })
             return true
         }
-
         setSampleItems(prev => [...prev, { product, size }])
         return true
     }
@@ -121,10 +128,45 @@ export function AssortmentProvider({ children }: { children: ReactNode }) {
         return sampleItems.some(i => i.product.id === productId)
     }
 
+    // B2B Order Methods
+    const updateOrderQuantity = (productId: string, size: string, quantity: number) => {
+        setOrderQuantities(prev => {
+            const productQty = prev[productId] || {}
+            if (quantity <= 0) {
+                const { [size]: _, ...rest } = productQty
+                if (Object.keys(rest).length === 0) {
+                    const { [productId]: __, ...restProducts } = prev
+                    return restProducts
+                }
+                return { ...prev, [productId]: rest }
+            }
+            return {
+                ...prev,
+                [productId]: {
+                    ...productQty,
+                    [size]: quantity
+                }
+            }
+        })
+    }
+
+    const updateCustomizationNote = (productId: string, note: string) => {
+        setCustomizationNotes(prev => ({
+            ...prev,
+            [productId]: note
+        }))
+    }
+
+    const scheduleAppointment = (date: string, slot: string) => {
+        setAppointmentDetails({ scheduled: true, date, slot })
+    }
+
     return (
         <AssortmentContext.Provider value={{
             items, addItem, removeItem, setItems, isTrayOpen, setTrayOpen,
-            sampleItems, addToSampleCart, removeFromSampleCart, isInSampleCart
+            sampleItems, addToSampleCart, removeFromSampleCart, isInSampleCart,
+            orderQuantities, updateOrderQuantity, customizationNotes, updateCustomizationNote,
+            appointmentDetails, scheduleAppointment
         }}>
             {children}
         </AssortmentContext.Provider>

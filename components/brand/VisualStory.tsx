@@ -15,11 +15,11 @@ interface VisualStoryProps {
 
 export function VisualStory({ mediaItems, processText }: VisualStoryProps) {
     return (
-        <section className="py-48 md:py-64 px-12 md:px-24 bg-white">
-            <div className="max-w-[1800px] mx-auto">
+        <section className="py-40 pb-64 px-6 md:px-12 bg-white">
+            <div className="max-w-[1600px] mx-auto">
 
                 {/* Grid Layout - Mixed Media */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-y-32 gap-x-24 items-center">
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-y-24 gap-x-12 items-center">
 
                     {/* Item 1: Portrait (Left) */}
                     <div className="md:col-span-4 relative aspect-[3/4]">
@@ -27,20 +27,20 @@ export function VisualStory({ mediaItems, processText }: VisualStoryProps) {
                             src={mediaItems[0].src}
                             alt={mediaItems[0].alt || "Campaign Shot"}
                             fill
-                            className="object-cover grayscale hover:grayscale-0 transition-all duration-[1.5s]"
+                            className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
                         />
                     </div>
 
                     {/* Process Text (Center) - Flanked by images */}
-                    <div className="md:col-span-4 flex flex-col justify-center text-center px-8">
+                    <div className="md:col-span-4 flex flex-col justify-center text-center px-4">
                         <motion.div
-                            initial={{ opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 1 }}
+                            transition={{ duration: 0.8 }}
                         >
-                            <h3 className="text-xs uppercase tracking-[0.3em] text-gray-400 mb-12">The Process</h3>
-                            <p className="text-xl md:text-2xl font-light leading-loose text-black tracking-wide">
+                            <h3 className="text-xs uppercase tracking-[0.2em] text-gray-400 mb-6">The Process</h3>
+                            <p className="text-lg md:text-xl font-serif leading-relaxed text-black line-clamp-5">
                                 {processText}
                             </p>
                         </motion.div>

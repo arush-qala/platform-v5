@@ -13,56 +13,52 @@ export default function ExperiencePage() {
 
             {/* Header */}
             <div className="text-center mb-16 z-10 px-4">
-                <h1 className="font-serif text-2xl mb-4 text-black">Experience this brand</h1>
-                <p className="text-gray-500 font-light text-base">Choose how you'd like to experience this brand before placing an order.</p>
+                <h1 className="font-serif text-4xl mb-4 text-black">Experience this brand</h1>
+                <p className="text-gray-500 font-light text-lg">Choose how you'd like to experience this brand before placing an order.</p>
             </div>
 
             {/* Experience Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 max-w-7xl w-full px-8 z-10 mb-32">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full px-8 z-10 mb-20">
                 <Link href="/experience/sample-crate">
                     <ExperienceCard
-                        icon={<ShoppingBag size={48} strokeWidth={0.75} />}
+                        icon={<ShoppingBag size={48} strokeWidth={1} />}
                         title="Order Sample Crate"
                         description="Order a sample crate @ manf cost (upto 5 pieces)"
                     />
                 </Link>
-                <Link href="/experience/private-showcase">
-                    <ExperienceCard
-                        icon={<Shirt size={48} strokeWidth={0.75} />}
-                        title="Request Private Showcase"
-                        description="Schedule an in-person viewing with the Qala team"
-                    />
-                </Link>
-                <Link href="/experience/trade-show">
-                    <ExperienceCard
-                        icon={<MapPin size={48} strokeWidth={0.75} />}
-                        title="Meet at a Trade Show"
-                        description="Catch the brand at an upcoming Trade show"
-                    />
-                </Link>
+                <ExperienceCard
+                    icon={<Shirt size={48} strokeWidth={1} />}
+                    title="Request Private Showcase"
+                    description="Schedule an in-person viewing with the Qala team"
+                />
+                <ExperienceCard
+                    icon={<MapPin size={48} strokeWidth={1} />}
+                    title="Meet at a Trade Show"
+                    description="Catch the brand at an upcoming Trade show"
+                />
             </div>
 
             {/* Proceed CTA */}
-            <div className="w-full max-w-7xl px-8 z-10">
+            <div className="w-full max-w-6xl px-8 z-10">
                 <Link href="/order" className="block w-full">
                     <motion.div
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
-                        className="w-full bg-white border border-gray-200 py-12 flex flex-col items-center justify-center gap-4 shadow-sm hover:shadow-md transition-all cursor-pointer group rounded-none"
+                        className="w-full bg-white border border-gray-200 py-8 flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all cursor-pointer group"
                     >
-                        <h2 className="font-light text-2xl tracking-wide text-black group-hover:text-gray-800">Proceed to Order</h2>
-                        <p className="text-xs text-gray-400 font-light tracking-wide uppercase">Skip physical experience and go straight to quantities and order details</p>
+                        <h2 className="font-serif text-2xl text-black group-hover:text-gray-800">Proceed to Order</h2>
+                        <p className="text-sm text-gray-400 font-light">Skip physical experience and go straight to quantities and order details</p>
                     </motion.div>
                 </Link>
             </div>
 
             {/* Floating Chat Button */}
-            <button className="fixed bottom-12 right-12 bg-white border border-gray-200 shadow-lg p-6 flex items-center gap-4 hover:bg-gray-50 transition-colors z-50 group rounded-none">
+            <button className="fixed bottom-8 right-8 bg-white border border-gray-200 shadow-lg p-4 rounded-full flex items-center gap-3 hover:bg-gray-50 transition-colors z-50 group">
                 <div className="text-right hidden group-hover:block">
                     <p className="text-[10px] text-gray-400 uppercase tracking-widest">Need help deciding?</p>
-                    <p className="text-xs font-medium uppercase tracking-wider">Chat with us</p>
+                    <p className="text-xs font-medium">Chat with us</p>
                 </div>
-                <MessageCircle size={24} strokeWidth={1} />
+                <MessageCircle size={24} />
             </button>
         </div>
     )
@@ -71,7 +67,7 @@ export default function ExperiencePage() {
 function ExperienceCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
     return (
         <motion.div
-            className="aspect-square bg-white border border-gray-100 flex flex-col items-center justify-center p-12 text-center cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-xl transition-all duration-700 rounded-none"
+            className="aspect-square bg-white border border-gray-100 flex flex-col items-center justify-center p-8 text-center cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
         >
             {/* Default State: Icon + Title */}
             <motion.div
@@ -80,7 +76,7 @@ function ExperienceCard({ icon, title, description }: { icon: React.ReactNode, t
                 <div className="text-gray-800 group-hover:scale-110 transition-transform duration-500">
                     {icon}
                 </div>
-                <h3 className="font-serif text-lg text-gray-900">{title}</h3>
+                <h3 className="font-serif text-xl text-gray-900">{title}</h3>
             </motion.div>
 
             {/* Hover State: Description Slide Up */}

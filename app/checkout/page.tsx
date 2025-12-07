@@ -54,7 +54,7 @@ export default function CheckoutPage() {
                         <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                             <ArrowLeft size={20} />
                         </button>
-                        <h1 className="font-serif text-base">Shopping Bag ({sampleItems.length})</h1>
+                        <h1 className="font-serif text-3xl">Shopping Bag ({sampleItems.length})</h1>
                     </div>
 
                     {/* Items List */}
@@ -75,20 +75,20 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex-1 flex justify-between">
                                     <div className="space-y-2">
-                                        <h3 className="font-serif text-xs">{item.product.name}</h3>
-                                        <p className="text-xs text-gray-500">Sample ID: {item.product.id.slice(0, 8)}</p>
+                                        <h3 className="font-serif text-xl">{item.product.name}</h3>
+                                        <p className="text-sm text-gray-500">Sample ID: {item.product.id.slice(0, 8)}</p>
                                         <div className="flex items-center gap-4 mt-4">
-                                            <div className="bg-gray-50 px-3 py-1 rounded text-[10px] font-medium">
+                                            <div className="bg-gray-50 px-3 py-1 rounded text-xs font-medium">
                                                 Size: {item.size}
                                             </div>
-                                            <div className="text-[10px] text-green-600 flex items-center gap-1">
+                                            <div className="text-xs text-green-600 flex items-center gap-1">
                                                 <ShieldCheck size={12} />
                                                 Import duties included
                                             </div>
                                         </div>
                                     </div>
                                     <div className="text-right flex flex-col justify-between">
-                                        <p className="font-medium text-sm">${SAMPLE_PRICE}</p>
+                                        <p className="font-medium">${SAMPLE_PRICE}</p>
                                         <button
                                             onClick={() => removeFromSampleCart(item.product.id)}
                                             className="text-gray-400 hover:text-red-500 transition-colors self-end p-2"
@@ -105,9 +105,9 @@ export default function CheckoutPage() {
                     <div className="bg-gray-50 p-6 rounded-xl space-y-4">
                         <div className="flex items-center gap-3 text-gray-800">
                             <Truck size={20} />
-                            <h3 className="font-medium text-xs">Estimated Delivery</h3>
+                            <h3 className="font-medium">Estimated Delivery</h3>
                         </div>
-                        <p className="text-xs text-gray-500 pl-8">
+                        <p className="text-sm text-gray-500 pl-8">
                             Express Shipping • 3-5 Business Days
                         </p>
                     </div>
@@ -116,9 +116,9 @@ export default function CheckoutPage() {
                 {/* Right Column: Order Summary */}
                 <div className="lg:col-span-5">
                     <div className="sticky top-12 bg-gray-50 p-8 rounded-2xl space-y-8">
-                        <h2 className="font-serif text-sm">Summary</h2>
+                        <h2 className="font-serif text-2xl">Summary</h2>
 
-                        <div className="space-y-4 text-xs">
+                        <div className="space-y-4 text-sm">
                             <div className="flex justify-between text-gray-600">
                                 <span>Subtotal</span>
                                 <span>${subtotal.toFixed(2)}</span>
@@ -134,10 +134,10 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
-                            <span className="font-medium text-base">Total</span>
+                            <span className="font-medium text-lg">Total</span>
                             <div className="text-right">
-                                <span className="font-bold text-xl block">${total.toFixed(2)}</span>
-                                <span className="text-[10px] text-gray-500">Import duties included</span>
+                                <span className="font-bold text-2xl block">${total.toFixed(2)}</span>
+                                <span className="text-xs text-gray-500">Import duties included</span>
                             </div>
                         </div>
 
