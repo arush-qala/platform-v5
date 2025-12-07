@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Minus } from 'lucide-react'
 import Link from 'next/link'
+import { AssortmentActions } from './AssortmentActions'
 
 interface ProductSize {
   id: string
@@ -68,7 +69,7 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
         <div className="mb-8 pb-8 border-b border-gray-100">
           {/* Brand Name (Clickable) */}
           {brandName && brandSlug && (
-            <Link 
+            <Link
               href={`/brands/${brandSlug}`}
               className="block text-[10px] text-gray-600 hover:text-black uppercase tracking-[0.25em] mb-4 transition-colors"
             >
@@ -89,24 +90,24 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
             ${product.price.toFixed(2)}
           </p>
 
-        {/* Description */}
-        {product.description && (
+          {/* Description */}
+          {product.description && (
             <p className="text-[15px] text-[#666] leading-[1.6] mb-4">
               {product.description}
             </p>
-        )}
+          )}
 
-        {/* Available Colors */}
+          {/* Available Colors */}
           <div className="mb-4">
             <p className="text-xs text-[#666] mb-2 uppercase tracking-wide font-light">Available Colors</p>
             <div className="flex gap-3">
-            {colors.map((color: string, index: number) => (
+              {colors.map((color: string, index: number) => (
                 <span key={index} className="text-xs text-[#666]">
-                {color}
-              </span>
-            ))}
+                  {color}
+                </span>
+              ))}
+            </div>
           </div>
-        </div>
 
           {/* Size Guide Link */}
           <a href="#" className="inline-block text-[10px] text-black underline hover:text-gray-600 transition-colors uppercase tracking-[0.2em] mt-2">
@@ -123,13 +124,11 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
             {product.sizes.map((size, index) => (
               <div
                 key={size.id}
-                className={`flex items-center justify-between px-0 py-4 transition-all ${
-                  index !== product.sizes.length - 1 ? 'border-b border-[#f0f0f0]' : ''
-                } ${
-                  size.inStock
+                className={`flex items-center justify-between px-0 py-4 transition-all ${index !== product.sizes.length - 1 ? 'border-b border-[#f0f0f0]' : ''
+                  } ${size.inStock
                     ? 'hover:bg-gray-50'
                     : 'opacity-50'
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-8 flex-1">
                   <span className="text-[14px] font-normal text-[#1a1a1a] w-12 uppercase tracking-wide">
@@ -165,30 +164,10 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
           </div>
         </div>
 
-        {/* SECTION 3: ORDER SUMMARY */}
-        {totalQuantity > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-[#f8f7f5] border border-[#e5e5e5] p-6 mb-8"
-          >
-            <div className="flex items-center justify-between mb-5">
-              <div>
-                <p className="text-[10px] text-[#999] mb-1 uppercase tracking-[0.15em]">Total Quantity</p>
-                <p className="text-base font-light text-[#1a1a1a]">{totalQuantity} pieces</p>
-              </div>
-              <div className="text-right">
-                <p className="text-[10px] text-[#999] mb-1 uppercase tracking-[0.15em]">Estimated Total</p>
-                <p className="text-xl font-light text-[#1a1a1a] tracking-[0.5px]">
-                  ${totalPrice.toFixed(2)}
-                </p>
-              </div>
-            </div>
-            <button className="w-full py-4 bg-black hover:bg-gray-800 text-white font-light transition-all tracking-[0.15em] text-[12px]">
-              Send Enquiry
-            </button>
-          </motion.div>
-        )}
+        {/* SECTION 3: ACTIONS */}
+        <div className="bg-[#f8f7f5] border border-[#e5e5e5] p-6 mb-8">
+          <AssortmentActions product={product} />
+        </div>
 
         {/* SECTION 4: DETAILED INFORMATION TABS */}
         <div className="mb-8 pt-16">
@@ -198,11 +177,10 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-5 py-3 text-[11px] transition-all tracking-[0.08em] relative ${
-                  activeTab === tab.id
-                    ? 'text-[#1a1a1a] font-medium'
-                    : 'text-[#888] font-normal hover:text-[#1a1a1a]'
-                }`}
+                className={`px-5 py-3 text-[11px] transition-all tracking-[0.08em] relative ${activeTab === tab.id
+                  ? 'text-[#1a1a1a] font-medium'
+                  : 'text-[#888] font-normal hover:text-[#1a1a1a]'
+                  }`}
               >
                 {tab.label}
                 {activeTab === tab.id && (
@@ -262,8 +240,8 @@ export function ProductDetails({ product, brandName, brandSlug }: ProductDetails
                       Wash care - Dry clean only
                     </p>
                     <p className="text-[13px] text-[#999] leading-[1.6]">
-                      Disclaimer: This product will be exclusively handcrafted for you, making the 
-                      colour/texture/pattern slightly vary from the image shown, due to multiple 
+                      Disclaimer: This product will be exclusively handcrafted for you, making the
+                      colour/texture/pattern slightly vary from the image shown, due to multiple
                       artisan-led techniques and processes involved.
                     </p>
                   </>

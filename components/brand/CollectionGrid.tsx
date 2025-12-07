@@ -8,13 +8,15 @@ interface Collection {
     name: string
     season: string
     thumbnail: string
+    slug: string
 }
 
 interface CollectionGridProps {
     collections: Collection[]
+    brandSlug: string
 }
 
-export function CollectionGrid({ collections }: CollectionGridProps) {
+export function CollectionGrid({ collections, brandSlug }: CollectionGridProps) {
     return (
         <section className="py-32 px-6 md:px-12 bg-white">
             <div className="max-w-[1600px] mx-auto">
@@ -28,7 +30,7 @@ export function CollectionGrid({ collections }: CollectionGridProps) {
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-16">
                     {collections.map((collection) => (
-                        <Link key={collection.id} href={`/collection/${collection.id}`} className="group block cursor-pointer">
+                        <Link key={collection.id} href={`/brands/${brandSlug}/collections/${collection.slug}`} className="group block cursor-pointer">
                             <div className="relative aspect-[3/4] overflow-hidden bg-gray-100 mb-6">
                                 <Image
                                     src={collection.thumbnail}

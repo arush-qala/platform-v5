@@ -6,8 +6,8 @@
     "description": "Main collection of upcycled fashion from Doodlage.",
     "season": "Fall/Winter",
     "year": "2024",
-    "coverImage": "/images/brands/doodlage/collection-cover.jpg",
-    "lookbookImages": "[]",
+    "coverImage": "/images/brands/doodlage/austin-coral-set-doodlage-1.jpg",
+    "lookbookImages": "[\"/images/brands/doodlage/abby-brown-skirt-doodlage-1.jpg\", \"/images/brands/doodlage/alice-red-dress-doodlage-1.jpg\", \"/images/brands/doodlage/amelia-trench-dl-1.jpg\", \"/images/brands/doodlage/amin-printed-dress-dl-1.jpg\", \"/images/brands/doodlage/august-white-dress-dl-1.png\"]",
     "featured": true
   }
 ]

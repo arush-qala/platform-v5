@@ -86,7 +86,8 @@ export default function BrandPage() {
     id: c.id,
     name: c.name,
     season: c.season,
-    thumbnail: c.coverImage
+    thumbnail: c.coverImage,
+    slug: c.slug
   }))
 
   return (
@@ -142,7 +143,7 @@ export default function BrandPage() {
 
       {/* 5. More Collections */}
       {otherCollections.length > 0 && (
-        <CollectionGrid collections={otherCollections} />
+        <CollectionGrid collections={otherCollections} brandSlug={slug} />
       )}
 
       {/* 6. Footer / Social CTA */}

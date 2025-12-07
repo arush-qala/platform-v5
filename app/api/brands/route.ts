@@ -93,7 +93,7 @@ export async function GET(request: NextRequest) {
     if (category && category !== 'Everything') {
       brands = brands.filter(brand => {
         const aesthetic = JSON.parse(brand.aesthetic)
-        return aesthetic.some((tag: string) => 
+        return aesthetic.some((tag: string) =>
           tag.toLowerCase().includes(category.toLowerCase()) ||
           category.toLowerCase().includes(tag.toLowerCase())
         )
@@ -133,6 +133,13 @@ export async function GET(request: NextRequest) {
       })
       brands = [...brands, ...additionalBrands]
     }
+
+    // Sort brands to prioritize 'doodlage' as Label 1
+    brands.sort((a, b) => {
+      if (a.slug === 'doodlage') return -1
+      if (b.slug === 'doodlage') return 1
+      return 0
+    })
 
     return NextResponse.json(brands)
   } catch (error) {

@@ -93,8 +93,21 @@ async function importBrands() {
 
     for (const brandData of brandsData) {
         try {
-            const brand = await prisma.brand.create({
-                data: {
+            const brand = await prisma.brand.upsert({
+                where: { slug: brandData.slug },
+                update: {
+                    name: brandData.name,
+                    description: brandData.description,
+                    story: brandData.story,
+                    videoUrl: brandData.videoUrl,
+                    logoUrl: brandData.logoUrl,
+                    coverImage: brandData.coverImage,
+                    founded: brandData.founded,
+                    location: brandData.location,
+                    aesthetic: brandData.aesthetic,
+                    featured: brandData.featured,
+                },
+                create: {
                     name: brandData.name,
                     slug: brandData.slug,
                     description: brandData.description,
@@ -108,9 +121,9 @@ async function importBrands() {
                     featured: brandData.featured,
                 },
             })
-            console.log(`✅ Created brand: ${brand.name} (${brand.slug})`)
+            console.log(`✅ Upserted brand: ${brand.name} (${brand.slug})`)
         } catch (error) {
-            console.error(`❌ Failed to create brand: ${brandData.name}`, error)
+            console.error(`❌ Failed to upsert brand: ${brandData.name}`, error)
         }
     }
 }
@@ -137,8 +150,23 @@ async function importCollections() {
                 continue
             }
 
-            const collection = await prisma.collection.create({
-                data: {
+            const collection = await prisma.collection.upsert({
+                where: {
+                    brandId_slug: {
+                        brandId: brand.id,
+                        slug: collectionData.slug,
+                    }
+                },
+                update: {
+                    name: collectionData.name,
+                    description: collectionData.description,
+                    season: collectionData.season,
+                    year: collectionData.year,
+                    coverImage: collectionData.coverImage,
+                    lookbookImages: collectionData.lookbookImages,
+                    featured: collectionData.featured,
+                },
+                create: {
                     brandId: brand.id,
                     name: collectionData.name,
                     slug: collectionData.slug,
@@ -150,9 +178,9 @@ async function importCollections() {
                     featured: collectionData.featured,
                 },
             })
-            console.log(`✅ Created collection: ${collection.name} (${brand.name}/${collection.slug})`)
+            console.log(`✅ Upserted collection: ${collection.name} (${brand.name}/${collection.slug})`)
         } catch (error) {
-            console.error(`❌ Failed to create collection: ${collectionData.name}`, error)
+            console.error(`❌ Failed to upsert collection: ${collectionData.name}`, error)
         }
     }
 }
@@ -189,6 +217,21 @@ async function importProducts() {
 
             if (!collection) {
                 console.error(`❌ Collection not found: ${productData.collectionSlug} (brand: ${productData.brandSlug})`)
+                continue
+            }
+
+            // Check if product already exists
+            const existingProduct = await prisma.product.findUnique({
+                where: {
+                    collectionId_slug: {
+                        collectionId: collection.id,
+                        slug: productData.slug
+                    }
+                }
+            })
+
+            if (existingProduct) {
+                console.log(`⏭️  Skipping existing product: ${productData.name}`)
                 continue
             }
 
