@@ -141,7 +141,13 @@ export async function GET(request: NextRequest) {
       return 0
     })
 
-    return NextResponse.json(brands)
+    return NextResponse.json(brands, {
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    })
   } catch (error) {
     console.error('Error fetching brands:', error)
     return NextResponse.json(
