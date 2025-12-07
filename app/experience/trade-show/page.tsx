@@ -20,7 +20,7 @@ export default function TradeShowPage() {
             location: "Palais de Tokyo, Paris",
             venue: "Gallery 3, Booth 42",
             collection: "Qala SS26 Main",
-            image: "https://images.unsplash.com/photo-1500917293048-f4605911dd46?q=80&w=2970&auto=format&fit=crop"
+            image: "/images/trade-show-paris.png"
         },
         {
             id: 'coterie-26',
@@ -30,7 +30,7 @@ export default function TradeShowPage() {
             location: "Javits Center, NYC",
             venue: "Level 3, Booth 104",
             collection: "Qala SS26 Edit",
-            image: "https://images.unsplash.com/photo-1549890632-15f532b27072?q=80&w=2692&auto=format&fit=crop"
+            image: "/images/trade-show-ny.png"
         }
     ]
 
