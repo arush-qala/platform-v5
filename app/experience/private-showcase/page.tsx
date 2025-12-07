@@ -57,7 +57,7 @@ export default function PrivateShowcasePage() {
                 </button>
             </div>
 
-            <div className="max-w-7xl mx-auto px-8 pt-32 pb-12">
+            <div className="max-w-7xl mx-auto px-8 pt-48 pb-24">
                 {/* Progress Indicator (Optional) */}
                 {step < 3 && (
                     <div className="flex justify-center mb-16 gap-4">
