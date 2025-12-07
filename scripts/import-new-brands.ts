@@ -138,7 +138,7 @@ async function main() {
         // --- STEP C: Import Products ---
         console.log(`   📄 Parsing products from ${brandConfig.csvFile}...`);
         const productsCsv = fs.readFileSync(path.join(process.cwd(), 'data-import', brandConfig.csvFile), 'utf-8');
-        const productRecords = parse(productsCsv, {
+        const productRecords: any[] = parse(productsCsv, {
             columns: true,
             skip_empty_lines: true
         });
