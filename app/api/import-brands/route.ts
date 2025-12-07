@@ -190,7 +190,7 @@ export async function POST(request: NextRequest) {
 
                 if (!collectionId) {
                     if (collectionNameIdMap.size > 0) {
-                        collectionId = collectionNameIdMap.values().next().value
+                        collectionId = collectionNameIdMap.values().next().value!
                     } else {
                         continue
                     }
