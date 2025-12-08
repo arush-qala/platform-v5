@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { X, ArrowLeft, CreditCard, Truck, ShieldCheck } from 'lucide-react'
@@ -13,6 +13,12 @@ export default function CheckoutPage() {
     const router = useRouter()
     const { sampleItems, removeFromSampleCart } = useAssortment()
     const [isProcessing, setIsProcessing] = useState(false)
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+        console.log('Checkout Page Mounted. SampleItems:', sampleItems.length)
+    }, [sampleItems])
 
     // Calculations
     const SAMPLE_PRICE = 50
@@ -30,10 +36,13 @@ export default function CheckoutPage() {
         }, 2000)
     }
 
+    if (!mounted) return <div className="min-h-screen flex items-center justify-center">Loading...</div>
+
     if (sampleItems.length === 0) {
         return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-                <h1 className="text-2xl font-serif mb-4">Your Cart is Empty</h1>
+            <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4">
+                <h1 className="text-2xl font-serif">Your Cart is Empty</h1>
+                <p className="text-mono text-xs text-red-500">DEBUG: SampleItems length is 0</p>
                 <button
                     onClick={() => router.back()}
                     className="text-sm underline underline-offset-4"
@@ -54,7 +63,10 @@ export default function CheckoutPage() {
                         <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                             <ArrowLeft size={20} />
                         </button>
-                        <h1 className="font-serif text-3xl">Shopping Bag ({sampleItems.length})</h1>
+                        <div>
+                            <h1 className="font-serif text-3xl">Shopping Bag ({sampleItems.length})</h1>
+                            <p className="text-xs text-red-500 font-mono mt-1">DEBUG: SampleItems: {sampleItems.length}</p>
+                        </div>
                     </div>
 
                     {/* Items List */}
@@ -65,17 +77,24 @@ export default function CheckoutPage() {
                                 key={item.product.id}
                                 className="flex gap-6 border-b border-gray-100 pb-8"
                             >
-                                <div className="relative w-32 aspect-[3/4] bg-gray-50 rounded-lg overflow-hidden">
-                                    <Image
-                                        src={item.product.image}
-                                        alt={item.product.name}
-                                        fill
-                                        className="object-cover"
-                                    />
+                                <div className="relative w-32 aspect-[3/4] bg-gray-50 rounded-lg overflow-hidden border border-gray-200">
+                                    {item.product.image ? (
+                                        <Image
+                                            src={item.product.image}
+                                            alt={item.product.name || 'Product'}
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
+                                        />
+                                    ) : (
+                                        <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-xs text-center p-2">
+                                            No Image
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="flex-1 flex justify-between">
                                     <div className="space-y-2">
-                                        <h3 className="font-serif text-xl">{item.product.name}</h3>
+                                        <h3 className="font-serif text-xl">{item.product.name || 'Unnamed Product'}</h3>
                                         <p className="text-sm text-gray-500">Sample ID: {item.product.id.slice(0, 8)}</p>
                                         <div className="flex items-center gap-4 mt-4">
                                             <div className="bg-gray-50 px-3 py-1 rounded text-xs font-medium">
@@ -100,66 +119,43 @@ export default function CheckoutPage() {
                             </motion.div>
                         ))}
                     </div>
-
-                    {/* Delivery Info (Static) */}
-                    <div className="bg-gray-50 p-6 rounded-xl space-y-4">
-                        <div className="flex items-center gap-3 text-gray-800">
-                            <Truck size={20} />
-                            <h3 className="font-medium">Estimated Delivery</h3>
-                        </div>
-                        <p className="text-sm text-gray-500 pl-8">
-                            Express Shipping • 3-5 Business Days
-                        </p>
-                    </div>
                 </div>
 
                 {/* Right Column: Order Summary */}
                 <div className="lg:col-span-5">
-                    <div className="sticky top-12 bg-gray-50 p-8 rounded-2xl space-y-8">
-                        <h2 className="font-serif text-2xl">Summary</h2>
+                    <div className="bg-gray-50 p-8 rounded-2xl sticky top-8">
+                        <h2 className="font-serif text-2xl mb-8">Order Summary</h2>
 
-                        <div className="space-y-4 text-sm">
+                        <div className="space-y-4 mb-8">
                             <div className="flex justify-between text-gray-600">
                                 <span>Subtotal</span>
-                                <span>${subtotal.toFixed(2)}</span>
+                                <span>${subtotal}</span>
                             </div>
                             <div className="flex justify-between text-gray-600">
-                                <span>Delivery</span>
-                                <span>${SHIPPING_COST.toFixed(2)}</span>
+                                <span>Simulated Shipping</span>
+                                <span>${SHIPPING_COST}</span>
                             </div>
-                            <div className="flex justify-between text-green-600">
-                                <span>Sale (Sample Pricing)</span>
-                                <span>Included</span>
-                            </div>
-                        </div>
-
-                        <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
-                            <span className="font-medium text-lg">Total</span>
-                            <div className="text-right">
-                                <span className="font-bold text-2xl block">${total.toFixed(2)}</span>
-                                <span className="text-xs text-gray-500">Import duties included</span>
+                            <div className="pt-4 border-t border-gray-200 flex justify-between text-lg font-medium">
+                                <span>Total</span>
+                                <span>${total}</span>
                             </div>
                         </div>
 
                         <button
                             onClick={handlePlaceOrder}
                             disabled={isProcessing}
-                            className="w-full bg-black text-white py-4 rounded-full uppercase tracking-widest text-sm font-bold hover:bg-gray-800 transition-all shadow-lg disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                            className="w-full bg-black text-white py-4 rounded-full font-medium tracking-widest hover:bg-gray-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                         >
-                            {isProcessing ? (
-                                <span className="animate-pulse">Processing...</span>
-                            ) : (
+                            {isProcessing ? 'Processing...' : (
                                 <>
-                                    Go To Checkout <CreditCard size={16} />
+                                    Complete Order <CreditCard size={18} />
                                 </>
                             )}
                         </button>
 
-                        <div className="flex items-center justify-center gap-4 text-gray-400">
-                            {/* Payment Icons Placeholder */}
-                            <div className="w-8 h-5 bg-gray-200 rounded" />
-                            <div className="w-8 h-5 bg-gray-200 rounded" />
-                            <div className="w-8 h-5 bg-gray-200 rounded" />
+                        <div className="mt-6 flex items-center justify-center gap-2 text-xs text-gray-400">
+                            <Truck size={14} />
+                            <span>Free returns within 30 days</span>
                         </div>
                     </div>
                 </div>
