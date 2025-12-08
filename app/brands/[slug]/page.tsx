@@ -63,8 +63,10 @@ export default function BrandPage() {
     )
   }
 
-  // Get featured collection for lookbook
-  const featuredCollection = brand.collections.find((c: any) => c.featured) || brand.collections[0]
+  // Get featured collection for lookbook - prioritize one with images
+  const featuredCollection = brand.collections.find((c: any) => c.featured && c.lookbookImages && c.lookbookImages.length > 10)
+    || brand.collections.find((c: any) => c.featured)
+    || brand.collections[0]
   const lookbookImages = featuredCollection ? JSON.parse(featuredCollection.lookbookImages || '[]') : []
 
   // Mock data for new components (will be replaced with real data)

@@ -19,11 +19,11 @@ export function LookbookViewer({ images, collectionName, brandSlug, collectionSl
         target: targetRef,
     })
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"])
-    const smoothX = useSpring(x, { damping: 15, stiffness: 100 })
+    const x = useTransform(scrollYProgress, [0, 0.85], ["0%", "-85%"])
+    const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
-        <section ref={targetRef} className="relative h-[400vh] bg-white pt-32">
+        <section ref={targetRef} className="relative h-[600vh] bg-white pt-32">
             {/* Sticky Container */}
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
