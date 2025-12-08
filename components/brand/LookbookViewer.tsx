@@ -21,8 +21,7 @@ export function LookbookViewer({ images, collectionName, brandSlug, collectionSl
     })
 
     // Map vertical scroll to horizontal movement. 
-    // We use -95% instead of -100% so the last image doesn't scroll completely off-screen.
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-95%"])
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"])
     const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
