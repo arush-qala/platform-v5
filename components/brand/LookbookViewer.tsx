@@ -19,7 +19,7 @@ export function LookbookViewer({ images, collectionName, brandSlug, collectionSl
         target: targetRef,
     })
 
-    const x = useTransform(scrollYProgress, [0, 0.85], ["0%", "-85%"])
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"])
     const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
