@@ -129,6 +129,8 @@ export default function BrandPage() {
         <LookbookViewer
           images={lookbookImages}
           collectionName={featuredCollection.name + ' - ' + featuredCollection.season}
+          brandSlug={slug}
+          collectionSlug={featuredCollection.slug}
         />
       )}
 
