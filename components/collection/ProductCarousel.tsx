@@ -34,7 +34,7 @@ export function ProductCarousel({ products, onSelect, heroData }: ProductCarouse
     // Hero is 100vw. Products are ~30-40vw each.
     // Total width is large. Let's try -85% to start, can be tuned.
     const x = useTransform(scrollYProgress, [0, 1], ["0%", "-85%"])
-    const smoothX = useSpring(x, { damping: 20, stiffness: 90 })
+    const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
         <section ref={targetRef} className="relative h-[600vh] bg-white">
