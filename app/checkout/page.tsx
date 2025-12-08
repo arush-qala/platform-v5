@@ -17,8 +17,7 @@ export default function CheckoutPage() {
 
     useEffect(() => {
         setMounted(true)
-        console.log('Checkout Page Mounted. SampleItems:', sampleItems.length)
-    }, [sampleItems])
+    }, [])
 
     // Calculations
     const SAMPLE_PRICE = 50
@@ -42,7 +41,6 @@ export default function CheckoutPage() {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center bg-white gap-4">
                 <h1 className="text-2xl font-serif">Your Cart is Empty</h1>
-                <p className="text-mono text-xs text-red-500">DEBUG: SampleItems length is 0</p>
                 <button
                     onClick={() => router.back()}
                     className="text-sm underline underline-offset-4"
@@ -65,7 +63,6 @@ export default function CheckoutPage() {
                         </button>
                         <div>
                             <h1 className="font-serif text-3xl">Shopping Bag ({sampleItems.length})</h1>
-                            <p className="text-xs text-red-500 font-mono mt-1">DEBUG: SampleItems: {sampleItems.length}</p>
                         </div>
                     </div>
 

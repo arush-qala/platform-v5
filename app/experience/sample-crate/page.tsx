@@ -20,8 +20,7 @@ export default function SampleSelectionPage() {
 
     useEffect(() => {
         setMounted(true)
-        console.log('SampleCrate Page Mounted. Items:', items.length, 'SampleItems:', sampleItems.length)
-    }, [items, sampleItems])
+    }, [])
 
     const handleProductClick = (product: any) => {
         if (isInSampleCart(product.id)) {
@@ -57,15 +56,6 @@ export default function SampleSelectionPage() {
                     <p className="text-gray-500 text-sm">
                         Choose up to 5 pieces from your assortment to order samples.
                     </p>
-                    {/* DEBUG AREA - REMOVED FOR FINAL PRODUCTION BUILD IF REQUESTED, BUT KEPT FOR NOW */}
-                    <div className="text-xs text-red-500 font-mono mt-2 space-y-1 p-2 bg-red-50 rounded border border-red-100">
-                        <p>DEBUG: Assortment Items: {items.length} | Sample Items: {sampleItems.length}</p>
-                        {items.length > 0 && (
-                            <pre className="whitespace-pre-wrap break-all text-[10px]">
-                                Item 1: {JSON.stringify(items[0], null, 2)}
-                            </pre>
-                        )}
-                    </div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right">
