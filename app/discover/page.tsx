@@ -124,12 +124,26 @@ function DiscoverContent() {
       const data = await response.json()
 
       /**
+       * BUSINESS REQUIREMENT: Display brands in specific order
+       * Order: AKHL Studio, Ituvana, Margn, Asaii, Doodlage
+       */
+      const brandOrder = ['akhl-studio', 'ituvana', 'margn', 'asaii', 'doodlage']
+      const sortedData = [...data].sort((a: Brand, b: Brand) => {
+        const indexA = brandOrder.indexOf(a.slug)
+        const indexB = brandOrder.indexOf(b.slug)
+        // If brand is not in the order list, put it at the end
+        const orderA = indexA === -1 ? 999 : indexA
+        const orderB = indexB === -1 ? 999 : indexB
+        return orderA - orderB
+      })
+
+      /**
        * BUSINESS REQUIREMENT: Limit to 5 brands
        * The discover page should show exactly 5 brand suggestions
        * This creates a focused, curated experience rather than overwhelming
        * the buyer with too many options
        */
-      setBrands(data.slice(0, 5))
+      setBrands(sortedData.slice(0, 5))
     } catch (error) {
       console.error('Error fetching brands:', error)
     } finally {
