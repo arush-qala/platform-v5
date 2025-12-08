@@ -24,7 +24,7 @@ export function LookbookViewer({ images, collectionName, brandSlug, collectionSl
     const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
-        <section ref={targetRef} className="relative h-[600vh] bg-white pt-32">
+        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: '600vh' }}>
             {/* Sticky Container */}
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 

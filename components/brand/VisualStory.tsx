@@ -15,7 +15,7 @@ interface VisualStoryProps {
 
 export function VisualStory({ mediaItems, processText }: VisualStoryProps) {
     return (
-        <section className="py-64 px-6 md:px-12 bg-white">
+        <section className="px-6 md:px-12 bg-white" style={{ padding: '256px 24px' }}>
             <div className="max-w-[1600px] mx-auto">
 
                 {/* Grid Layout - Mixed Media */}
