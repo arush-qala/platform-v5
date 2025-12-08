@@ -50,9 +50,9 @@ export default function SampleSelectionPage() {
     return (
         <div className="min-h-screen bg-white flex flex-col">
             {/* Header */}
-            <div className="px-12 py-8 flex justify-between items-center border-b border-gray-100">
+            <div className="px-12 pt-16 pb-8 flex justify-between items-center border-b border-gray-100">
                 <div>
-                    <h1 className="font-serif text-3xl mb-2">Select Samples</h1>
+                    <h1 className="font-serif text-2xl mb-2">Select Samples</h1>
                     <p className="text-gray-500 text-sm">
                         Choose up to 5 pieces from your assortment to order samples.
                     </p>
@@ -66,7 +66,7 @@ export default function SampleSelectionPage() {
                         disabled={sampleItems.length === 0}
                         onClick={() => router.push('/checkout')}
                         className={`px-8 py-3 rounded-full flex items-center gap-2 text-sm uppercase tracking-widest transition-all ${sampleItems.length > 0
-                            ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg'
+                            ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
                     >
                         Proceed to Checkout <ArrowRight size={16} />
@@ -92,10 +92,10 @@ export default function SampleSelectionPage() {
                                 key={item.id}
                                 layoutId={item.id}
                                 onClick={() => handleProductClick(item)}
-                                className={`relative flex-shrink-0 w-[300px] group cursor-pointer transition-all duration-300 ${isSelected ? 'scale-105' : 'hover:scale-105'}`}
+                                className={`relative flex-shrink-0 w-[240px] group cursor-pointer transition-all duration-300 ${isSelected ? 'scale-105' : 'hover:scale-105'}`}
                             >
                                 {/* Image Card */}
-                                <div className={`relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${isSelected ? 'ring-4 ring-black ring-offset-4' : 'border border-gray-200'} bg-white`}>
+                                <div className={`relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${isSelected ? 'ring-2 ring-black ring-offset-2' : 'border border-gray-200'} bg-white`}>
                                     {item.image ? (
                                         <Image
                                             src={item.image}
@@ -113,8 +113,8 @@ export default function SampleSelectionPage() {
 
                                     {isSelected && (
                                         <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-                                            <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl">
-                                                <Check size={24} />
+                                            <div className="bg-black text-white w-10 h-10 rounded-full flex items-center justify-center shadow-xl">
+                                                <Check size={20} />
                                             </div>
                                         </div>
                                     )}
@@ -122,13 +122,13 @@ export default function SampleSelectionPage() {
                                 </div>
 
                                 {/* Details */}
-                                <div className="mt-6 text-center">
-                                    <h3 className="font-serif text-xl mb-1">{item.name || 'Unnamed Product'}</h3>
-                                    <p className="text-sm text-gray-500 mb-2">
+                                <div className="mt-4 text-center">
+                                    <h3 className="font-serif text-base mb-1 leading-tight">{item.name || 'Unnamed Product'}</h3>
+                                    <p className="text-xs text-gray-500 mb-2">
                                         Sample Cost: <span className="text-black font-medium">$50</span>
                                     </p>
                                     {isSelected && (
-                                        <div className="inline-block bg-gray-100 px-3 py-1 rounded-full text-xs font-medium text-gray-600">
+                                        <div className="inline-block bg-gray-100 px-3 py-1 rounded-full text-[10px] font-medium text-gray-600">
                                             Size: {selectedSample?.size}
                                         </div>
                                     )}
