@@ -21,11 +21,11 @@ export function LookbookViewer({ images, collectionName, brandSlug, collectionSl
     })
 
     // Map vertical scroll to horizontal movement. 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"])
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-150%"])
     const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
-        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: '3000vh' }}>
+        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: '1500vh' }}>
             {/* Sticky Container */}
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
