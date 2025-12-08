@@ -57,9 +57,15 @@ export default function SampleSelectionPage() {
                     <p className="text-gray-500 text-sm">
                         Choose up to 5 pieces from your assortment to order samples.
                     </p>
-                    <p className="text-xs text-red-500 font-mono mt-2">
-                        DEBUG: Assortment Items: {items.length} | Sample Items: {sampleItems.length}
-                    </p>
+                    {/* DEBUG AREA - REMOVED FOR FINAL PRODUCTION BUILD IF REQUESTED, BUT KEPT FOR NOW */}
+                    <div className="text-xs text-red-500 font-mono mt-2 space-y-1 p-2 bg-red-50 rounded border border-red-100">
+                        <p>DEBUG: Assortment Items: {items.length} | Sample Items: {sampleItems.length}</p>
+                        {items.length > 0 && (
+                            <pre className="whitespace-pre-wrap break-all text-[10px]">
+                                Item 1: {JSON.stringify(items[0], null, 2)}
+                            </pre>
+                        )}
+                    </div>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right">
@@ -99,8 +105,22 @@ export default function SampleSelectionPage() {
                                 className={`relative flex-shrink-0 w-[300px] group cursor-pointer transition-all duration-300 ${isSelected ? 'scale-105' : 'hover:scale-105'}`}
                             >
                                 {/* Image Card */}
-                                <div className={`relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${isSelected ? 'ring-4 ring-black ring-offset-4' : 'border border-gray-200'}`}>
-                                    <Image src={item.image} alt={item.name} fill className="object-cover" />
+                                <div className={`relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${isSelected ? 'ring-4 ring-black ring-offset-4' : 'border border-gray-200'} bg-white`}>
+                                    {item.image ? (
+                                        <Image
+                                            src={item.image}
+                                            alt={item.name || 'Product'}
+                                            fill
+                                            className="object-cover"
+                                            // Add unoptimized to prevent Vercel Image Optimization issues with external URLs sometimes
+                                            unoptimized
+                                        />
+                                    ) : (
+                                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400">
+                                            <span className="text-xs">No Image</span>
+                                        </div>
+                                    )}
+
                                     {isSelected && (
                                         <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
                                             <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl">
@@ -113,7 +133,7 @@ export default function SampleSelectionPage() {
 
                                 {/* Details */}
                                 <div className="mt-6 text-center">
-                                    <h3 className="font-serif text-xl mb-1">{item.name}</h3>
+                                    <h3 className="font-serif text-xl mb-1">{item.name || 'Unnamed Product'}</h3>
                                     <p className="text-sm text-gray-500 mb-2">
                                         Sample Cost: <span className="text-black font-medium">$50</span>
                                     </p>
