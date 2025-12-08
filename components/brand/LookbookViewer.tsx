@@ -14,6 +14,7 @@ interface LookbookViewerProps {
 
 export function LookbookViewer({ images, collectionName, brandSlug, collectionSlug }: LookbookViewerProps) {
     const targetRef = useRef<HTMLDivElement>(null)
+    console.log("LookbookViewer: Loaded v2 (600vh, -100%)")
 
     const { scrollYProgress } = useScroll({
         target: targetRef,
