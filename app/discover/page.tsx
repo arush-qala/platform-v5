@@ -187,21 +187,62 @@ function DiscoverContent() {
    * IMAGE SELECTION LOGIC:
    * - Prefers collection cover images (more dynamic, shows variety)
    * - Falls back to brand cover image if not enough collections
-   * - Always ensures exactly 2 images for the two-column layout
+   * - Always ensures exactly 6 images for the grid layout
    * - Images displayed in full color (removed grayscale for richer feel)
    */
   const activeBrand = brands[activeBrandIndex]
 
-  // Get two images from the brand's collections or use cover image
-  const brandImages = activeBrand.collections.slice(0, 2).map(c => c.coverImage)
-  // Fallback to brand cover image if not enough collection images
-  if (brandImages.length < 2) {
-    brandImages.push(activeBrand.coverImage)
+  /**
+   * Brand Hero Images Mapping
+   * Maps brand slugs to their 6 hero look images stored locally
+   */
+  const heroImagesBySlug: Record<string, string[]> = {
+    'akhl-studio': [
+      '/images/discover/akhl-studio/1.webp',
+      '/images/discover/akhl-studio/2.webp',
+      '/images/discover/akhl-studio/3.webp',
+      '/images/discover/akhl-studio/4.webp',
+      '/images/discover/akhl-studio/5.webp',
+      '/images/discover/akhl-studio/6.webp',
+    ],
+    'asaii': [
+      '/images/discover/asaii/1.webp',
+      '/images/discover/asaii/2.webp',
+      '/images/discover/asaii/3.webp',
+      '/images/discover/asaii/4.webp',
+      '/images/discover/asaii/5.webp',
+      '/images/discover/asaii/6.webp',
+    ],
+    'doodlage': [
+      '/images/discover/doodlage/1.jpg',
+      '/images/discover/doodlage/2.webp',
+      '/images/discover/doodlage/3.webp',
+      '/images/discover/doodlage/4.webp',
+      '/images/discover/doodlage/5.webp',
+      '/images/discover/doodlage/6.webp',
+    ],
+    'ituvana': [
+      '/images/discover/ituvana/1.webp',
+      '/images/discover/ituvana/2.webp',
+      '/images/discover/ituvana/3.webp',
+      '/images/discover/ituvana/4.webp',
+      '/images/discover/ituvana/5.webp',
+      '/images/discover/ituvana/6.webp',
+    ],
+    'margn': [
+      '/images/discover/margn/1.webp',
+      '/images/discover/margn/2.webp',
+      '/images/discover/margn/3.webp',
+      '/images/discover/margn/4.webp',
+      '/images/discover/margn/5.webp',
+      '/images/discover/margn/6.webp',
+    ],
   }
-  // Ensure we always have 2 images (duplicate if necessary)
-  if (brandImages.length < 2) {
-    brandImages.push(activeBrand.coverImage)
-  }
+
+  // Get hero images for the active brand, fallback to collection images if not found
+  const brandImages = heroImagesBySlug[activeBrand.slug] ||
+    activeBrand.collections.slice(0, 6).map(c => c.coverImage)
+
 
   return (
     <main className="min-h-screen bg-white text-deep-charcoal flex flex-col relative overflow-hidden">
@@ -238,8 +279,8 @@ function DiscoverContent() {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 className="grid grid-cols-2 md:grid-cols-3 gap-4"
               >
-                {/* Ensure we have 6 images by repeating if necessary */}
-                {[...brandImages, ...brandImages, ...brandImages].slice(0, 6).map((img, i) => (
+                {/* Display 6 hero look images for the brand */}
+                {brandImages.slice(0, 6).map((img, i) => (
                   <div key={i} className="relative aspect-[3/4] w-full group overflow-hidden">
                     <Image
                       src={img}
