@@ -18,7 +18,7 @@ interface CollectionGridProps {
 
 export function CollectionGrid({ collections, brandSlug }: CollectionGridProps) {
     return (
-        <section className="py-32 px-6 md:px-12 bg-white">
+        <section className="py-64 px-6 md:px-12 bg-white">
             <div className="max-w-[1600px] mx-auto">
 
                 <div className="flex justify-between items-end mb-32">
