@@ -7,10 +7,11 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 
 // Sample Data - In a real app, this might come from a CMS or API
+// Sample Data - In a real app, this might come from a CMS or API
 const HERO_SLIDES: Slide[] = [
   {
     id: 1,
-    image: '/images/brands/doodlage/arlene-coral-dress-doodlage-1.jpg',
+    image: '/images/home/Q_BB_Doodlage.png',
     title: 'Doodlage',
     description: 'Upcycled factory waste into short limited edition collections.',
     category: 'Sustainable',
@@ -18,27 +19,35 @@ const HERO_SLIDES: Slide[] = [
   },
   {
     id: 2,
-    image: '/images/brands/doodlage/doris-green-dress-dl-1.jpg',
-    title: 'Eco-Chic Summer',
-    description: 'Breezy, sustainable fabrics designed for the modern conscious consumer.',
-    category: 'Dresses',
-    season: 'Summer/Spring'
+    image: '/images/home/Q_BB_Ituvana.png',
+    title: 'Ituvana',
+    description: 'Minimalist silhouettes crafted from handwoven textiles.',
+    category: 'Minimalist',
+    season: 'Resortwear'
   },
   {
     id: 3,
-    image: '/images/brands/doodlage/amelia-trench-dl-1.jpg',
-    title: 'Winter Layers',
-    description: 'Statement trenches and jackets crafted from industrial waste.',
-    category: 'Outerwear',
-    season: 'Fall/Winter'
+    image: '/images/home/Q_BB_Khara_Kapas.png',
+    title: 'Khara Kapas',
+    description: 'Pure mulmul cotton designs for the modern bohemian.',
+    category: 'Cotton',
+    season: 'Summer/Spring'
   },
   {
     id: 4,
-    image: '/images/brands/doodlage/austin-coral-set-doodlage-1.jpg',
-    title: 'Co-ordinated Style',
-    description: 'Effortless matching sets for a put-together look.',
-    category: 'Co-ord Sets',
-    season: 'Resortwear'
+    image: '/images/home/Q_BB_NaushadAli.png',
+    title: 'Naushad Ali',
+    description: 'Contemporary design meeting traditional craftsmanship.',
+    category: 'Contemporary',
+    season: 'Fall/Winter'
+  },
+  {
+    id: 5,
+    image: '/images/home/Q_BB_Capisvirleo.png',
+    title: 'Capisvirleo',
+    description: 'Luxury aesthetics tailored for the bold.',
+    category: 'Luxury',
+    season: 'Evening Wear'
   }
 ]
 
