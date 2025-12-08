@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { ArrowRight, Check, ShoppingBag } from 'lucide-react'
@@ -16,6 +16,12 @@ export default function SampleSelectionPage() {
     const { items, addToSampleCart, removeFromSampleCart, isInSampleCart, sampleItems } = useAssortment()
     const [selectedProductForSize, setSelectedProductForSize] = useState<any | null>(null)
     const [showLimitToast, setShowLimitToast] = useState(false)
+    const [mounted, setMounted] = useState(false)
+
+    useEffect(() => {
+        setMounted(true)
+        console.log('SampleCrate Page Mounted. Items:', items.length, 'SampleItems:', sampleItems.length)
+    }, [items, sampleItems])
 
     const handleProductClick = (product: any) => {
         if (isInSampleCart(product.id)) {
@@ -40,6 +46,8 @@ export default function SampleSelectionPage() {
         }
     }
 
+    if (!mounted) return <div className="p-12 text-center">Loading...</div>
+
     return (
         <div className="min-h-screen bg-white flex flex-col">
             {/* Header */}
@@ -48,6 +56,9 @@ export default function SampleSelectionPage() {
                     <h1 className="font-serif text-3xl mb-2">Select Samples</h1>
                     <p className="text-gray-500 text-sm">
                         Choose up to 5 pieces from your assortment to order samples.
+                    </p>
+                    <p className="text-xs text-red-500 font-mono mt-2">
+                        DEBUG: Assortment Items: {items.length} | Sample Items: {sampleItems.length}
                     </p>
                 </div>
                 <div className="flex items-center gap-4">
