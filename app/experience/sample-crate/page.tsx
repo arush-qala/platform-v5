@@ -12,20 +12,23 @@ export const dynamic = 'force-dynamic'
 
 export default function SampleSelectionPage() {
     const router = useRouter()
+    // Use 'items' (Assortment) as the source list. 'sampleItems' tracks selection.
     const { items, addToSampleCart, removeFromSampleCart, isInSampleCart, sampleItems } = useAssortment()
     const [selectedProductForSize, setSelectedProductForSize] = useState<any | null>(null)
     const [showLimitToast, setShowLimitToast] = useState(false)
 
     const handleProductClick = (product: any) => {
         if (isInSampleCart(product.id)) {
-            // toggle off
+            // If already selected, remove it (toggle behavior)
             removeFromSampleCart(product.id)
         } else {
+            // Check limit before adding
             if (sampleItems.length >= 5) {
                 setShowLimitToast(true)
                 setTimeout(() => setShowLimitToast(false), 3000)
                 return
             }
+            // Open size modal to select size and add
             setSelectedProductForSize(product)
         }
     }
@@ -66,14 +69,17 @@ export default function SampleSelectionPage() {
 
             {/* Main Content - Horizontal Scroll */}
             <div className="flex-1 flex items-center overflow-x-auto p-12 gap-12 bg-gray-50/30">
-                {sampleItems.length === 0 ? (
+                {/* Iterate over 'items' (the Assortment Tray selection) instead of 'sampleItems' */}
+                {items.length === 0 ? (
                     <div className="w-full text-center text-gray-400">
                         <p>Your assortment is empty. Go back to collections to add items.</p>
                     </div>
                 ) : (
-                    sampleItems.map((sample) => {
-                        const item = sample.product
+                    items.map((item) => {
                         const isSelected = isInSampleCart(item.id)
+                        // Find the size if it is selected (optional, for display)
+                        const selectedSample = sampleItems.find(s => s.product.id === item.id)
+
                         return (
                             <motion.div
                                 key={item.id}
@@ -102,7 +108,7 @@ export default function SampleSelectionPage() {
                                     </p>
                                     {isSelected && (
                                         <div className="inline-block bg-gray-100 px-3 py-1 rounded-full text-xs font-medium text-gray-600">
-                                            Size: {sample.size}
+                                            Size: {selectedSample?.size}
                                         </div>
                                     )}
                                 </div>
