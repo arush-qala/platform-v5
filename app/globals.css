@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Force Tailwind to generate these classes (Safelist) */
+/* py-48 py-64 h-[600vh] max-w-xl mt-6 */
+
 /* Qala Platform - Luxury Design System */
 
 /* Custom Fonts */
