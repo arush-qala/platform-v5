@@ -20,11 +20,13 @@ export function LookbookViewer({ images, collectionName, brandSlug, collectionSl
         target: targetRef,
     })
 
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"])
+    // Map vertical scroll to horizontal movement. 
+    // We use -95% instead of -100% so the last image doesn't scroll completely off-screen.
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-95%"])
     const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
-        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: '1000vh' }}>
+        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: '3000vh' }}>
             {/* Sticky Container */}
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
