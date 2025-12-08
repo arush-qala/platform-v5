@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useState, useEffect, useCallback } from 'react'
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
+import { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useMotionValue, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -15,54 +15,87 @@ interface LookbookViewerProps {
 export function LookbookViewer({ images, collectionName, brandSlug, collectionSlug }: LookbookViewerProps) {
     const targetRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-    const [scrollEndPercent, setScrollEndPercent] = useState(-100)
+    const [sectionHeight, setSectionHeight] = useState(500)
+    const [maxScrollPx, setMaxScrollPx] = useState(0)
 
-    // Calculate the scroll distance dynamically based on actual content width
-    const calculateScrollDistance = useCallback(() => {
-        if (contentRef.current) {
-            const contentWidth = contentRef.current.scrollWidth
-            const viewportWidth = window.innerWidth
+    // Motion value for x position (in pixels)
+    const xValue = useMotionValue(0)
+    const smoothX = useSpring(xValue, { damping: 30, stiffness: 100 })
 
-            // We need to move the content left by (contentWidth - viewportWidth)
-            // As a percentage of content width: ((contentWidth - viewportWidth) / contentWidth) * 100
-            // Add a small buffer (5%) to ensure the CTA is fully visible
-            const scrollPercent = ((contentWidth - viewportWidth) / contentWidth) * 100 + 5
-
-            console.log(`LookbookViewer v4: ${images.length} images, content=${contentWidth}px, viewport=${viewportWidth}px, scroll=${scrollPercent.toFixed(1)}%`)
-
-            setScrollEndPercent(-scrollPercent)
-        }
-    }, [images.length])
-
-    // Calculate on mount and when images change
+    // Calculate dimensions based on actual content
     useEffect(() => {
-        calculateScrollDistance()
+        const calculateDimensions = () => {
+            if (contentRef.current) {
+                const contentWidth = contentRef.current.scrollWidth
+                const viewportWidth = window.innerWidth
+                const viewportHeight = window.innerHeight
+
+                // Calculate how much we need to scroll horizontally (in pixels)
+                // Add buffer to ensure CTA is fully visible
+                const scrollDistancePx = Math.max(0, contentWidth - viewportWidth + 150)
+
+                // Calculate section height based on number of images
+                // Target: ~100vh per 4-5 images for a comfortable scroll pace
+                // With ~41 images, that's about 800-1000vh total
+                // But we also need to ensure scroll completes when horizontal content ends
+
+                // Alternative: base on scroll distance in "screens" worth
+                // If we're scrolling 10704px horizontally, and viewport is ~1156px
+                // That's about 9-10 "screens" of horizontal content
+                // Map that to roughly 6-8vh per "screen" of horizontal content
+                // So section height = (scrollDistance / viewportWidth) * 80vh
+
+                const horizontalScreens = scrollDistancePx / viewportWidth
+                // 80vh of vertical scrolling per horizontal screen of content
+                // This gives a comfortable 1:0.8 ratio (more horizontal movement per scroll)
+                const calculatedHeight = Math.max(400, Math.ceil(horizontalScreens * 80))
+
+                console.log(`LookbookViewer v9: ${images.length} images`)
+                console.log(`  Content: ${contentWidth}px, Viewport: ${viewportWidth}x${viewportHeight}`)
+                console.log(`  Horizontal screens: ${horizontalScreens.toFixed(1)}, Max scroll: ${scrollDistancePx}px`)
+                console.log(`  Section height: ${calculatedHeight}vh`)
+
+                setMaxScrollPx(scrollDistancePx)
+                setSectionHeight(calculatedHeight)
+            }
+        }
+
+        // Calculate after images are loaded and content rendered
+        const timer = setTimeout(calculateDimensions, 300)
 
         // Recalculate on window resize
-        window.addEventListener('resize', calculateScrollDistance)
-        return () => window.removeEventListener('resize', calculateScrollDistance)
-    }, [calculateScrollDistance])
+        window.addEventListener('resize', calculateDimensions)
+        return () => {
+            clearTimeout(timer)
+            window.removeEventListener('resize', calculateDimensions)
+        }
+    }, [images.length])
 
     const { scrollYProgress } = useScroll({
         target: targetRef,
     })
 
-    // Map vertical scroll to horizontal movement.
-    // The scroll percentage is dynamically calculated based on actual content width
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", `${scrollEndPercent}%`])
-    const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
+    // Subscribe to scroll progress and update x position
+    useEffect(() => {
+        const unsubscribe = scrollYProgress.on("change", (progress) => {
+            // Map scroll progress (0-1) to horizontal position (0 to -maxScrollPx)
+            const newX = -progress * maxScrollPx
+            xValue.set(newX)
+        })
 
-    // Calculate section height based on number of images
-    // More images = more scroll height needed for smooth experience
-    // Base: 300vh per 5 images, minimum 500vh
-    const sectionHeight = Math.max(500, Math.ceil(images.length / 5) * 300)
+        return () => unsubscribe()
+    }, [scrollYProgress, maxScrollPx, xValue])
 
     return (
-        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: `${sectionHeight}vh` }}>
+        <section
+            ref={targetRef}
+            className="relative bg-white pt-32"
+            style={{ height: `${sectionHeight}vh` }}
+        >
             {/* Sticky Container */}
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
-                {/* Section Header - Now in normal flow to prevent overlap */}
+                {/* Section Header */}
                 <div className="w-full px-12 pt-12 pb-40 flex justify-between items-end shrink-0 z-20 bg-white">
                     <div>
                         <h2 className="text-4xl font-serif text-black mb-2">Featured Lookbook</h2>
