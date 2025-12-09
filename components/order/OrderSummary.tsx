@@ -37,8 +37,8 @@ export default function OrderSummary() {
 
     return (
         <div className="bg-gray-50 p-8 rounded-xl sticky top-[120px] z-30">
-            <h2 className="font-serif text-2xl mb-2">Order Summary</h2>
-            <p className="text-gray-500 text-sm mb-8">Review your selection and proceed to verify details.</p>
+            <h2 className="font-serif !text-xl mb-4 text-black font-light tracking-wide">Order Summary</h2>
+            <p className="text-gray-500 text-xs font-light mb-8">Review your selection and proceed to verify details.</p>
 
             {/* Customisation / Appointment Section */}
             <div className="mb-8 border-b border-gray-200 pb-8">
@@ -62,15 +62,15 @@ export default function OrderSummary() {
                     <div className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                         <div className="flex items-center gap-3 mb-3">
                             <div className="bg-black text-white p-2 rounded-full">
-                                <Calendar size={16} />
+                                <Calendar size={14} />
                             </div>
-                            <h4 className="font-serif text-md">Need Customisations?</h4>
+                            <h4 className="font-serif text-sm">Need Customisations?</h4>
                         </div>
-                        <p className="text-xs text-gray-500 mb-4 leading-relaxed">
+                        <p className="text-[10px] text-gray-500 mb-4 leading-relaxed font-light">
                             Brands can customise sizing, designs, colors, and silhouettes for you. Schedule a call with the designer.
                         </p>
                         <Link href="/order/appointment">
-                            <button className="w-full py-2 bg-white border border-black text-xs uppercase tracking-wider font-medium hover:bg-black hover:text-white transition-all">
+                            <button className="w-full py-2 bg-white border border-black text-[10px] uppercase tracking-widest font-medium hover:bg-black hover:text-white transition-all">
                                 Schedule Appointment
                             </button>
                         </Link>
@@ -79,7 +79,7 @@ export default function OrderSummary() {
             </div>
 
             {/* Bill Breakdown */}
-            <div className="space-y-4 text-sm mb-8">
+            <div className="space-y-4 text-xs font-light mb-8">
                 <div className="flex justify-between text-gray-600">
                     <span>Selected Pieces</span>
                     <span>{totalQty}</span>
@@ -92,14 +92,14 @@ export default function OrderSummary() {
                     <span>Estimated Shipping</span>
                     <span>${SHIPPING_ESTIMATE.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-green-600 text-xs">
-                    <span className="flex items-center gap-1"><CheckCircle2 size={12} /> Import Duties</span>
+                <div className="flex justify-between text-green-600 text-[10px] uppercase tracking-wide">
+                    <span className="flex items-center gap-1"><CheckCircle2 size={10} /> Import Duties</span>
                     <span>Paid by Brand</span>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
-                    <span className="font-medium text-lg">Total</span>
-                    <span className="font-serif text-2xl">${total.toFixed(2)}</span>
+                    <span className="font-medium text-sm uppercase tracking-widest">Total</span>
+                    <span className="font-serif !text-xl text-black">${total.toFixed(2)}</span>
                 </div>
             </div>
 

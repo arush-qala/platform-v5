@@ -18,11 +18,11 @@ export default function OrderPage() {
             <div className="border-b border-gray-100 sticky top-0 bg-white/95 backdrop-blur-sm z-50">
                 <div className="max-w-7xl mx-auto px-8 py-6 flex items-center gap-4">
                     <Link href="/experience" className="p-2 hover:bg-gray-50 rounded-full transition-colors">
-                        <ArrowLeft size={18} className="text-gray-600" />
+                        <ArrowLeft size={16} className="text-gray-600" />
                     </Link>
                     <div>
-                        <h1 className="font-serif !text-xl mb-1 text-black">Start Your Order</h1>
-                        <p className="!text-xs text-gray-500">Qala / Assortment / Order</p>
+                        <h1 className="font-serif !text-lg mb-0.5 text-black font-light tracking-wide">Start Your Order</h1>
+                        <p className="!text-[10px] uppercase tracking-wider text-gray-500">Qala / Assortment / Order</p>
                     </div>
                 </div>
             </div>
@@ -33,8 +33,8 @@ export default function OrderPage() {
                     {/* Left Column: Product List */}
                     <div className="lg:col-span-8">
                         <div className="mb-12">
-                            <h2 className="font-serif !text-lg mb-2 text-black">My Assortment</h2>
-                            <p className="text-gray-500 font-light !text-sm">
+                            <h2 className="font-serif !text-base mb-2 text-black font-normal tracking-wide">My Assortment</h2>
+                            <p className="text-gray-500 font-light !text-xs max-w-md">
                                 Select quantities for each style. Prices shown are estimated landed costs.
                             </p>
                         </div>
@@ -51,7 +51,7 @@ export default function OrderPage() {
                         ) : (
                             <div className="space-y-4">
                                 {/* Table Header (Pseudo) */}
-                                <div className="hidden md:grid grid-cols-12 gap-6 text-[10px] text-gray-400 uppercase tracking-wider px-2 pb-2 border-b border-gray-100">
+                                <div className="hidden md:grid grid-cols-12 gap-6 text-[9px] text-gray-400 uppercase tracking-[0.15em] px-2 pb-2 border-b border-gray-100 font-medium">
                                     <div className="col-span-3">Product Details</div>
                                     <div className="col-span-6 text-center">Quantities (Size Grid)</div>
                                     <div className="col-span-3 text-right">Total</div>
