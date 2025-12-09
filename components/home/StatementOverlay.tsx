@@ -38,19 +38,7 @@ export function StatementOverlay({
                     style={{ padding: '1.5rem 3rem' }}
                 >
                     <span className="text-[#6b6b6b] font-normal whitespace-nowrap">
-                        I want to source for
-                    </span>
-
-                    <button
-                        onClick={() => setActiveModal('category')}
-                        className="inline-flex items-center gap-1 font-medium text-[#1a1a1a] hover:text-black hover:underline decoration-black/30 underline-offset-4 transition-all"
-                    >
-                        {category}
-                        <ChevronDown size={14} className={`transition-transform duration-200 ${activeModal === 'category' ? 'rotate-180' : ''}`} />
-                    </button>
-
-                    <span className="text-[#6b6b6b] font-normal whitespace-nowrap">
-                        & my boutique is
+                        My Boutique is
                     </span>
 
                     <button
@@ -59,6 +47,18 @@ export function StatementOverlay({
                     >
                         {season}
                         <ChevronDown size={14} className={`transition-transform duration-200 ${activeModal === 'season' ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    <span className="text-[#6b6b6b] font-normal whitespace-nowrap">
+                        & I want to source for
+                    </span>
+
+                    <button
+                        onClick={() => setActiveModal('category')}
+                        className="inline-flex items-center gap-1 font-medium text-[#1a1a1a] hover:text-black hover:underline decoration-black/30 underline-offset-4 transition-all"
+                    >
+                        {category}
+                        <ChevronDown size={14} className={`transition-transform duration-200 ${activeModal === 'category' ? 'rotate-180' : ''}`} />
                     </button>
 
                     {/* Find Button */}
