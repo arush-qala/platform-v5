@@ -49,7 +49,7 @@ export default function OrderPage() {
                                 </Link>
                             </div>
                         ) : (
-                            <div className="space-y-8">
+                            <div className="space-y-20">
                                 {/* Table Header (Pseudo) */}
                                 <div className="hidden md:grid grid-cols-12 gap-6 text-[9px] text-gray-400 uppercase tracking-[0.15em] px-2 pb-2 border-b border-gray-100 font-medium">
                                     <div className="col-span-3">Product Details</div>
