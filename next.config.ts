@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'placehold.co',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
     ],
   },
   // Force Rebuild Timestamp: 2024-12-08T16:40:00
