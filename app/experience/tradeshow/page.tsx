@@ -34,8 +34,8 @@ export default function TradeShowPage() {
                 </Link>
 
                 <div className="mb-16">
-                    <h1 className="font-serif text-4xl mb-4 text-black">Meet Us at a Tradeshow</h1>
-                    <p className="text-gray-500 font-light text-lg">
+                    <h1 className="font-serif !text-2xl mb-4 text-black">Meet Us at a Tradeshow</h1>
+                    <p className="text-gray-500 font-light !text-sm">
                         Experience our collections in person at these upcoming international events.
                         RSVP to schedule a dedicated walkthrough with our sales director.
                     </p>
@@ -51,8 +51,8 @@ export default function TradeShowPage() {
                             className="border border-gray-200 p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-black transition-colors group bg-white hover:shadow-lg"
                         >
                             <div>
-                                <h3 className="font-serif text-2xl mb-2">{show.name}</h3>
-                                <div className="flex flex-col gap-2 text-gray-500">
+                                <h3 className="font-serif !text-xl mb-2 text-black">{show.name}</h3>
+                                <div className="flex flex-col gap-2 text-gray-500 !text-sm">
                                     <div className="flex items-center gap-2">
                                         <MapPin size={16} />
                                         <span>{show.location}</span>
@@ -61,13 +61,13 @@ export default function TradeShowPage() {
                                         <Calendar size={16} />
                                         <span>{show.date}</span>
                                     </div>
-                                    <div className="text-sm font-medium text-black mt-2 bg-gray-50 inline-block px-3 py-1 w-fit">
+                                    <div className="text-xs font-medium text-black mt-2 bg-gray-50 inline-block px-3 py-1 w-fit uppercase tracking-wider">
                                         {show.booth}
                                     </div>
                                 </div>
                             </div>
 
-                            <button className="px-6 py-3 border border-black text-black text-sm uppercase tracking-widest hover:bg-black hover:text-white transition-all whitespace-nowrap">
+                            <button className="px-6 py-3 border border-black text-black text-xs uppercase tracking-widest hover:bg-black hover:text-white transition-all whitespace-nowrap">
                                 RSVP for Meeting
                             </button>
                         </motion.div>

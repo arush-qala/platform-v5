@@ -50,42 +50,52 @@ export default function AppointmentPage() {
         )
     }
 
+    // Group slots by date
+    const groupedSlots = SLOTS.reduce((acc, slot, index) => {
+        const key = slot.date
+        if (!acc[key]) acc[key] = []
+        acc[key].push({ ...slot, originalIndex: index })
+        return acc
+    }, {} as Record<string, typeof SLOTS & { originalIndex: number }[]>)
+
     return (
         <div className="min-h-screen bg-white">
-            <div className="max-w-3xl mx-auto px-8 py-12">
-                <button onClick={() => router.back()} className="mb-8 p-2 hover:bg-gray-50 rounded-full transition-colors flex items-center gap-2 text-gray-500">
-                    <ArrowLeft size={18} /> Back
+            <div className="max-w-3xl mx-auto px-8 !pt-32 pb-24">
+                <button onClick={() => router.back()} className="mb-8 p-2 hover:bg-gray-50 rounded-full transition-colors flex items-center gap-2 text-gray-500 !text-sm">
+                    <ArrowLeft size={16} /> Back
                 </button>
 
                 <div className="mb-12">
-                    <h1 className="font-serif text-3xl mb-4">Schedule Design Consultation</h1>
-                    <p className="text-gray-500 font-light">
+                    <h1 className="font-serif !text-2xl mb-2 text-black">Schedule Design Consultation</h1>
+                    <p className="text-gray-500 font-light !text-sm max-w-xl">
                         Select a time to discuss customisations, specific sizing requirements, or design modifications with the brand.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                    {SLOTS.map((slot, index) => (
-                        <motion.button
-                            key={index}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                            onClick={() => setSelectedSlot(index)}
-                            className={`p-6 border text-left transition-all rounded-lg group ${selectedSlot === index
-                                    ? 'border-black bg-black text-white shadow-lg'
-                                    : 'border-gray-200 hover:border-black'
-                                }`}
-                        >
-                            <div className="flex items-center gap-3 mb-2 opacity-80">
-                                <Calendar size={16} />
-                                <span className="text-xs font-medium uppercase tracking-wider">Available Slot</span>
+                <div className="space-y-8 mb-12">
+                    {Object.entries(groupedSlots).map(([date, slots], groupIndex) => (
+                        <div key={date}>
+                            <h3 className="font-serif !text-lg mb-4 text-black border-b border-gray-100 pb-2">{date}</h3>
+                            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                                {slots.map((slot) => (
+                                    <motion.button
+                                        key={slot.originalIndex}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        onClick={() => setSelectedSlot(slot.originalIndex)}
+                                        className={`p-4 border text-center transition-all rounded-lg group ${selectedSlot === slot.originalIndex
+                                            ? 'border-black bg-black text-white shadow-lg'
+                                            : 'border-gray-200 hover:border-black'
+                                            }`}
+                                    >
+                                        <div className="flex items-center justify-center gap-2 !text-sm">
+                                            <Clock size={14} className={selectedSlot === slot.originalIndex ? 'text-white' : 'text-gray-400 group-hover:text-black'} />
+                                            {slot.time}
+                                        </div>
+                                    </motion.button>
+                                ))}
                             </div>
-                            <h3 className="font-serif text-xl mb-1">{slot.date}</h3>
-                            <div className="flex items-center gap-2 text-sm opacity-90">
-                                <Clock size={14} />
-                                {slot.time}
-                            </div>
-                        </motion.button>
+                        </div>
                     ))}
                 </div>
 
@@ -93,12 +103,12 @@ export default function AppointmentPage() {
                     <button
                         disabled={selectedSlot === null}
                         onClick={handleConfirm}
-                        className={`px-8 py-3 rounded-0 flex items-center gap-2 text-sm uppercase tracking-widest font-bold transition-all ${selectedSlot !== null
-                                ? 'bg-black text-white hover:bg-gray-800'
-                                : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                        className={`px-8 py-3 rounded-0 flex items-center gap-2 !text-xs uppercase tracking-widest font-bold transition-all ${selectedSlot !== null
+                            ? 'bg-black text-white hover:bg-gray-800'
+                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             }`}
                     >
-                        Confirm Appointment <ArrowRight size={16} />
+                        Confirm Appointment <ArrowRight size={14} />
                     </button>
                 </div>
             </div>
