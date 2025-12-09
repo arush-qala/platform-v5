@@ -53,16 +53,16 @@ export default function CheckoutPage() {
 
     return (
         <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-8 py-12 grid grid-cols-1 lg:grid-cols-12 gap-16">
+            <div className="max-w-7xl mx-auto px-8 !pt-32 pb-24 grid grid-cols-1 lg:grid-cols-12 gap-16">
 
                 {/* Left Column: Cart Items & Details */}
                 <div className="lg:col-span-7 space-y-12">
                     <div className="flex items-center gap-4 mb-8">
                         <button onClick={() => router.back()} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                            <ArrowLeft size={20} />
+                            <ArrowLeft size={18} />
                         </button>
                         <div>
-                            <h1 className="font-serif text-3xl">Shopping Bag ({sampleItems.length})</h1>
+                            <h1 className="font-serif !text-2xl text-black">Shopping Bag ({sampleItems.length})</h1>
                         </div>
                     </div>
 
@@ -91,25 +91,25 @@ export default function CheckoutPage() {
                                 </div>
                                 <div className="flex-1 flex justify-between">
                                     <div className="space-y-2">
-                                        <h3 className="font-serif text-xl">{item.product.name || 'Unnamed Product'}</h3>
-                                        <p className="text-sm text-gray-500">Sample ID: {item.product.id.slice(0, 8)}</p>
+                                        <h3 className="font-serif !text-lg text-black">{item.product.name || 'Unnamed Product'}</h3>
+                                        <p className="!text-xs text-gray-500">Sample ID: {item.product.id.slice(0, 8)}</p>
                                         <div className="flex items-center gap-4 mt-4">
-                                            <div className="bg-gray-50 px-3 py-1 rounded text-xs font-medium">
+                                            <div className="bg-gray-50 px-3 py-1 rounded text-[10px] font-medium uppercase tracking-wider">
                                                 Size: {item.size}
                                             </div>
-                                            <div className="text-xs text-green-600 flex items-center gap-1">
+                                            <div className="text-[10px] text-green-600 flex items-center gap-1">
                                                 <ShieldCheck size={12} />
                                                 Import duties included
                                             </div>
                                         </div>
                                     </div>
                                     <div className="text-right flex flex-col justify-between">
-                                        <p className="font-medium">${SAMPLE_PRICE}</p>
+                                        <p className="font-medium !text-sm">${SAMPLE_PRICE}</p>
                                         <button
                                             onClick={() => removeFromSampleCart(item.product.id)}
                                             className="text-gray-400 hover:text-red-500 transition-colors self-end p-2"
                                         >
-                                            <X size={20} />
+                                            <X size={16} />
                                         </button>
                                     </div>
                                 </div>
@@ -120,10 +120,10 @@ export default function CheckoutPage() {
 
                 {/* Right Column: Order Summary */}
                 <div className="lg:col-span-5">
-                    <div className="bg-gray-50 p-8 rounded-2xl sticky top-8">
-                        <h2 className="font-serif text-2xl mb-8">Order Summary</h2>
+                    <div className="bg-gray-50 p-8 rounded-2xl sticky top-32">
+                        <h2 className="font-serif !text-xl mb-8 text-black">Order Summary</h2>
 
-                        <div className="space-y-4 mb-8">
+                        <div className="space-y-4 mb-8 text-sm">
                             <div className="flex justify-between text-gray-600">
                                 <span>Subtotal</span>
                                 <span>${subtotal}</span>
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
                                 <span>Simulated Shipping</span>
                                 <span>${SHIPPING_COST}</span>
                             </div>
-                            <div className="pt-4 border-t border-gray-200 flex justify-between text-lg font-medium">
+                            <div className="pt-4 border-t border-gray-200 flex justify-between !text-lg font-medium text-black">
                                 <span>Total</span>
                                 <span>${total}</span>
                             </div>
@@ -141,11 +141,11 @@ export default function CheckoutPage() {
                         <button
                             onClick={handlePlaceOrder}
                             disabled={isProcessing}
-                            className="w-full bg-black text-white py-4 rounded-full font-medium tracking-widest hover:bg-gray-800 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                            className="w-full bg-black text-white py-4 rounded-full font-medium text-xs uppercase tracking-widest hover:bg-gray-900 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                             {isProcessing ? 'Processing...' : (
                                 <>
-                                    Complete Order <CreditCard size={18} />
+                                    Complete Order <CreditCard size={16} />
                                 </>
                             )}
                         </button>
