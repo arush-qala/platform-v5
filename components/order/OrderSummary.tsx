@@ -81,20 +81,20 @@ export default function OrderSummary() {
             {/* Bill Breakdown */}
             <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
-                    <span className="text-[10px] uppercase tracking-wide font-medium">Selected Pieces</span>
-                    <span className="text-sm">{totalQty}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-gray-500">Selected Pieces</span>
+                    <span className="text-sm font-medium">{totalQty}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                    <span className="text-[10px] uppercase tracking-wide font-medium">Subtotal</span>
-                    <span className="text-sm">${subtotal.toFixed(2)}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-gray-500">Subtotal</span>
+                    <span className="text-sm font-medium">${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                    <span className="text-[10px] uppercase tracking-wide font-medium">Estimated Shipping</span>
-                    <span className="text-sm">${SHIPPING_ESTIMATE.toFixed(2)}</span>
+                    <span className="text-[9px] uppercase tracking-widest text-gray-500">Estimated Shipping</span>
+                    <span className="text-sm font-medium">${SHIPPING_ESTIMATE.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-green-600 items-center">
-                    <span className="flex items-center gap-1 text-[10px] uppercase tracking-wide font-medium"><CheckCircle2 size={12} /> Import Duties</span>
-                    <span className="text-[10px] uppercase tracking-wide">Paid by Brand</span>
+                    <span className="flex items-center gap-1 text-[9px] uppercase tracking-widest"><CheckCircle2 size={10} /> Import Duties</span>
+                    <span className="text-[9px] uppercase tracking-widest">Paid by Brand</span>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
@@ -107,24 +107,24 @@ export default function OrderSummary() {
             <button
                 disabled={!hasItems}
                 onClick={() => router.push('/order/checkout')}
-                className={`w-full py-4 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all bg-black text-white rounded ${hasItems
+                className={`w-full py-4 text-xs uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-2 transition-all bg-black text-white rounded ${hasItems
                     ? 'hover:bg-gray-800 shadow-lg'
                     : 'opacity-50 cursor-not-allowed'
                     }`}
             >
-                Proceed to Checkout <ArrowRight size={16} />
+                Proceed to Checkout <ArrowRight size={14} />
             </button>
 
             {!hasItems && (
-                <p className="text-center text-xs text-red-400 mt-2 flex items-center justify-center gap-1">
-                    <AlertCircle size={12} /> Add quantities to proceed
+                <p className="text-center text-[10px] text-red-400 mt-2 flex items-center justify-center gap-1">
+                    <AlertCircle size={10} /> Add quantities to proceed
                 </p>
             )}
 
             {/* Timeline Info */}
             <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-                <p className="text-[10px] uppercase tracking-wide text-gray-500">
-                    Expected Production Timeline: <span className="text-black font-medium ml-1">4-6 Weeks</span>
+                <p className="text-[9px] uppercase tracking-widest text-gray-400">
+                    Expected Production Timeline: <span className="text-black ml-1">4-6 Weeks</span>
                 </p>
             </div>
         </div>

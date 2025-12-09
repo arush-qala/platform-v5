@@ -64,7 +64,7 @@ export default function OrderProductRow({ product }: Props) {
                         <div className="grid grid-cols-5 gap-2 w-full max-w-md">
                             {SIZES.map((size) => (
                                 <div key={size} className="flex flex-col items-center gap-1">
-                                    <label className="text-[10px] text-gray-600 uppercase font-medium">{size}</label>
+                                    <label className="text-[9px] text-gray-500 uppercase tracking-widest">{size}</label>
                                     <input
                                         type="number"
                                         min="0"
@@ -80,7 +80,7 @@ export default function OrderProductRow({ product }: Props) {
 
                     {/* Price */}
                     <div className="md:col-span-3 text-right">
-                        <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Landed Price</p>
+                        <p className="text-[9px] text-gray-500 uppercase tracking-widest mb-1">Landed Price</p>
                         <p className="font-serif text-xl">${landedPrice.toFixed(2)}</p>
                         {totalQty > 0 && (
                             <p className="text-[10px] text-green-600 mt-1">
@@ -101,7 +101,7 @@ export default function OrderProductRow({ product }: Props) {
                         className="overflow-hidden"
                     >
                         <div className="mt-6 pl-40 pr-0 md:pr-12">
-                            <label className="text-[10px] uppercase tracking-wide text-gray-600 font-medium mb-2 block">Customisation Requirements / Notes</label>
+                            <label className="text-[9px] uppercase tracking-widest text-gray-500 mb-2 block">Customisation Requirements / Notes</label>
                             <textarea
                                 value={customizationNotes[product.id] || ''}
                                 onChange={(e) => updateCustomizationNote(product.id, e.target.value)}
