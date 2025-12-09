@@ -101,7 +101,7 @@ export default function OrderProductRow({ product }: Props) {
                         className="overflow-hidden"
                     >
                         <div className="mt-6 pl-40 pr-0 md:pr-12">
-                            <label className="text-xs text-gray-500 mb-2 block">Customisation Requirements / Notes</label>
+                            <label className="text-[10px] uppercase tracking-wide text-gray-600 font-medium mb-2 block">Customisation Requirements / Notes</label>
                             <textarea
                                 value={customizationNotes[product.id] || ''}
                                 onChange={(e) => updateCustomizationNote(product.id, e.target.value)}

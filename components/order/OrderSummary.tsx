@@ -79,26 +79,26 @@ export default function OrderSummary() {
             </div>
 
             {/* Bill Breakdown */}
-            <div className="space-y-4 text-sm mb-6">
+            <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
-                    <span>Selected Pieces</span>
-                    <span>{totalQty}</span>
+                    <span className="text-[10px] uppercase tracking-wide font-medium">Selected Pieces</span>
+                    <span className="text-sm">{totalQty}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                    <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span className="text-[10px] uppercase tracking-wide font-medium">Subtotal</span>
+                    <span className="text-sm">${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                    <span>Estimated Shipping</span>
-                    <span>${SHIPPING_ESTIMATE.toFixed(2)}</span>
+                    <span className="text-[10px] uppercase tracking-wide font-medium">Estimated Shipping</span>
+                    <span className="text-sm">${SHIPPING_ESTIMATE.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-green-600 text-xs">
-                    <span className="flex items-center gap-1"><CheckCircle2 size={12} /> Import Duties</span>
-                    <span>Paid by Brand</span>
+                <div className="flex justify-between text-green-600 items-center">
+                    <span className="flex items-center gap-1 text-[10px] uppercase tracking-wide font-medium"><CheckCircle2 size={12} /> Import Duties</span>
+                    <span className="text-[10px] uppercase tracking-wide">Paid by Brand</span>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
-                    <span className="font-medium text-lg">Total</span>
+                    <span className="font-serif text-lg">Total</span>
                     <span className="font-serif text-2xl">${total.toFixed(2)}</span>
                 </div>
             </div>
@@ -123,8 +123,8 @@ export default function OrderSummary() {
 
             {/* Timeline Info */}
             <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-                <p className="text-xs text-gray-400">
-                    Expected Production Timeline: <span className="text-gray-600 font-medium">4-6 Weeks</span>
+                <p className="text-[10px] uppercase tracking-wide text-gray-500">
+                    Expected Production Timeline: <span className="text-black font-medium ml-1">4-6 Weeks</span>
                 </p>
             </div>
         </div>
