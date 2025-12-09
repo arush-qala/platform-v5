@@ -1,7 +1,7 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -14,74 +14,35 @@ interface LookbookViewerProps {
 
 export function LookbookViewer({ images, collectionName, brandSlug, collectionSlug }: LookbookViewerProps) {
     const targetRef = useRef<HTMLDivElement>(null)
-    const contentRef = useRef<HTMLDivElement>(null)
-    const [currentX, setCurrentX] = useState(0)
-    const [maxScroll, setMaxScroll] = useState(0)
-
-    // Calculate the maximum scroll distance based on actual content width
-    useEffect(() => {
-        const calculateMaxScroll = () => {
-            if (contentRef.current) {
-                const contentWidth = contentRef.current.scrollWidth
-                const viewportWidth = window.innerWidth
-                // Maximum amount we need to scroll left (in pixels)
-                // Add buffer to ensure CTA is fully visible (10% viewport width cushion)
-                const maxScrollDistance = contentWidth - viewportWidth + (0.1 * viewportWidth)
-
-                console.log(`LookbookViewer: ${images.length} images, content=${contentWidth}px, viewport=${viewportWidth}px, maxScroll=${maxScrollDistance.toFixed(0)}px`)
-
-                setMaxScroll(maxScrollDistance)
-            }
-        }
-
-        // Calculate after images are loaded and DOM is ready
-        const timer = setTimeout(calculateMaxScroll, 100)
-
-        // Recalculate on window resize
-        window.addEventListener('resize', calculateMaxScroll)
-        return () => {
-            clearTimeout(timer)
-            window.removeEventListener('resize', calculateMaxScroll)
-        }
-    }, [images.length])
+    console.log("LookbookViewer: Loaded v2 (600vh, -100%)")
 
     const { scrollYProgress } = useScroll({
         target: targetRef,
     })
 
-    // Update the horizontal position based on scroll progress
-    // This approach uses pixel values
-    useMotionValueEvent(scrollYProgress, "change", (progress) => {
-        const newX = -progress * maxScroll
-        setCurrentX(newX)
-    })
-
-    // Calculate section height based on number of images
-    // More images = more scroll height needed for smooth experience
-    // Base: 250vh per 5 images, minimum 500vh
-    const sectionHeight = Math.max(500, Math.ceil(images.length / 5) * 250)
+    // Map vertical scroll to horizontal movement. 
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-150%"])
+    const smoothX = useSpring(x, { damping: 40, stiffness: 90 })
 
     return (
-        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: `${sectionHeight}vh` }}>
+        <section ref={targetRef} className="relative bg-white pt-32" style={{ height: '1500vh' }}>
             {/* Sticky Container */}
             <div className="sticky top-0 h-screen flex flex-col overflow-hidden bg-white">
 
-                {/* Section Header */}
+                {/* Section Header - Now in normal flow to prevent overlap */}
                 <div className="w-full px-12 pt-12 pb-40 flex justify-between items-end shrink-0 z-20 bg-white">
                     <div>
                         <h2 className="text-4xl font-serif text-black mb-2">Featured Lookbook</h2>
                         <p className="text-sm uppercase tracking-widest text-gray-500">{collectionName}</p>
                     </div>
                     <div className="text-xs uppercase tracking-widest text-gray-400">
-                        Scroll to Explore ({images.length} looks)
+                        Scroll to Explore
                     </div>
                 </div>
 
                 {/* Horizontal Scroll Track */}
                 <motion.div
-                    ref={contentRef}
-                    animate={{ x: currentX }}
-                    transition={{ type: "spring", damping: 40, stiffness: 90 }}
+                    style={{ x: smoothX }}
                     className="flex gap-12 pl-[10vw] pr-[10vw] items-center h-[70vh]"
                 >
                     {images.map((src, index) => (

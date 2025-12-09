@@ -7,7 +7,29 @@ import { ArrowRight } from 'lucide-react'
 
 export default function ExperiencePage() {
     return (
-        <div className="min-h-screenw-full h-screen bg-black flex flex-col md:flex-row overflow-hidden">
+        <div className="relative w-full h-screen bg-[#0a0a09] flex flex-col md:flex-row overflow-hidden">
+            {/* Noise Texture Overlay */}
+            <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.03] mix-blend-overlay">
+                <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                    <filter id="noiseFilter">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+                    </filter>
+                    <rect width="100%" height="100%" filter="url(#noiseFilter)" />
+                </svg>
+            </div>
+
+            {/* Global Header */}
+            <div className="absolute top-8 left-0 w-full text-center pointer-events-none z-40">
+                <motion.h1
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 1, delay: 0.5 }}
+                    className="font-serif text-2xl uppercase tracking-[0.25em] text-[#e8e6e1] mix-blend-difference opacity-90"
+                >
+                    Select Experience
+                </motion.h1>
+            </div>
+
             <ExperienceColumn
                 title="Sample Crate"
                 subtitle="Curated Selection"
@@ -16,74 +38,82 @@ export default function ExperiencePage() {
                 href="/experience/sample-crate"
                 index={0}
             />
+
+            <ExperienceColumn
+                title="Place Order"
+                subtitle="Wholesale Assortment"
+                description="Browse detailed line sheets and place production orders directly."
+                image="https://images.unsplash.com/photo-1551232864-3f52236a2629?q=80&w=1200" // Luxury rack/showroom image
+                href="/order"
+                index={1}
+            />
+
             <ExperienceColumn
                 title="Private Showcase"
                 subtitle="In-Person Appointment"
                 description="Schedule a private viewing with our design team."
                 image="/images/experience/private-showcase.png"
                 href="/order/appointment"
-                index={1}
+                index={2}
             />
+
             <ExperienceColumn
                 title="Trade Show"
                 subtitle="Exhibition Calendar"
                 description="Meet the brand at upcoming international trade shows."
                 image="/images/experience/trade-show.png"
                 href="/experience/tradeshow"
-                index={2}
+                index={3}
             />
-
-            {/* Global Header Overlay (Optional, or integrate into columns) */}
-            <div className="absolute top-8 left-0 w-full text-center pointer-events-none z-50 mix-blend-difference text-white">
-                <h1 className="font-serif text-2xl uppercase tracking-[0.2em] opacity-80">Select Experience</h1>
-            </div>
         </div>
     )
 }
 
 function ExperienceColumn({ title, subtitle, description, image, href, index }: any) {
     return (
-        <Link href={href} className="relative group flex-1 min-h-[33vh] md:min-h-screen border-b md:border-b-0 md:border-r border-white/10 last:border-0 overflow-hidden">
+        <Link href={href} className="relative group flex-1 min-h-[25vh] md:min-h-screen border-b md:border-b-0 md:border-r border-white/5 last:border-0 overflow-hidden">
             <motion.div
                 className="w-full h-full relative"
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
                 {/* Background Image */}
                 <Image
                     src={image}
                     alt={title}
                     fill
-                    className="object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    className="object-cover transition-all duration-1000 grayscale group-hover:grayscale-0 group-hover:scale-105"
                     priority
                 />
 
-                {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-700" />
+                {/* Dark Overlay - Luxury Tint */}
+                <div className="absolute inset-0 bg-[#0a0a09]/50 group-hover:bg-[#0a0a09]/30 transition-colors duration-700" />
 
-                {/* Gradient Gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
+                {/* Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a09] via-[#0a0a09]/40 to-transparent opacity-90" />
             </motion.div>
 
-            {/* Content Content */}
+            {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 z-20">
-                <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
-                    <p className="text-[10px] uppercase tracking-widest text-white/70 mb-2 font-sans">{subtitle}</p>
-                    <h2 className="font-serif !text-3xl md:!text-5xl text-white mb-4 leading-tight">{title}</h2>
+                <div className="transform transition-transform duration-700 group-hover:-translate-y-4">
+                    <p className="text-[10px] uppercase tracking-widest text-[#B8956A] mb-3 font-sans opacity-90">{subtitle}</p>
+                    <h2 className="font-serif text-3xl md:text-5xl text-[#f2f0eb] mb-5 leading-tight">{title}</h2>
 
-                    <div className="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
-                        <p className="text-sm text-gray-300 font-light max-w-xs leading-relaxed mb-6">
+                    <div className="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100 ease-out">
+                        <p className="text-sm text-[#adaaa5] font-light max-w-xs leading-relaxed mb-6">
                             {description}
                         </p>
-                        <div className="flex items-center gap-2 text-white text-xs uppercase tracking-widest group/btn">
-                            Explore <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+                        <div className="flex items-center gap-3 text-white text-xs uppercase tracking-widest group/btn">
+                            Explore <ArrowRight size={14} className="text-[#B8956A] transition-transform group-hover/btn:translate-x-1" />
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Number Index */}
-            <div className="absolute top-8 right-8 text-white/20 font-serif text-6xl md:text-8xl select-none pointer-events-none z-10 font-thin italic">
+            <div className="absolute top-8 right-8 text-white/5 font-serif text-6xl md:text-7xl select-none pointer-events-none z-10 font-thin italic">
                 0{index + 1}
             </div>
         </Link>

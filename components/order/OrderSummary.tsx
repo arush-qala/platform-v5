@@ -36,12 +36,12 @@ export default function OrderSummary() {
     const hasItems = totalQty > 0
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 sticky top-6">
+        <div className="bg-gray-50 p-8 rounded-xl sticky top-8">
             <h2 className="font-serif text-2xl mb-2">Order Summary</h2>
-            <p className="text-gray-500 text-xs mb-6">Review your selection and proceed to verify details.</p>
+            <p className="text-gray-500 text-sm mb-8">Review your selection and proceed to verify details.</p>
 
             {/* Customisation / Appointment Section */}
-            <div className="mb-6 border-b border-gray-200 pb-6">
+            <div className="mb-8 border-b border-gray-200 pb-8">
                 {appointmentDetails.scheduled ? (
                     <div className="bg-green-50 border border-green-100 p-4 rounded-lg flex items-start gap-3">
                         <CheckCircle2 className="text-green-600 shrink-0 mt-1" size={18} />
@@ -70,7 +70,7 @@ export default function OrderSummary() {
                             Brands can customise sizing, designs, colors, and silhouettes for you. Schedule a call with the designer.
                         </p>
                         <Link href="/order/appointment">
-                            <button className="w-full py-2 bg-white border border-black text-xs uppercase tracking-wider font-medium hover:bg-black hover:text-white transition-all rounded">
+                            <button className="w-full py-2 bg-white border border-black text-xs uppercase tracking-wider font-medium hover:bg-black hover:text-white transition-all">
                                 Schedule Appointment
                             </button>
                         </Link>
@@ -79,26 +79,26 @@ export default function OrderSummary() {
             </div>
 
             {/* Bill Breakdown */}
-            <div className="space-y-4 mb-6">
+            <div className="space-y-4 text-sm mb-8">
                 <div className="flex justify-between text-gray-600">
-                    <span className="text-[9px] uppercase tracking-widest text-gray-500">Selected Pieces</span>
-                    <span className="text-sm font-medium">{totalQty}</span>
+                    <span>Selected Pieces</span>
+                    <span>{totalQty}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                    <span className="text-[9px] uppercase tracking-widest text-gray-500">Subtotal</span>
-                    <span className="text-sm font-medium">${subtotal.toFixed(2)}</span>
+                    <span>Subtotal</span>
+                    <span>${subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                    <span className="text-[9px] uppercase tracking-widest text-gray-500">Estimated Shipping</span>
-                    <span className="text-sm font-medium">${SHIPPING_ESTIMATE.toFixed(2)}</span>
+                    <span>Estimated Shipping</span>
+                    <span>${SHIPPING_ESTIMATE.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-green-600 items-center">
-                    <span className="flex items-center gap-1 text-[9px] uppercase tracking-widest"><CheckCircle2 size={10} /> Import Duties</span>
-                    <span className="text-[9px] uppercase tracking-widest">Paid by Brand</span>
+                <div className="flex justify-between text-green-600 text-xs">
+                    <span className="flex items-center gap-1"><CheckCircle2 size={12} /> Import Duties</span>
+                    <span>Paid by Brand</span>
                 </div>
 
                 <div className="border-t border-gray-200 pt-4 flex justify-between items-end">
-                    <span className="font-serif text-lg">Total</span>
+                    <span className="font-medium text-lg">Total</span>
                     <span className="font-serif text-2xl">${total.toFixed(2)}</span>
                 </div>
             </div>
@@ -107,24 +107,24 @@ export default function OrderSummary() {
             <button
                 disabled={!hasItems}
                 onClick={() => router.push('/order/checkout')}
-                className={`w-full py-4 text-xs uppercase tracking-[0.2em] font-bold flex items-center justify-center gap-2 transition-all bg-black text-white rounded ${hasItems
-                    ? 'hover:bg-gray-800 shadow-lg'
-                    : 'opacity-50 cursor-not-allowed'
+                className={`w-full py-4 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all ${hasItems
+                    ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
             >
-                Proceed to Checkout <ArrowRight size={14} />
+                Proceed to Checkout <ArrowRight size={16} />
             </button>
 
             {!hasItems && (
-                <p className="text-center text-[10px] text-red-400 mt-2 flex items-center justify-center gap-1">
-                    <AlertCircle size={10} /> Add quantities to proceed
+                <p className="text-center text-xs text-red-400 mt-2 flex items-center justify-center gap-1">
+                    <AlertCircle size={12} /> Add quantities to proceed
                 </p>
             )}
 
             {/* Timeline Info */}
             <div className="mt-8 pt-6 border-t border-gray-100 text-center">
-                <p className="text-[9px] uppercase tracking-widest text-gray-400">
-                    Expected Production Timeline: <span className="text-black ml-1">4-6 Weeks</span>
+                <p className="text-xs text-gray-400">
+                    Expected Production Timeline: <span className="text-gray-600 font-medium">4-6 Weeks</span>
                 </p>
             </div>
         </div>
