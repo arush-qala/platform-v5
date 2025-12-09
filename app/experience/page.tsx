@@ -36,6 +36,7 @@ export default function ExperiencePage() {
                 description="Order a sample crate at manufacturing cost (up to 5 pieces)."
                 image="/images/experience/sample-crate.png"
                 href="/experience/sample-crate"
+                ctaText="Explore"
                 index={0}
             />
 
@@ -43,8 +44,9 @@ export default function ExperiencePage() {
                 title="Place Order"
                 subtitle="Wholesale Assortment"
                 description="Browse detailed line sheets and place production orders directly."
-                image="https://images.unsplash.com/photo-1551232864-3f52236a2629?q=80&w=1200" // Luxury rack/showroom image
+                image="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?q=80&w=2000&auto=format&fit=crop" // Reliable Fashion clothing rack image
                 href="/order"
+                ctaText="Begin"
                 index={1}
             />
 
@@ -54,6 +56,7 @@ export default function ExperiencePage() {
                 description="Schedule a private viewing with our design team."
                 image="/images/experience/private-showcase.png"
                 href="/order/appointment"
+                ctaText="Book now"
                 index={2}
             />
 
@@ -63,13 +66,14 @@ export default function ExperiencePage() {
                 description="Meet the brand at upcoming international trade shows."
                 image="/images/experience/trade-show.png"
                 href="/experience/tradeshow"
+                ctaText="View event"
                 index={3}
             />
         </div>
     )
 }
 
-function ExperienceColumn({ title, subtitle, description, image, href, index }: any) {
+function ExperienceColumn({ title, subtitle, description, image, href, index, ctaText }: any) {
     return (
         <Link href={href} className="relative group flex-1 min-h-[25vh] md:min-h-screen border-b md:border-b-0 md:border-r border-white/5 last:border-0 overflow-hidden">
             <motion.div
@@ -105,8 +109,10 @@ function ExperienceColumn({ title, subtitle, description, image, href, index }: 
                         <p className="text-sm text-[#adaaa5] font-light max-w-xs leading-relaxed mb-6">
                             {description}
                         </p>
-                        <div className="flex items-center gap-3 text-white text-xs uppercase tracking-widest group/btn">
-                            Explore <ArrowRight size={14} className="text-[#B8956A] transition-transform group-hover/btn:translate-x-1" />
+
+                        {/* Glassmorphic Button */}
+                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md bg-white/5 border border-white/10 text-white text-xs uppercase tracking-widest transition-all duration-500 hover:bg-white/10 hover:border-white/30 shadow-lg hover:shadow-xl group/btn">
+                            {ctaText} <ArrowRight size={14} className="text-[#B8956A] transition-transform group-hover/btn:translate-x-1" />
                         </div>
                     </div>
                 </div>
