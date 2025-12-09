@@ -1,96 +1,91 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { ShoppingBag, Shirt, MapPin, MessageCircle, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
+import Image from 'next/image'
+import { ArrowRight } from 'lucide-react'
 
 export default function ExperiencePage() {
     return (
-        <div className="min-h-screen bg-white flex flex-col items-center justify-center relative overflow-hidden">
-            {/* Background Pattern (Optional - minimal dots as per wireframe) */}
-            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-30 pointer-events-none" />
+        <div className="min-h-screenw-full h-screen bg-black flex flex-col md:flex-row overflow-hidden">
+            <ExperienceColumn
+                title="Sample Crate"
+                subtitle="Curated Selection"
+                description="Order a sample crate at manufacturing cost (up to 5 pieces)."
+                image="/images/experience/sample-crate.png"
+                href="/experience/sample-crate"
+                index={0}
+            />
+            <ExperienceColumn
+                title="Private Showcase"
+                subtitle="In-Person Appointment"
+                description="Schedule a private viewing with our design team."
+                image="/images/experience/private-showcase.png"
+                href="/order/appointment"
+                index={1}
+            />
+            <ExperienceColumn
+                title="Trade Show"
+                subtitle="Exhibition Calendar"
+                description="Meet the brand at upcoming international trade shows."
+                image="/images/experience/trade-show.png"
+                href="/experience/tradeshow"
+                index={2}
+            />
 
-            {/* Header */}
-            <div className="text-center mb-16 z-10 px-4">
-                <h1 className="font-serif text-4xl mb-4 text-black">Experience this brand</h1>
-                <p className="text-gray-500 font-light text-lg">Choose how you'd like to experience this brand before placing an order.</p>
+            {/* Global Header Overlay (Optional, or integrate into columns) */}
+            <div className="absolute top-8 left-0 w-full text-center pointer-events-none z-50 mix-blend-difference text-white">
+                <h1 className="font-serif text-2xl uppercase tracking-[0.2em] opacity-80">Select Experience</h1>
             </div>
-
-            {/* Experience Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full px-8 z-10 mb-20">
-                <Link href="/experience/sample-crate">
-                    <ExperienceCard
-                        icon={<ShoppingBag size={48} strokeWidth={1} />}
-                        title="Order Sample Crate"
-                        description="Order a sample crate @ manf cost (upto 5 pieces)"
-                    />
-                </Link>
-                <Link href="/order/appointment">
-                    <ExperienceCard
-                        icon={<Shirt size={48} strokeWidth={1} />}
-                        title="Request Private Showcase"
-                        description="Schedule an in-person viewing with the Qala team"
-                    />
-                </Link>
-                <Link href="/experience/tradeshow">
-                    <ExperienceCard
-                        icon={<MapPin size={48} strokeWidth={1} />}
-                        title="Meet at a Trade Show"
-                        description="Catch the brand at an upcoming Trade show"
-                    />
-                </Link>
-            </div>
-
-            {/* Proceed CTA */}
-            <div className="w-full max-w-6xl px-8 z-10">
-                <Link href="/order" className="block w-full">
-                    <motion.div
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                        className="w-full bg-white border border-gray-200 py-8 flex flex-col items-center justify-center gap-2 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-                    >
-                        <h2 className="font-serif text-2xl text-black group-hover:text-gray-800">Proceed to Order</h2>
-                        <p className="text-sm text-gray-400 font-light">Skip physical experience and go straight to quantities and order details</p>
-                    </motion.div>
-                </Link>
-            </div>
-
-            {/* Floating Chat Button */}
-            <button className="fixed bottom-8 right-8 bg-white border border-gray-200 shadow-lg p-4 rounded-full flex items-center gap-3 hover:bg-gray-50 transition-colors z-50 group">
-                <div className="text-right hidden group-hover:block">
-                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">Need help deciding?</p>
-                    <p className="text-xs font-medium">Chat with us</p>
-                </div>
-                <MessageCircle size={24} />
-            </button>
         </div>
     )
 }
 
-function ExperienceCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function ExperienceColumn({ title, subtitle, description, image, href, index }: any) {
     return (
-        <motion.div
-            className="aspect-square bg-white border border-gray-100 flex flex-col items-center justify-center p-8 text-center cursor-pointer group relative overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500"
-        >
-            {/* Default State: Icon + Title */}
+        <Link href={href} className="relative group flex-1 min-h-[33vh] md:min-h-screen border-b md:border-b-0 md:border-r border-white/10 last:border-0 overflow-hidden">
             <motion.div
-                className="flex flex-col items-center gap-6 transition-transform duration-500 group-hover:-translate-y-4"
+                className="w-full h-full relative"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-                <div className="text-gray-800 group-hover:scale-110 transition-transform duration-500">
-                    {icon}
-                </div>
-                <h3 className="font-serif text-xl text-gray-900">{title}</h3>
+                {/* Background Image */}
+                <Image
+                    src={image}
+                    alt={title}
+                    fill
+                    className="object-cover transition-all duration-700 grayscale group-hover:grayscale-0 group-hover:scale-105"
+                    priority
+                />
+
+                {/* Dark Overlay */}
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-700" />
+
+                {/* Gradient Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80" />
             </motion.div>
 
-            {/* Hover State: Description Slide Up */}
-            <div
-                className="absolute bottom-0 left-0 w-full p-6 bg-white/95 backdrop-blur-sm border-t border-gray-50 translate-y-full group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex flex-col items-center justify-center min-h-[30%]"
-            >
-                <p className="text-sm text-gray-600 font-light leading-relaxed max-w-[80%]">
-                    {description}
-                </p>
+            {/* Content Content */}
+            <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 z-20">
+                <div className="transform transition-transform duration-500 group-hover:-translate-y-4">
+                    <p className="text-[10px] uppercase tracking-widest text-white/70 mb-2 font-sans">{subtitle}</p>
+                    <h2 className="font-serif !text-3xl md:!text-5xl text-white mb-4 leading-tight">{title}</h2>
+
+                    <div className="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-500 delay-100">
+                        <p className="text-sm text-gray-300 font-light max-w-xs leading-relaxed mb-6">
+                            {description}
+                        </p>
+                        <div className="flex items-center gap-2 text-white text-xs uppercase tracking-widest group/btn">
+                            Explore <ArrowRight size={14} className="transition-transform group-hover/btn:translate-x-1" />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </motion.div>
+
+            {/* Number Index */}
+            <div className="absolute top-8 right-8 text-white/20 font-serif text-6xl md:text-8xl select-none pointer-events-none z-10 font-thin italic">
+                0{index + 1}
+            </div>
+        </Link>
     )
 }
