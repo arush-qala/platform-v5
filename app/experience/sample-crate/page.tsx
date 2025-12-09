@@ -50,22 +50,22 @@ export default function SampleSelectionPage() {
     return (
         <div className="min-h-screen bg-white flex flex-col">
             {/* Header */}
-            <div className="px-12 pt-32 pb-8 flex justify-between items-center border-b border-gray-100">
+            <div className="px-12 !pt-32 pb-8 flex justify-between items-center border-b border-gray-100">
                 <div>
-                    <h1 className="font-serif text-xl mb-2 text-black">Select Samples</h1>
-                    <p className="text-gray-500 text-xs">
+                    <h1 className="font-serif !text-2xl mb-2 text-black leading-tight">Select Samples</h1>
+                    <p className="text-gray-500 !text-sm">
                         Choose up to 5 pieces from your assortment to order samples.
                     </p>
                 </div>
                 <div className="flex items-center gap-4">
                     <div className="text-right">
-                        <p className="text-xs font-medium">{sampleItems.length}/5 Selected</p>
+                        <p className="!text-xs font-medium">{sampleItems.length}/5 Selected</p>
                         {sampleItems.length === 5 && <p className="text-[10px] text-amber-600">Limit Reached</p>}
                     </div>
                     <button
                         disabled={sampleItems.length === 0}
                         onClick={() => router.push('/checkout')}
-                        className={`px-8 py-3 rounded-full flex items-center gap-2 text-xs uppercase tracking-widest transition-all ${sampleItems.length > 0
+                        className={`px-8 py-3 rounded-full flex items-center gap-2 !text-xs uppercase tracking-widest transition-all ${sampleItems.length > 0
                             ? '!bg-black !text-white hover:bg-gray-800 shadow-lg'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
                     >
@@ -122,12 +122,12 @@ export default function SampleSelectionPage() {
 
                                 {/* Details */}
                                 <div className="mt-3 text-center">
-                                    <h3 className="font-medium text-sm mb-1 leading-tight text-gray-900">{item.name || 'Unnamed Product'}</h3>
-                                    <p className="text-[10px] text-gray-500 mb-1">
+                                    <h3 className="font-medium !text-sm mb-1 leading-tight text-gray-900">{item.name || 'Unnamed Product'}</h3>
+                                    <p className="!text-[10px] text-gray-500 mb-1">
                                         Sample Cost: <span className="text-black font-semibold">$50</span>
                                     </p>
                                     {isSelected && (
-                                        <div className="inline-block bg-gray-100 px-2 py-0.5 rounded-full text-[10px] font-medium text-gray-600">
+                                        <div className="inline-block bg-gray-100 px-2 py-0.5 rounded-full !text-[10px] font-medium text-gray-600">
                                             Size: {selectedSample?.size}
                                         </div>
                                     )}
