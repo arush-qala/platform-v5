@@ -6,6 +6,7 @@ import { useAssortment } from '@/components/collection/AssortmentContext'
 import { Calendar, ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { Button } from '@/components/ui/Button'
 
 export default function OrderSummary() {
     const router = useRouter()
@@ -104,16 +105,15 @@ export default function OrderSummary() {
             </div>
 
             {/* Main CTA */}
-            <button
+            <Button
                 disabled={!hasItems}
                 onClick={() => router.push('/order/checkout')}
-                className={`w-full py-4 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all ${hasItems
-                    ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
-                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    }`}
+                size="lg"
+                className={`w-full flex items-center justify-center ${!hasItems ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-                Proceed to Checkout <ArrowRight size={16} />
-            </button>
+                Proceed to Checkout
+                <ArrowRight className="ml-2 size-4" />
+            </Button>
 
             {!hasItems && (
                 <p className="text-center text-xs text-red-400 mt-2 flex items-center justify-center gap-1">
