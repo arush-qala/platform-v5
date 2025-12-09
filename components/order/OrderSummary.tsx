@@ -36,7 +36,7 @@ export default function OrderSummary() {
     const hasItems = totalQty > 0
 
     return (
-        <div className="bg-gray-50 p-8 rounded-xl sticky top-8">
+        <div className="bg-gray-50 p-8 rounded-xl sticky top-[120px] z-30">
             <h2 className="font-serif text-2xl mb-2">Order Summary</h2>
             <p className="text-gray-500 text-sm mb-8">Review your selection and proceed to verify details.</p>
 
@@ -108,8 +108,8 @@ export default function OrderSummary() {
                 disabled={!hasItems}
                 onClick={() => router.push('/order/checkout')}
                 className={`w-full py-4 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all ${hasItems
-                        ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
-                        : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                    ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
+                    : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
             >
                 Proceed to Checkout <ArrowRight size={16} />

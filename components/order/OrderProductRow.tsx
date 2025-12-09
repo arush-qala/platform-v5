@@ -42,19 +42,24 @@ export default function OrderProductRow({ product }: Props) {
                 <div className="flex-1 grid grid-cols-1 md:grid-cols-12 gap-6">
 
                     {/* Info */}
-                    <div className="md:col-span-3 space-y-2">
-                        <h3 className="font-serif text-lg leading-tight">{product.name}</h3>
-                        <p className="text-xs text-gray-500 uppercase tracking-wider">{product.id.slice(0, 8)}</p>
+                    <div className="md:col-span-3 space-y-3">
+                        <div>
+                            <p className="text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1">QALA BRAND</p>
+                            <h3 className="font-serif text-base leading-tight text-black">{product.name}</h3>
+                        </div>
+
+                        <div className="space-y-1">
+                            <p className="text-[10px] text-gray-500">Color: <span className="text-black">Black</span></p>
+                            <p className="text-[10px] text-gray-500">Style: <span className="uppercase">{product.id.slice(0, 8)}</span></p>
+                        </div>
+
                         <div className="pt-2 flex flex-col gap-2 items-start">
                             <button
                                 onClick={() => setShowNotes(!showNotes)}
-                                className="text-xs text-gray-400 hover:text-black flex items-center gap-1 transition-colors"
+                                className="text-[10px] text-gray-400 hover:text-black flex items-center gap-1 transition-colors uppercase tracking-wider"
                             >
-                                <Edit3 size={12} />
-                                {customizationNotes[product.id] ? 'Edit Notes' : 'Add Customisation Notes'}
-                            </button>
-                            <button className="text-xs text-gray-400 hover:text-black flex items-center gap-1 transition-colors underline underline-offset-2">
-                                Size Guide
+                                <Edit3 size={10} />
+                                {customizationNotes[product.id] ? 'Edit Notes' : 'Add Notes'}
                             </button>
                         </div>
                     </div>
