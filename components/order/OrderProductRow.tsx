@@ -25,7 +25,7 @@ export default function OrderProductRow({ product }: Props) {
     const landedPrice = basePrice * (totalQty || 0)
 
     return (
-        <div className="border-b border-gray-100 py-10 first:pt-0">
+        <div className="border-b border-gray-100 py-20 first:pt-0">
             <div className="flex gap-8 items-start">
 
                 {/* Product Image */}
