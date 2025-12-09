@@ -56,7 +56,7 @@ export default function AppointmentPage() {
         if (!acc[key]) acc[key] = []
         acc[key].push({ ...slot, originalIndex: index })
         return acc
-    }, {} as Record<string, typeof SLOTS & { originalIndex: number }[]>)
+    }, {} as Record<string, (typeof SLOTS[number] & { originalIndex: number })[]>)
 
     return (
         <div className="min-h-screen bg-white">
