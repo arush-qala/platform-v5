@@ -156,7 +156,7 @@ body {
   overflow-x: hidden;
 }
 
-/* Typography Scale - Base styles for all headings */
+/* Typography Scale */
 h1,
 h2,
 h3,
@@ -170,25 +170,23 @@ h6 {
   color: var(--text-primary);
 }
 
-/* Large Typography - Only for hero/marketing sections */
-/* Apply .hero-typography class to parent to enable large sizes */
-.hero-typography h1 {
+h1 {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 300;
   letter-spacing: -0.03em;
 }
 
-.hero-typography h2 {
+h2 {
   font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 300;
 }
 
-.hero-typography h3 {
+h3 {
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 400;
 }
 
-.hero-typography h4 {
+h4 {
   font-size: clamp(1.25rem, 2vw, 1.75rem);
   font-weight: 400;
 }

@@ -45,8 +45,8 @@ export default function SizeSelectionModal({ productName, onClose, onConfirm }: 
                                 key={size}
                                 onClick={() => setSelectedSize(size)}
                                 className={`w-12 h-12 flex items-center justify-center border transition-all ${selectedSize === size
-                                    ? 'border-black bg-black text-white shadow-lg scale-105'
-                                    : 'border-gray-200 hover:border-black hover:text-black text-gray-600'
+                                    ? 'border-gray-900 bg-gray-900 text-white shadow-lg scale-105'
+                                    : 'border-gray-200 hover:border-gray-900 text-gray-600'
                                     }`}
                             >
                                 {size}
@@ -74,7 +74,7 @@ export default function SizeSelectionModal({ productName, onClose, onConfirm }: 
                         disabled={!selectedSize}
                         onClick={() => selectedSize && onConfirm(selectedSize)}
                         className={`w-full py-4 uppercase tracking-widest text-sm font-medium transition-all ${selectedSize
-                            ? 'bg-black text-white hover:bg-gray-800 shadow-lg'
+                            ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg'
                             : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                             }`}
                     >
