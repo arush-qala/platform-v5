@@ -29,7 +29,7 @@ export default function OrderProductRow({ product }: Props) {
             <div className="flex gap-8 items-start">
 
                 {/* Product Image */}
-                <div className="relative w-32 aspect-[3/4] bg-gray-50 rounded-sm overflow-hidden flex-shrink-0">
+                <div className="relative w-32 aspect-[3/4] bg-gray-50 rounded-md overflow-hidden flex-shrink-0">
                     <Image
                         src={product.image}
                         alt={product.name}
@@ -64,14 +64,14 @@ export default function OrderProductRow({ product }: Props) {
                         <div className="grid grid-cols-5 gap-2 w-full max-w-md">
                             {SIZES.map((size) => (
                                 <div key={size} className="flex flex-col items-center gap-1">
-                                    <label className="text-[10px] text-gray-400 uppercase">{size}</label>
+                                    <label className="text-[10px] text-gray-600 uppercase font-medium">{size}</label>
                                     <input
                                         type="number"
                                         min="0"
                                         placeholder="0"
                                         value={productQty[size] || ''}
                                         onChange={(e) => updateOrderQuantity(product.id, size, parseInt(e.target.value) || 0)}
-                                        className="w-full text-center border border-gray-200 rounded-sm py-2 text-sm focus:border-black focus:ring-0 transition-colors placeholder:text-gray-200"
+                                        className="w-full text-center border border-gray-200 rounded py-2 text-sm focus:border-black focus:ring-0 transition-colors placeholder:text-gray-200"
                                     />
                                 </div>
                             ))}
@@ -80,7 +80,7 @@ export default function OrderProductRow({ product }: Props) {
 
                     {/* Price */}
                     <div className="md:col-span-3 text-right">
-                        <p className="text-xs text-gray-400 mb-1">Landed Price</p>
+                        <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Landed Price</p>
                         <p className="font-serif text-xl">${landedPrice.toFixed(2)}</p>
                         {totalQty > 0 && (
                             <p className="text-[10px] text-green-600 mt-1">
@@ -106,7 +106,7 @@ export default function OrderProductRow({ product }: Props) {
                                 value={customizationNotes[product.id] || ''}
                                 onChange={(e) => updateCustomizationNote(product.id, e.target.value)}
                                 placeholder="Describe any sizing splits, specific design changes, or silhouette modifications here..."
-                                className="w-full border border-gray-200 rounded-sm p-3 text-sm focus:border-black focus:ring-0 transition-all min-h-[80px]"
+                                className="w-full border border-gray-200 rounded p-3 text-sm focus:border-black focus:ring-0 transition-all min-h-[80px]"
                             />
                         </div>
                     </motion.div>

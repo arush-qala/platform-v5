@@ -36,12 +36,12 @@ export default function OrderSummary() {
     const hasItems = totalQty > 0
 
     return (
-        <div className="bg-gray-50 p-8 rounded-xl sticky top-8">
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 sticky top-6">
             <h2 className="font-serif text-2xl mb-2">Order Summary</h2>
-            <p className="text-gray-500 text-sm mb-8">Review your selection and proceed to verify details.</p>
+            <p className="text-gray-500 text-xs mb-6">Review your selection and proceed to verify details.</p>
 
             {/* Customisation / Appointment Section */}
-            <div className="mb-8 border-b border-gray-200 pb-8">
+            <div className="mb-6 border-b border-gray-200 pb-6">
                 {appointmentDetails.scheduled ? (
                     <div className="bg-green-50 border border-green-100 p-4 rounded-lg flex items-start gap-3">
                         <CheckCircle2 className="text-green-600 shrink-0 mt-1" size={18} />
@@ -70,7 +70,7 @@ export default function OrderSummary() {
                             Brands can customise sizing, designs, colors, and silhouettes for you. Schedule a call with the designer.
                         </p>
                         <Link href="/order/appointment">
-                            <button className="w-full py-2 bg-white border border-black text-xs uppercase tracking-wider font-medium hover:bg-black hover:text-white transition-all">
+                            <button className="w-full py-2 bg-white border border-black text-xs uppercase tracking-wider font-medium hover:bg-black hover:text-white transition-all rounded">
                                 Schedule Appointment
                             </button>
                         </Link>
@@ -79,7 +79,7 @@ export default function OrderSummary() {
             </div>
 
             {/* Bill Breakdown */}
-            <div className="space-y-4 text-sm mb-8">
+            <div className="space-y-4 text-sm mb-6">
                 <div className="flex justify-between text-gray-600">
                     <span>Selected Pieces</span>
                     <span>{totalQty}</span>
@@ -107,7 +107,7 @@ export default function OrderSummary() {
             <button
                 disabled={!hasItems}
                 onClick={() => router.push('/order/checkout')}
-                className={`w-full py-4 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all bg-black text-white ${hasItems
+                className={`w-full py-4 text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-2 transition-all bg-black text-white rounded ${hasItems
                     ? 'hover:bg-gray-800 shadow-lg'
                     : 'opacity-50 cursor-not-allowed'
                     }`}
