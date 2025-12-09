@@ -24,9 +24,9 @@ export default function ExperiencePage() {
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
-                    className="px-10 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl"
+                    className="px-12 py-6 bg-[#0a0a09]/80 backdrop-blur-md border border-white/20 rounded-sm shadow-2xl"
                 >
-                    <h1 className="font-serif text-lg md:text-xl uppercase tracking-[0.3em] text-[#e8e6e1] opacity-90">
+                    <h1 className="font-serif text-xl md:text-2xl uppercase tracking-[0.3em] text-[#e8e6e1] opacity-90">
                         Select Experience
                     </h1>
                 </motion.div>
