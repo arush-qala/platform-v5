@@ -19,15 +19,17 @@ export default function ExperiencePage() {
             </div>
 
             {/* Global Header */}
-            <div className="absolute top-8 left-0 w-full text-center pointer-events-none z-40">
-                <motion.h1
+            <div className="absolute top-12 left-0 w-full flex justify-center pointer-events-none z-40">
+                <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, delay: 0.5 }}
-                    className="font-serif text-2xl uppercase tracking-[0.25em] text-[#e8e6e1] mix-blend-difference opacity-90"
+                    className="px-10 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-full shadow-2xl"
                 >
-                    Select Experience
-                </motion.h1>
+                    <h1 className="font-serif text-lg md:text-xl uppercase tracking-[0.3em] text-[#e8e6e1] opacity-90">
+                        Select Experience
+                    </h1>
+                </motion.div>
             </div>
 
             <ExperienceColumn
