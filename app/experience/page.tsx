@@ -95,7 +95,7 @@ function ExperienceColumn({ title, subtitle, description, image, href, index, ct
                 />
 
                 {/* Dark Overlay - Luxury Tint */}
-                <div className="absolute inset-0 bg-[#0a0a09]/50 group-hover:bg-[#0a0a09]/30 transition-colors duration-700" />
+                <div className="absolute inset-0 bg-[#0a0a09]/60 group-hover:bg-[#0a0a09]/40 transition-colors duration-700" />
 
                 {/* Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a09] via-[#0a0a09]/40 to-transparent opacity-90" />
@@ -104,17 +104,17 @@ function ExperienceColumn({ title, subtitle, description, image, href, index, ct
             {/* Content */}
             <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 z-20">
                 <div className="transform transition-transform duration-700 group-hover:-translate-y-4">
-                    <p className="text-[10px] uppercase tracking-widest text-[#B8956A] mb-3 font-sans opacity-90">{subtitle}</p>
-                    <h2 className="font-serif text-3xl md:text-5xl text-[#f2f0eb] mb-5 leading-tight">{title}</h2>
+                    <p className="text-[10px] uppercase tracking-widest !text-[#B8956A] mb-3 font-sans opacity-90">{subtitle}</p>
+                    <h2 className="font-serif text-3xl md:text-5xl !text-[#f2f0eb] mb-5 leading-tight">{title}</h2>
 
                     <div className="h-0 group-hover:h-auto overflow-hidden opacity-0 group-hover:opacity-100 transition-all duration-700 delay-100 ease-out">
-                        <p className="text-sm text-[#adaaa5] font-light max-w-xs leading-relaxed mb-6">
+                        <p className="text-sm !text-[#e5e5e5] font-light max-w-xs leading-relaxed mb-6 block">
                             {description}
                         </p>
 
                         {/* Glassmorphic Button */}
-                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md bg-white/5 border border-white/10 text-white text-xs uppercase tracking-widest transition-all duration-500 hover:bg-white/10 hover:border-white/30 shadow-lg hover:shadow-xl group/btn">
-                            {ctaText} <ArrowRight size={14} className="text-[#B8956A] transition-transform group-hover/btn:translate-x-1" />
+                        <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full backdrop-blur-md bg-white/5 border border-white/10 !text-white text-xs uppercase tracking-widest transition-all duration-500 hover:bg-white/10 hover:border-white/30 shadow-lg hover:shadow-xl group/btn">
+                            {ctaText} <ArrowRight size={14} className="!text-[#B8956A] transition-transform group-hover/btn:translate-x-1" />
                         </div>
                     </div>
                 </div>
