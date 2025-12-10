@@ -48,38 +48,37 @@ export default function SampleSelectionPage() {
     if (!mounted) return <div className="p-12 text-center">Loading...</div>
 
     return (
-        <div className="min-h-screen bg-white flex flex-col">
+        <div className="min-h-screen bg-[#F9F8F6] flex flex-col font-sans text-[#1a1a1a]">
             {/* Header */}
-            <div className="px-12 py-8 flex justify-between items-center border-b border-gray-100">
-                <div>
-                    <h1 className="font-serif text-3xl mb-2">Select Samples</h1>
-                    <p className="text-gray-500 text-sm">
-                        Choose up to 5 pieces from your assortment to order samples.
+            <div className="px-8 md:px-16 py-12 flex flex-col md:flex-row justify-between items-end border-b border-[#e5e2dd]">
+                <div className="max-w-xl">
+                    <span className="text-xs uppercase tracking-[0.2em] text-[#666] mb-3 block">Curated Selection</span>
+                    <h1 className="font-serif text-4xl md:text-5xl mb-4 font-light text-[#1a1a1a]">Select Samples</h1>
+                    <p className="text-[#666] font-light leading-relaxed max-w-md">
+                        Curate a selection of up to 5 distinctive pieces for your boutique.
+                        Experience the craftsmanship firsthand.
                     </p>
                 </div>
-                <div className="flex items-center gap-4">
-                    <div className="text-right">
-                        <p className="text-sm font-medium">{sampleItems.length}/5 Selected</p>
-                        {sampleItems.length === 5 && <p className="text-xs text-amber-600">Limit Reached</p>}
-                    </div>
-                    <button
-                        disabled={sampleItems.length === 0}
-                        onClick={() => router.push('/checkout')}
-                        className={`px-8 py-3 rounded-full flex items-center gap-2 text-sm uppercase tracking-widest transition-all ${sampleItems.length > 0
-                            ? 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg'
-                            : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
-                    >
-                        Proceed to Checkout <ArrowRight size={16} />
-                    </button>
+
+                {/* Progress Indicator */}
+                <div className="mt-8 md:mt-0 text-right">
+                    <p className="font-serif text-3xl mb-1 text-[#1a1a1a]">
+                        {sampleItems.length}<span className="text-[#999] text-xl">/5</span>
+                    </p>
+                    <p className="text-xs uppercase tracking-widest text-[#666]">Selected</p>
+                    {sampleItems.length === 5 && <p className="text-xs text-[#8B4513] mt-2 font-medium">Limit Reached</p>}
                 </div>
             </div>
 
             {/* Main Content - Horizontal Scroll */}
-            <div className="flex-1 flex items-center overflow-x-auto p-12 gap-12 bg-gray-50/30">
+            <div className="flex-1 flex items-center overflow-x-auto px-8 md:px-16 py-12 gap-12 scrollbar-hide">
                 {/* Iterate over 'items' (the Assortment Tray selection) instead of 'sampleItems' */}
                 {items.length === 0 ? (
-                    <div className="w-full text-center text-gray-400">
-                        <p>Your assortment is empty. Go back to collections to add items.</p>
+                    <div className="w-full text-center text-[#999] font-light italic">
+                        <p className="text-xl">Your assortment is empty.</p>
+                        <button onClick={() => router.push('/collection/all')} className="mt-4 underline underline-offset-4 hover:text-black transition-colors">
+                            Browse Collections
+                        </button>
                     </div>
                 ) : (
                     items.map((item) => {
@@ -92,43 +91,45 @@ export default function SampleSelectionPage() {
                                 key={item.id}
                                 layoutId={item.id}
                                 onClick={() => handleProductClick(item)}
-                                className={`relative flex-shrink-0 w-[300px] group cursor-pointer transition-all duration-300 ${isSelected ? 'scale-105' : 'hover:scale-105'}`}
+                                className={`relative flex-shrink-0 w-[280px] group cursor-pointer transition-all duration-500`}
                             >
-                                {/* Image Card */}
-                                <div className={`relative aspect-[3/4] rounded-xl overflow-hidden shadow-lg transition-all duration-300 ${isSelected ? 'ring-4 ring-black ring-offset-4' : 'border border-gray-200'} bg-white`}>
-                                    {item.image ? (
-                                        <Image
-                                            src={item.image}
-                                            alt={item.name || 'Product'}
-                                            fill
-                                            className="object-cover"
-                                            // Add unoptimized to prevent Vercel Image Optimization issues with external URLs sometimes
-                                            unoptimized
-                                        />
-                                    ) : (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400">
-                                            <span className="text-xs">No Image</span>
-                                        </div>
-                                    )}
-
-                                    {isSelected && (
-                                        <div className="absolute inset-0 bg-black/10 flex items-center justify-center">
-                                            <div className="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center shadow-xl">
-                                                <Check size={24} />
+                                {/* Image Card - "Framed" Look */}
+                                <div className={`relative aspect-[3/4] overflow-hidden transition-all duration-500 bg-white p-3 shadow-sm ${isSelected ? 'border-2 border-[#1a1a1a]' : 'border border-[#e5e2dd] hover:border-[#999]'}`}>
+                                    <div className="relative w-full h-full overflow-hidden bg-[#f0f0f0]">
+                                        {item.image ? (
+                                            <Image
+                                                src={item.image}
+                                                alt={item.name || 'Product'}
+                                                fill
+                                                className={`object-cover transition-transform duration-700 ${isSelected ? 'scale-105' : 'group-hover:scale-105 grayscale group-hover:grayscale-0'}`}
+                                                unoptimized
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 flex items-center justify-center text-[#999]">
+                                                <span className="text-xs tracking-widest uppercase">No Image</span>
                                             </div>
-                                        </div>
-                                    )}
-                                    {!isSelected && <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors" />}
+                                        )}
+
+                                        {/* Overlay for Selection */}
+                                        {isSelected && (
+                                            <div className="absolute inset-0 bg-[#1a1a1a]/10 flex items-center justify-center">
+                                                <div className="bg-[#1a1a1a] text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transform scale-100 transition-transform">
+                                                    <Check size={18} />
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Details */}
                                 <div className="mt-6 text-center">
-                                    <h3 className="font-serif text-xl mb-1">{item.name || 'Unnamed Product'}</h3>
-                                    <p className="text-sm text-gray-500 mb-2">
-                                        Sample Cost: <span className="text-black font-medium">$50</span>
+                                    <h3 className="font-serif text-lg text-[#1a1a1a] mb-1">{item.name || 'Unnamed Product'}</h3>
+                                    <p className="text-xs uppercase tracking-widest text-[#666] mb-3">
+                                        Sample: <span className="text-[#1a1a1a] border-b border-[#ccc] pb-0.5">$50.00</span>
                                     </p>
+
                                     {isSelected && (
-                                        <div className="inline-block bg-gray-100 px-3 py-1 rounded-full text-xs font-medium text-gray-600">
+                                        <div className="inline-block border border-[#e5e2dd] px-4 py-1.5 text-[10px] uppercase tracking-[0.2em] text-[#666] bg-white">
                                             Size: {selectedSample?.size}
                                         </div>
                                     )}
@@ -137,6 +138,31 @@ export default function SampleSelectionPage() {
                         )
                     })
                 )}
+
+                {/* Spacer for right padding in scroll */}
+                <div className="w-4 flex-shrink-0" />
+            </div>
+
+            {/* Floating Proceed Bar */}
+            <div className="fixed bottom-0 left-0 w-full p-8 pointer-events-none flex justify-center">
+                <AnimatePresence>
+                    {sampleItems.length > 0 && (
+                        <motion.div
+                            initial={{ y: 100, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            exit={{ y: 100, opacity: 0 }}
+                            className="pointer-events-auto"
+                        >
+                            <button
+                                onClick={() => router.push('/checkout')}
+                                className="bg-[#1a1a1a] text-white px-10 py-4 shadow-2xl flex items-center gap-4 hover:bg-[#333] transition-colors duration-300 group"
+                            >
+                                <span className="text-xs uppercase tracking-[0.2em]">Proceed to Checkout</span>
+                                <ArrowRight size={16} className="text-[#e5e2dd] group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
 
             {/* Size Selection Modal */}
@@ -157,10 +183,10 @@ export default function SampleSelectionPage() {
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 50 }}
-                        className="fixed bottom-8 left-1/2 -translate-x-1/2 bg-black text-white px-6 py-3 rounded-full shadow-2xl z-50 flex items-center gap-3"
+                        className="fixed top-8 right-8 bg-[#1a1a1a] text-white px-6 py-4 shadow-xl z-50 flex items-center gap-4 max-w-xs"
                     >
-                        <ShoppingBag size={18} />
-                        <span className="text-sm font-medium">You can order only up to 5 pieces in a sample crate</span>
+                        <ShoppingBag size={18} className="text-[#d4af37]" />
+                        <span className="text-xs uppercase tracking-wider leading-relaxed">Limit Reached. Maximum 5 samples.</span>
                     </motion.div>
                 )}
             </AnimatePresence>
